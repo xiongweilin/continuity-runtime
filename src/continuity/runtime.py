@@ -277,50 +277,83 @@ class ContinuityRuntime:
             return dict(row)
 
     def dispatch(self, operation_id: str, *, actor: str) -> dict:
-        """Only this trusted backend calls the external adapter.
+        """Evaluate admission outside DB locks; atomically revalidate before dispatch.
 
-        Before I/O, persist a conservative MAY_HAVE_BEEN_SENT boundary.
-        A crash at ANY point after reservation forbids blind replay.
+        A durable MAY_HAVE_BEEN_SENT reservation precedes provider I/O.
+        Lost acknowledgments and crashes must never cause blind redispatch.
         """
-        with self.db.engine.begin() as cx:
+        # Preflight: bounded reads without holding a transaction during a
+        # potentially expensive external/modeled admission evaluator.
+        with self.db.engine.connect() as cx:
             row = cx.execute(select(operations).where(
                 operations.c.id == operation_id,
-            ).with_for_update()).mappings().first()
+            )).mappings().first()
             if row is None:
                 raise UnknownOperation("unknown operation")
             if actor not in row["participants"]:
                 raise Denied("not an operation participant")
             if row["status"] != "registered":
-                return dict(row)  # idempotent status lookup: do not redispatch
+                return dict(row)
             self._assert_authority(cx, row, actor)
             self._assert_versions(cx, row["expected_versions"])
-            adapter = self.adapters.get(row["provider"])
-            if adapter is None:
-                raise Denied("no trusted executor registered for provider")
             intent = _intent(row)
-            decision = self.policy.evaluate(intent, dict(row["expected_versions"]))
-            if decision.decision not in ("admit", "hold", "deny"):
-                raise Denied("invalid admission decision")
-            if decision.decision != "admit":
-                self.db.emit(cx, "operation:" + operation_id, "admission." + decision.decision, {
-                    "reason": decision.reason, "policy_version": decision.policy_version,
-                })
-                if decision.decision == "hold":
-                    raise Held(decision.reason or "admission held")
-                raise Denied(decision.reason or "admission denied")
-            # Admission is not an authority grant; check current authority above.
-            changed = cx.execute(update(operations).where(
-                operations.c.id == operation_id, operations.c.status == "registered",
+            seen_versions = {}
+            for ref in row["expected_versions"]:
+                seen_versions[ref] = cx.execute(select(observations.c.revision).where(
+                    observations.c.ref == ref,
+                )).scalar_one()
+        adapter = self.adapters.get(intent.provider)
+        if adapter is None:
+            raise Denied("no trusted executor registered for provider")
+        decision = self.policy.evaluate(intent, dict(row["expected_versions"]))
+        if decision.decision not in ("admit", "hold", "deny"):
+            raise Denied("invalid admission decision")
+        if decision.decision != "admit":
+            with self.db.engine.begin() as cx:
+                current = cx.execute(select(operations.c.status).where(
+                    operations.c.id == operation_id,
+                )).scalar_one_or_none()
+                if current == "registered":
+                    self.db.emit(cx, "operation:" + operation_id,
+                                 "admission." + decision.decision, {
+                        "reason": decision.reason, "policy_version": decision.policy_version,
+                    })
+            if decision.decision == "hold":
+                raise Held(decision.reason or "admission held")
+            raise Denied(decision.reason or "admission denied")
+
+        with self.db.engine.begin() as cx:
+            current = cx.execute(select(operations).where(
+                operations.c.id == operation_id,
+            ).with_for_update()).mappings().one()
+            if actor not in current["participants"]:
+                raise Denied("not an operation participant")
+            if current["status"] != "registered":
+                return dict(current)
+            if current["fingerprint"] != row["fingerprint"]:
+                raise Conflict("operation was rebound during admission")
+            self._assert_authority(cx, current, actor)
+            self._assert_versions(cx, current["expected_versions"])
+            for ref, revision in seen_versions.items():
+                latest = cx.execute(select(observations.c.revision).where(
+                    observations.c.ref == ref,
+                )).scalar_one()
+                if latest != revision:
+                    raise Held("admission evidence changed; evaluate again: " + ref)
+            updated = cx.execute(update(operations).where(
+                operations.c.id == operation_id,
+                operations.c.status == "registered",
             ).values(
                 status="may_have_been_sent", dispatch_generation=1,
                 admission=asdict(decision), updated_at=utcnow(),
             ))
-            if changed.rowcount != 1:
-                raise Conflict("dispatch competition")
+            if updated.rowcount != 1:
+                raise Conflict("dispatch race lost")
             self.db.emit(cx, "operation:" + operation_id, "dispatch.reserved", {
-                "generation": 1, "actor": actor, "policy_version": decision.policy_version,
+                "generation": 1, "actor": actor,
+                "policy_version": decision.policy_version,
             })
-        # Network/provider call is NEVER inside the transaction.
+        # No database locks may be held across an external provider call.
         try:
             receipt = adapter.execute(intent)
             status = "pending_verification" if receipt.accepted else "unknown"
@@ -329,12 +362,12 @@ class ContinuityRuntime:
             status = "unknown"
             receipt_ref = None
         with self.db.engine.begin() as cx:
-            changed = cx.execute(update(operations).where(
+            updated = cx.execute(update(operations).where(
                 operations.c.id == operation_id,
                 operations.c.status == "may_have_been_sent",
                 operations.c.dispatch_generation == 1,
             ).values(status=status, receipt_ref=receipt_ref, updated_at=utcnow()))
-            if changed.rowcount == 1:
+            if updated.rowcount == 1:
                 self.db.emit(cx, "operation:" + operation_id, "dispatch.reported", {
                     "status": status, "generation": 1, "receipt_ref": receipt_ref,
                 })

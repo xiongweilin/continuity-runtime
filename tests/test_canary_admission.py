@@ -173,3 +173,26 @@ def test_wrong_checker_identity_does_not_satisfy_covered_grant(setup):
     with pytest.raises(Denied, match="mismatched profile"):
         runtime.dispatch("op-traffic", actor="agent-b")
     assert provider.calls == 0
+
+
+
+def test_first_canary_stage_requires_independent_quality_prerequisite():
+    policy, intent, box = setup_policy()
+    box["value"] = replace(box["value"], current_weight=0, current_stage_index=0)
+    first = replace(intent, payload={
+        "experiment_id": "canary-1", "stage_index": 0, "weight_percent": 10,
+    })
+    assert policy.evaluate(first, {}).decision == "hold"
+    box["value"] = replace(box["value"], initial_quality_verified=True)
+    assert policy.evaluate(first, {}).decision == "admit"
+
+
+def test_invalid_remote_telemetry_is_held_not_promoted():
+    policy, intent, box = setup_policy()
+    box["value"] = replace(box["value"], candidate_error_rate="corrupt")
+    result = policy.evaluate(intent, {})
+    assert result.decision == "hold"
+    box["value"] = replace(box["value"], current_stage_index="invalid")
+    assert policy.evaluate(intent, {}).decision == "hold"
+    box["value"] = replace(box["value"], observed_at="invalid")
+    assert policy.evaluate(intent, {}).decision == "hold"

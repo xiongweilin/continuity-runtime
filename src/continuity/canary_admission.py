@@ -51,6 +51,8 @@ class CanarySnapshot:
     current_weight: int
     current_stage_index: int
     rollback_ready: bool
+    # Explicit evidence of prerequisite tests for the initial 0% -> first stage.
+    initial_quality_verified: bool = False
     effect_unresolved: bool = False
     telemetry_complete: bool = True
     duration_seconds: int = 0
@@ -125,6 +127,10 @@ class CanaryAdmissionPolicy:
             now = self.clock()
         except Exception:
             return decision("hold", "independent canary telemetry unavailable")
+        if not isinstance(evidence, CanarySnapshot):
+            return decision("hold", "unexpected canary evidence structure")
+        if not isinstance(evidence.observed_at, datetime):
+            return decision("hold", "telemetry timestamp is invalid")
         if now.tzinfo is None or evidence.observed_at.tzinfo is None:
             return decision("hold", "telemetry has no trusted time zone")
         age = (now - evidence.observed_at).total_seconds()
@@ -138,6 +144,12 @@ class CanaryAdmissionPolicy:
             return decision("hold", "previous traffic effect unresolved", evidence.evidence_ref)
         if not evidence.rollback_ready:
             return decision("hold", "rollback unavailable", evidence.evidence_ref)
+        numeric_fields = (
+            evidence.current_weight, evidence.current_stage_index, evidence.duration_seconds,
+            evidence.candidate_requests, evidence.control_requests,
+        )
+        if any(type(v) is not int for v in numeric_fields):
+            return decision("hold", "invalid observed integer telemetry", evidence.evidence_ref)
         if not 0 <= evidence.current_weight <= 100:
             return decision("hold", "invalid observed traffic weight", evidence.evidence_ref)
         expected_index = (
@@ -145,6 +157,9 @@ class CanaryAdmissionPolicy:
         )
         if index != expected_index:
             return decision("deny", "stage skipped or stale", evidence.evidence_ref)
+        if evidence.current_weight == 0 and not evidence.initial_quality_verified:
+            return decision("hold", "initial quality prerequisites unverified",
+                            evidence.evidence_ref)
         if evidence.current_weight:
             if not (0 <= evidence.current_stage_index < len(self.scope.stages)):
                 return decision("hold", "observed stage invalid", evidence.evidence_ref)
@@ -168,7 +183,8 @@ class CanaryAdmissionPolicy:
                 evidence.candidate_error_rate, evidence.candidate_p95_ms,
                 evidence.control_error_rate, evidence.control_p95_ms,
             )
-            if any(v is None or not math.isfinite(v) or v < 0 for v in measurements):
+            if any(type(v) not in (float, int) or not math.isfinite(v) or v < 0
+                   for v in measurements):
                 return decision("hold", "incomplete or invalid comparison telemetry",
                                 evidence.evidence_ref)
             err, latency, control_err, control_latency = measurements

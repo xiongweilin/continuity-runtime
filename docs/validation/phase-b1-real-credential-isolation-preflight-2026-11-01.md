@@ -2,7 +2,7 @@
 title: Phase B1 real-credential isolation preflight
 date: 2026-11-01
 code_commit: 298b22e48cdfbbe9a89bc137155a52b486350e49
-status: passed-with-scope-limitation
+status: passed-with-documented-exit-code-anomaly
 ---
 
 # Phase B1 real-credential isolation preflight
@@ -14,9 +14,10 @@ Read-only credential-scope checks, local secret-placement/network isolation chec
 ## Observed
 
 - The PAT file and independently generated executor-key file were outside the checkout. Their directory DACL was protected; both files granted access only to the current user and SYSTEM. File contents were never emitted.
+- The user-provided GitHub Settings screenshot for token continuity-phase-b-test shows: resource owner xiongweilin; expiration 2026-11-08; repository access limited to the selected repository xiongweilin/continuity-runtime-phase-b-sandbox; no user permissions; repository permissions are Metadata read and Issues read/write. No other optional write permission is listed. The screenshot did not expose the token value.
+- GitHub documents that fine-grained PATs retain read-only access to public repositories, so this selection limits private repository access but is not an all-repositories denial for public reads. See https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens.
 - Using the PAT only inside trusted-executor, GET /user/repos?visibility=private returned one private repository: the Phase B sandbox. GET for Issue #1 returned 200 with zero labels. The repository Contents read probe and GitHub Actions permissions read probe returned 403.
-- The collaborator-list read endpoint returned 200. GitHub documents this endpoint as requiring Metadata: read; this result is not evidence of Administration permission. See https://docs.github.com/en/rest/collaborators/collaborators#list-repository-collaborators.
-- Fine-grained PAT repository selection is observable for the private-repository list; GitHub documents that fine-grained PATs retain read-only access to public repositories. Therefore this does not mean only this private repository for public reads. See https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens and https://docs.github.com/en/rest/repos/repos#list-repositories-for-the-authenticated-user.
+- The collaborator-list read endpoint returned 200. GitHub documents this endpoint as requiring Metadata read; this result is not evidence of Administration permission. See https://docs.github.com/en/rest/collaborators/collaborators#list-repository-collaborators.
 - Compose config and live container inspection showed:
   - API mounted the executor key only; it had no GitHub token file mount or GitHub-token environment variable.
   - Trusted executor mounted the PAT and executor key, and both files were readable there. It did not receive the synthetic Runtime admin/agent bearer variables.
@@ -30,7 +31,7 @@ Read-only credential-scope checks, local secret-placement/network isolation chec
 
 ## Limitations / not tested
 
-- The private repository enumeration showed only the target sandbox. Exact token Settings permissions have not been independently inspected yet. The Issue GET proves Issues read access; no Issues write was attempted, by design. Thus Issues: write and absence of every other optional write permission remain unverified pending review of the specific token in GitHub Settings.
-- Contents and Actions read probes were denied, but this does not enumerate every granted permission. No provider effect, dispatch, or label-write capability test was performed.
+- The configured PAT repository and permission settings are verified from the supplied Settings screenshot and corroborated by read-only API probes. No Issues write was attempted, by design; configuration was verified, but actual write behavior was not tested.
+- Contents and Actions read probes were denied. No provider effect, dispatch, or label-write capability test was performed.
 - These are observed results from one local Docker setup, not a production or host-level non-bypassability certification.
 - Compose build images remain in the local cache; containers, networks, and database volume were removed.

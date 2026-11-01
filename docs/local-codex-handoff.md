@@ -91,6 +91,32 @@ and enforce the exact Issue/label allowlist again in the executor. The
 `Metadata: read` permission is standard. Do not claim the token itself is
 label-only.
 
+### Stage B0 — run now, without any real credential
+
+The owner-selected GitHub fine-grained token is **not** a prerequisite for
+the **offline** network/secret/operation test. From the repository root, with
+Docker Desktop running and port 18086 free:
+
+```bash
+python scripts/phase_b_offline.py
+```
+
+This script creates **invalid synthetic** provider credentials and a separate
+temporary test-only service key outside the checkout, runs the same Phase B
+Compose overlay, checks Agent isolation and logical-effect deduplication, then
+automatically removes the test containers and volumes. It does not issue
+`/dispatch`, read the private GitHub issue, or attempt any real provider
+effect. It also omits any preexisting `GH_TOKEN` or `GITHUB_TOKEN` inherited
+from the shell. Its success **does not validate real PAT permissions or
+the future live executor token file ACL**.
+
+If Docker is unavailable, report that prerequisite instead of asking for a
+GitHub token. If Docker-based cleanup fails, report the remaining resources
+by their `continuity-phase-b-offline` Compose project name rather than
+blindly pruning unrelated volumes.
+
+### Stage B1 — real credential preflight, still no write
+
 Local Codex should perform **preflight without external writes**:
 
 1. Have the owner create a repository-selected fine-grained PAT (or

@@ -116,6 +116,11 @@ starts the full stack, checks Agent secret/network exclusion, registers the
 scoped operation, and tests logical-effect-key deduplication. This is an
 engineering isolation test, not a formal security assessment.
 
+**Offline preflight can run now without any GitHub PAT:**
+`python scripts/phase_b_offline.py`. It supplies *synthetic invalid*
+credentials, checks the Docker service boundary and stops before `/dispatch`.
+A successful result is not evidence of real provider credential isolation.
+
 The local steps, temporary secret-file handling and explicit stop-before-write
 point are in [Phase B local handoff](docs/local-codex-handoff.md).
 

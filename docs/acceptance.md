@@ -37,7 +37,21 @@ Tests in this repository are not a production guarantee. CI runs isolated SQLite
 - **Cleanup:** the locally created PostgreSQL container and volume, Compose containers/networks/volumes and test ports were reported removed. `.venv` and local image cache retained. A previously policy-blocked temporary Docker CLI configuration directory was intentionally left untouched.
 - **Limits:** no provider write credentials, real external system mutation, production data or Phase B tests. Local success does **not** establish external credential isolation or independent provider-side reconciliation.
 
-**Decision:** Phase A's local engineering checks are complete based on the operator's report. **Phase B remains blocked for real writes** until the owner chooses an explicit disposable repository, issue/label scope, credential permissions and an isolated trusted-executor boundary.
+**Decision:** Phase A's local engineering checks are complete based on the operator's report. The owner has since selected a private disposable sandbox, Issue #1 and one allowed test label; **real writes remain blocked** pending least-privilege credential and independent executor-isolation evidence.
+
+## Phase B offline local acceptance — reported 2026-11-01
+
+**Provenance:** Local Codex's operator-supplied report, not an independent read of the Windows workstation. The supporting Markdown report is **local only**, at `docs/validation/phase-b-offline-preflight-2026-11-01.md`; local commit `6bdb1d0`, branch `docs/phase-b-offline-preflight-20261101`, **not pushed** at the time of reporting. No link to that unpushed report should be interpreted as a remotely verified artifact.
+
+- **Baseline:** `298b22e48cdfbbe9a89bc137155a52b486350e49`. GitHub Actions independently confirmed the same revision passed [CI run 41273154902](https://github.com/xiongweilin/continuity-runtime/actions/runs/41273154902) with **80 passing tests** and its synthetic isolation preflight.
+- **Local invocation:** `python scripts/phase_b_offline.py`, reported exit status **0**.
+- **Isolation:** Agent reported no provider credential environment variables or mounted secrets, unable to resolve the separate `trusted-executor` service, while still able to reach the Runtime API.
+- **Operation:** remained `registered`, `dispatch_generation=0`; a different operation ID with the same logical `effect_key` was rejected. No `/dispatch`, no real provider write.
+- **External resource:** Local Codex reported a read-only GitHub check of the private sandbox's Issue #1 with **zero labels**.
+- **Cleanup:** local Compose project reportedly had **0 containers, 0 volumes and 0 networks** remaining; port `18086` released. Docker image cache retained.
+- **Important limit:** The script used deliberately invalid synthetic GitHub credentials; it **did not verify a real fine-grained PAT, token selection/permissions, file ACLs, real provider readback, or an actual GitHub label effect**. Docker Hub and PyPI were contacted for publicly available images/dependencies, so this was **not an air-gapped build**.
+
+**Decision:** The **credential-free Phase B stage B0** is complete according to the supplied local report and corroborating GitHub CI. Stage B1 (a real, short-lived repository-selected credential and live isolation preflight **without writes**) remains outstanding. A real `/dispatch` remains separately gated.
 
 ## Stop conditions before production
 

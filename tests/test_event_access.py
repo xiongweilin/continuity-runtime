@@ -43,3 +43,20 @@ def test_link_dependency_requires_actual_known_version(setup):
         pass
     else:
         raise AssertionError("unknown version was silently admitted")
+
+
+
+def test_revoked_grant_event_reaches_affected_agents_not_strangers(setup):
+    runtime, _ = setup
+    from continuity.contracts import Intent
+
+    runtime.submit(Intent("op:affected", "mission", "counter", "items/one",
+        "increment", {}, "grant"), actor="agent-a",
+        participants=["agent-a", "agent-b"])
+    before = max(event["seq"] for event in runtime.events())
+    runtime.revoke_grant("grant")
+    agent = runtime.events_for_actor("agent-b", after=before)
+    outsider = runtime.events_for_actor("attacker", after=before)
+    assert [event["kind"] for event in agent["events"]] == ["grant.revoked"]
+    assert outsider["events"] == []
+    assert outsider["next_seq"] == agent["next_seq"]

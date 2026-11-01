@@ -600,6 +600,14 @@ class ContinuityRuntime:
                     )).scalar_one_or_none()
                     if source == "actor:" + actor:
                         authorized.append(event)
+                elif entity.startswith("grant:") and event["kind"] == "grant.revoked":
+                    # Only existing participants of operations relying on this
+                    # grant may see the event. Grant issuance remains admin-only.
+                    relevant = cx.execute(select(operations.c.participants).where(
+                        operations.c.authority_id == entity[len("grant:"):],
+                    )).scalars()
+                    if any(actor in members for members in relevant):
+                        authorized.append(event)
         return {"events": authorized, "next_seq": candidates[-1]["seq"] if candidates else after}
 
 

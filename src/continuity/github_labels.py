@@ -24,7 +24,10 @@ class GitHubLabelAdapter:
             raise ValueError("an exact positive test issue number is required")
         self.allowed_issue = allowed_issue
         self.allowed_labels = frozenset(allowed_labels)
-        self.client = client or httpx.Client(base_url="https://api.github.com", timeout=15)
+        self.client = client or httpx.Client(
+            base_url="https://api.github.com", timeout=15,
+            follow_redirects=False, trust_env=False,
+        )
         self.headers = {
             "Authorization": "Bearer " + token,
             "Accept": "application/vnd.github+json",

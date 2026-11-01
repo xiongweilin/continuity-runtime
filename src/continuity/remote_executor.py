@@ -34,7 +34,7 @@ class RemoteGitHubExecutor:
         if len(shared_secret) < 32:
             raise ValueError("executor authentication secret must be at least 32 characters")
         self.client = client or httpx.Client(
-            base_url=base_url, timeout=15, follow_redirects=False,
+            base_url=base_url, timeout=15, follow_redirects=False, trust_env=False,
         )
         self.secret = shared_secret
 

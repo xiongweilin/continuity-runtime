@@ -17,6 +17,15 @@ Continuity is not the obligation to keep pursuing an old objective. It is the ab
 
 This is the long-term design direction, **not a claim that every lifecycle transition is implemented today**.
 
+The guiding framework asks four linked questions:
+
+- **Four state concerns:** what facts/evidence, goals/judgments, execution/results, and authority/accountability must remain representable?
+- **Cross-boundary state contracts:** how are relationships constrained by ownership, purpose, provenance, versions and authority?
+- **Three analysis layers:** distinguish state expression, continuity and constrained consistency, and overall effectiveness.
+- **Dynamic feedback and evolution:** how can new evidence revise interpretations, invalidate contracts and change goals or executors without erasing history?
+
+See [Continuity conceptual framework](docs/continuity-framework.md) for definitions, implementation boundaries and open design work.
+
 ## What exists
 
 - **Selective state contracts**: purpose-scoped cross-boundary links, authoritative references, optimistic revisions, source observations and version-dependency invalidation events. No mandatory global resource registration.

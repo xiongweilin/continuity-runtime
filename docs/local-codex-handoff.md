@@ -72,6 +72,71 @@ Before the first real Issue-label effect dispatch, separately verify a
 least-privileged executor credential, Agent credential exclusion, and route
 isolation. Do not attempt credential creation or effect dispatch silently.
 
+
+## Phase B local credential isolation and read-only preflight
+
+Verified sandbox target (reported by local Codex and inspected via GitHub):
+
+- Repository: `xiongweilin/continuity-runtime-phase-b-sandbox` — private
+- Target: Issue `#1` — synthetic, no labels at setup
+- Allowed label: `continuity-effect-test`
+- The broad `gh` CLI owner login is **setup-only**; never copy its token to
+  the executor, Compose environment or Agent.
+
+**Important GitHub permission limit:** Fine-grained token permission
+`Issues: read and write` is wider than “label-write-only.” GitHub does not
+offer a standalone Issue-label-only permission. Minimize the token to **only
+this repository**, do not grant Contents/Administration/Workflows permissions,
+and enforce the exact Issue/label allowlist again in the executor. The
+`Metadata: read` permission is standard. Do not claim the token itself is
+label-only.
+
+Local Codex should perform **preflight without external writes**:
+
+1. Have the owner create a repository-selected fine-grained PAT (or
+   repository-scoped GitHub App installation token) permitting Issues
+   read/write and no other writable repository permission. Store it in a
+   filesystem secret file **outside** the Git working tree, not in a terminal
+   transcript, chat, `.env` or command argument. The owner-only CLI credential
+   must remain outside all application containers.
+2. Generate a **different**, independent random service key (at least
+   32 characters), also in an external secret file. Neither file may be
+   mounted into an Agent container.
+3. In the local shell, set `POSTGRES_PASSWORD`,
+   `CONTINUITY_TOKENS_JSON` with separate synthetic admin and
+   `phase-b-agent` identities, `CONTINUITY_PHASE_B_TOKEN_FILE` and
+   `CONTINUITY_PHASE_B_EXECUTOR_KEY_FILE` to those **two secret-file paths**.
+   Set `CONTINUITY_PHASE_B_ADMIN_BEARER` and
+   `CONTINUITY_PHASE_B_AGENT_BEARER` to the corresponding **Runtime test
+   bearer strings**, **not** the provider token.
+4. Run the overlay without any real effect dispatch:
+
+   ```bash
+   docker compose -p continuity-phase-b -f compose.yaml -f compose.phase-b.yaml up --build -d --wait
+   docker compose -p continuity-phase-b -f compose.yaml -f compose.phase-b.yaml --profile isolation-test run --rm agent-isolation-probe
+   python scripts/phase_b_prepare.py
+   ```
+
+   The preparation script issues an exact scoped grant, registers one
+   `registered` operation and confirms a second operation with the same
+   logical `effect_key` is rejected. It deliberately never calls
+   `/dispatch`. Verify the target Issue still has **zero labels**.
+5. Observe the sanitized outputs, check `docker compose config` for
+   network/secret placement without printing secret file contents, check
+   separately that the Agent cannot read or call the trusted executor, and
+   confirm the Runtime container has **no GitHub token secret**.
+6. Stop here and report the credential's repository selection, permission
+   names, agent/executor network probe outcome, registered operation ID,
+   target Issue readback and container cleanup state. Do not paste actual
+   credential text. Use
+   `docker compose -p continuity-phase-b -f compose.yaml -f compose.phase-b.yaml down -v`
+   to remove test containers and test volumes.
+
+**Only after independent review of those results** is the one test-label
+write eligible for a separately authorized dispatch. Do not use `gh issue
+edit --add-label` as a shortcut; the write must pass through Continuity's
+Effect Coordinator and the trusted executor.
+
 ## Phase B — credential and effect mediation (requires local environment)
 
 1. Run the **trusted executor** in a distinct process/container, holding the

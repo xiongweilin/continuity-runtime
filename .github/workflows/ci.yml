@@ -44,3 +44,21 @@ jobs:
           POSTGRES_PASSWORD: ci_local_database_pass
           CONTINUITY_TOKENS_JSON: '{"ci-admin":{"actor":"ci-root","admin":true},"ci-agent":{"actor":"ci-agent"}}'
         run: docker compose down -v --remove-orphans
+      - name: Phase B mock-credential network isolation and operation preflight
+        env:
+          POSTGRES_PASSWORD: isolated_ci_test_password
+          CONTINUITY_TOKENS_JSON: '{"phaseb-admin":{"actor":"root","admin":true},"phaseb-agent":{"actor":"phase-b-agent"}}'
+          CONTINUITY_PHASE_B_ADMIN_BEARER: phaseb-admin
+          CONTINUITY_PHASE_B_AGENT_BEARER: phaseb-agent
+        run: |
+          set -eu
+          token_file=$(mktemp)
+          key_file=$(mktemp)
+          printf 'fake-not-a-real-github-token-for-offline-test-only' > "$token_file"
+          python -c "import secrets; print(secrets.token_urlsafe(48))" > "$key_file"
+          export CONTINUITY_PHASE_B_TOKEN_FILE="$token_file"
+          export CONTINUITY_PHASE_B_EXECUTOR_KEY_FILE="$key_file"
+          trap 'docker compose -p continuity-phase-b -f compose.yaml -f compose.phase-b.yaml down -v --remove-orphans || true; rm -f "$token_file" "$key_file"' EXIT
+          docker compose -p continuity-phase-b -f compose.yaml -f compose.phase-b.yaml up --build -d --wait
+          docker compose -p continuity-phase-b -f compose.yaml -f compose.phase-b.yaml --profile isolation-test run --rm agent-isolation-probe
+          python scripts/phase_b_prepare.py

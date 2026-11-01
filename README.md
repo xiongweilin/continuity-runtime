@@ -100,6 +100,25 @@ See [local Codex handoff](docs/local-codex-handoff.md) for the controlled
 credential-isolation, real readback and failure-injection protocol. **Do not
 provide credentials in chat or commit them to this repository.**
 
+
+## Phase B: isolated real-provider acceptance
+
+The owner has created a private disposable GitHub test repository and an
+unlabeled synthetic Issue #1. **No real label effect has been authorized or
+dispatched yet.** The optional `compose.phase-b.yaml` overlay runs a
+separate trusted executor with the GitHub credential mounted as a Docker secret,
+pinned to that one repository, Issue #1 and label `continuity-effect-test`.
+The Runtime sees only an *internal service key*, never the GitHub provider token.
+The Agent isolation probe has neither secret nor executor network access.
+
+CI also rehearses the overlay with **fake credentials and no provider writes**:
+starts the full stack, checks Agent secret/network exclusion, registers the
+scoped operation, and tests logical-effect-key deduplication. This is an
+engineering isolation test, not a formal security assessment.
+
+The local steps, temporary secret-file handling and explicit stop-before-write
+point are in [Phase B local handoff](docs/local-codex-handoff.md).
+
 ## Guarantees and important non-guarantees
 
 | Mechanism | Current scope |

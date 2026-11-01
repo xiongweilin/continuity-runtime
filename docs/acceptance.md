@@ -21,6 +21,7 @@ Tests in this repository are not a production guarantee. CI runs isolated SQLite
 | Cross-workflow engine interoperability | Same HTTP interface; DBOS workflow runs against isolated HTTP test adapter using its own durable Postgres state | Live DBOS vs a second workflow engine in different hosts |
 | Durable event consumption | Actor-owned DB checkpoint, CAS ack, bounded poll | Distributed consumer leases and production backpressure |
 | Full container deployment | Compose startup, Alembic migrations, authenticated HTTP and fail-closed dispatch checked by `scripts/smoke_compose.py` | Real external credentials and network isolation not checked |
+| Phase B credential-isolation preflight | Isolated executor proxy, exact repo/Issue/label restrictions, mock provider GET tests, offline Compose isolation probe and no-write preparation | Real least-privilege GitHub credential and actual sandbox write not yet tested |
 | Second unrelated real domain | Not yet established | Required before claiming generality |
 | Net human/model/resource cost reduction | Not measured | Controlled baseline comparison needed |
 

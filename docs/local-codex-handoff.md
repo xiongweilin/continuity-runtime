@@ -35,6 +35,43 @@ and isolation boundary have been explicitly selected by the owner.**
    The smoke script and this example intentionally use matching CI-only
    fixture tokens. They are not production credentials or production IAM.
 
+## Owner-approved disposable repository setup (2026-11-01)
+
+The owner has explicitly authorized **creating one new disposable GitHub test
+repository solely for Issue-label effect experiments**. This permission covers
+isolated setup (creating the repository, one test Issue and one disposable label);
+it does **not** authorize production writes, broader credentials, unrestricted
+network access, other GitHub mutations, or claiming the test is production-ready.
+
+Suggested private repository: `xiongweilin/continuity-runtime-phase-b-sandbox`.
+Use an alternative unique *disposable* suffix if that slug already exists;
+never overwrite, delete or repurpose an existing repository.
+
+**Local Codex setup, with owner-authenticated `gh` CLI:**
+
+```powershell
+gh auth status
+gh repo view xiongweilin/continuity-runtime-phase-b-sandbox
+# If the repository does NOT exist, create it once:
+gh repo create xiongweilin/continuity-runtime-phase-b-sandbox --private --add-readme --description "Disposable Phase B Issue-label effect mediation test only"
+gh issue create --repo xiongweilin/continuity-runtime-phase-b-sandbox --title "Phase B disposable label effect" --body "Synthetic, non-sensitive Issue for isolated effect-coordination experiments only."
+gh label create continuity-effect-test --repo xiongweilin/continuity-runtime-phase-b-sandbox --color 0E8A16 --description "Disposable label for Phase B effect experiment"
+```
+
+The `gh repo view` check may exit nonzero when the repository does not exist;
+that is expected. **Never blindly run `gh repo create` or `gh issue create`
+twice**; first check whether setup has already succeeded. If creation fails due
+to CLI auth or repository permissions, report the blocker rather than using
+a broad token in source files.
+
+Do not apply the label to the test Issue as part of setup: **that write is the
+actual effect to test later**. Report the created repository URL, Issue URL and
+label name without any secret. The owner-authenticated `gh` CLI used for
+repository setup must not be exposed inside the proposing-Agent container.
+Before the first real Issue-label effect dispatch, separately verify a
+least-privileged executor credential, Agent credential exclusion, and route
+isolation. Do not attempt credential creation or effect dispatch silently.
+
 ## Phase B — credential and effect mediation (requires local environment)
 
 1. Run the **trusted executor** in a distinct process/container, holding the

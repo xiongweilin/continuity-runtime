@@ -233,3 +233,27 @@ def test_trusted_source_becomes_unavailable(setup):
     with pytest.raises(Held, match="authority unavailable"):
         runtime.dispatch("op1", actor="agent-b")
     assert adapter.calls == 0
+
+
+
+def test_distinct_operation_ids_cannot_repeat_same_domain_effect_key(setup):
+    runtime, adapter = setup
+    first = Intent("op:alpha", "mission", "counter", "items/one",
+        "increment", {"count": 1}, "grant", effect_key="purchase:123")
+    second = Intent("op:beta", "mission", "counter", "items/one",
+        "increment", {"count": 1}, "grant", effect_key="purchase:123")
+    runtime.submit(first, actor="agent-a", participants=["agent-a", "agent-b"])
+    with pytest.raises(Conflict, match="logical effect key"):
+        runtime.submit(second, actor="agent-b", participants=["agent-a", "agent-b"])
+    runtime.dispatch("op:alpha", actor="agent-b")
+    assert adapter.calls == 1
+
+
+def test_logical_effect_key_scoped_to_target_and_principal(setup):
+    runtime, _ = setup
+    runtime.submit(Intent("a", "mission", "counter", "items/one",
+        "increment", {}, "grant", effect_key="same"),
+        actor="agent-a", participants=["agent-a"])
+    runtime.submit(Intent("b", "mission", "counter", "items/two",
+        "increment", {}, "grant", effect_key="same"),
+        actor="agent-b", participants=["agent-b"])

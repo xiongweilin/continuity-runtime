@@ -48,6 +48,8 @@ class Intent:
     payload: dict[str, Any]
     authority_id: str
     expected_versions: dict[str, str] = field(default_factory=dict)
+    # Optional domain-defined identity for a logical effect shared across sessions.
+    effect_key: str | None = None
 
 
 class EffectAdapter(Protocol):

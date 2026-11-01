@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 
 from sqlalchemy import (
     JSON, Boolean, Column, DateTime, ForeignKey, Index, Integer, MetaData,
-    String, Table, create_engine, select,
+    String, Table, UniqueConstraint, create_engine, select,
 )
 from sqlalchemy.engine import Connection, Engine
 
@@ -64,6 +64,7 @@ Index("ix_dependency_ref", link_dependencies.c.dependency_ref)
 operations = Table(
     "effect_operations", metadata,
     Column("id", String(160), primary_key=True),
+    Column("effect_key", String(256)),
     Column("fingerprint", String(64), nullable=False),
     Column("principal", String(160), nullable=False),
     Column("provider", String(160), nullable=False),
@@ -84,6 +85,8 @@ operations = Table(
     Column("created_at", DateTime(timezone=True), nullable=False),
     Column("updated_at", DateTime(timezone=True), nullable=False),
     Index("ix_operation_status", "status"),
+    UniqueConstraint("principal", "provider", "resource_ref", "effect_key",
+                     name="uq_effect_logical_key"),
 )
 events = Table(
     "boundary_events", metadata,

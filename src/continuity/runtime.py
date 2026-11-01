@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 from typing import Any, Mapping
 
 from sqlalchemy import delete, select, update
+from sqlalchemy.exc import IntegrityError
 
 from .contracts import (
     AdmissionPolicy, BaselinePolicy, Conflict, Denied, DomainVerifier,
@@ -35,6 +36,7 @@ def _intent(row: Mapping[str, Any]) -> Intent:
         action=row["action"], payload=dict(row["payload"]),
         authority_id=row["authority_id"],
         expected_versions=dict(row["expected_versions"]),
+        effect_key=row["effect_key"],
     )
 
 
@@ -271,6 +273,8 @@ class ContinuityRuntime:
             raise ValueError("operation identity and authority are required")
         if actor not in participants or not participants or len(participants) != len(set(participants)):
             raise Denied("caller must be an explicit participant")
+        if intent.effect_key is not None and not intent.effect_key.strip():
+            raise ValueError("effect_key must be nonempty when provided")
         fp = _fingerprint(intent)
         with self.db.engine.begin() as cx:
             old = cx.execute(select(operations).where(
@@ -283,7 +287,8 @@ class ContinuityRuntime:
                     raise Denied("not an operation participant")
                 return dict(old)
             row = dict(
-                id=intent.operation_id, fingerprint=fp, principal=intent.principal,
+                id=intent.operation_id, fingerprint=fp,
+                effect_key=intent.effect_key, principal=intent.principal,
                 provider=intent.provider, resource_ref=intent.resource_ref,
                 action=intent.action, payload=intent.payload,
                 authority_id=intent.authority_id, expected_versions=intent.expected_versions,
@@ -295,11 +300,14 @@ class ContinuityRuntime:
             )).mappings().one()
             if not set(participants).issubset(set(grant["actors"])):
                 raise Denied("participant is not covered by authority")
-            cx.execute(operations.insert().values(
-                **row, status="registered", dispatch_generation=0,
-                effect_disposition="unverified", outcome_disposition="unverified",
-                created_at=utcnow(), updated_at=utcnow(),
-            ))
+            try:
+                cx.execute(operations.insert().values(
+                    **row, status="registered", dispatch_generation=0,
+                    effect_disposition="unverified", outcome_disposition="unverified",
+                    created_at=utcnow(), updated_at=utcnow(),
+                ))
+            except IntegrityError as exc:
+                raise Conflict("operation ID or logical effect key already reserved") from exc
             self.db.emit(cx, "operation:" + intent.operation_id, "operation.registered", {
                 "actor": actor, "fingerprint": fp, "authority_id": intent.authority_id,
             })

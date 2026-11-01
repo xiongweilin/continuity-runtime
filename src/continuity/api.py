@@ -60,6 +60,7 @@ class OperationIn(BaseModel):
     authority_id: str
     participants: list[str]
     expected_versions: dict[str, str] = Field(default_factory=dict)
+    effect_key: str | None = None
 
 
 def create_app(runtime: ContinuityRuntime, *, tokens: dict[str, Caller] | None = None) -> FastAPI:
@@ -129,7 +130,7 @@ def create_app(runtime: ContinuityRuntime, *, tokens: dict[str, Caller] | None =
         intent = Intent(operation_id=value.id, principal=value.principal,
             provider=value.provider, resource_ref=value.resource_ref,
             action=value.action, payload=value.payload, authority_id=value.authority_id,
-            expected_versions=value.expected_versions)
+            expected_versions=value.expected_versions, effect_key=value.effect_key)
         return runtime.submit(intent, actor=actor.actor, participants=value.participants)
 
     @app.get("/v1/operations/{operation_id}")

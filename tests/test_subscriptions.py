@@ -69,6 +69,12 @@ def test_subscription_freezes_offered_batch_until_ack(setup):
         runtime.submit(Intent(f"batch:{n}", "mission", "counter", "items/one",
             "increment", {"n": n}, "grant"),
             actor="agent-a", participants=["agent-a", "agent-b"])
+    # The first event is an administrator grant, intentionally hidden from
+    # this actor. Its empty page still needs a checkpoint acknowledgement.
+    invisible = runtime.poll_subscription("cursor:fixed", actor="agent-b", limit=1)
+    assert invisible["events"] == []
+    runtime.ack_subscription("cursor:fixed", actor="agent-b",
+        expected_revision=invisible["revision"], next_seq=invisible["next_seq"])
     first = runtime.poll_subscription("cursor:fixed", actor="agent-b", limit=1)
     assert len(first["events"]) == 1
     larger = runtime.poll_subscription("cursor:fixed", actor="agent-b", limit=100)

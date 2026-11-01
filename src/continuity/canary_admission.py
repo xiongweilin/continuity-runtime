@@ -21,6 +21,10 @@ class CanaryStage:
     min_requests: int
 
     def __post_init__(self) -> None:
+        if any(type(v) is not int for v in (
+            self.weight, self.min_duration_seconds, self.min_requests
+        )):
+            raise ValueError("stage thresholds must be integers")
         if not 1 <= self.weight <= 100:
             raise ValueError("stage weight must be 1..100")
         if self.min_duration_seconds < 1 or self.min_requests < 1:
@@ -39,8 +43,11 @@ class CanaryGuardrails:
             raise ValueError("invalid candidate error threshold")
         if not (0 <= self.max_error_rate_delta <= 1):
             raise ValueError("invalid error delta threshold")
-        if self.max_candidate_p95_ms <= 0 or self.max_p95_ratio <= 0:
-            raise ValueError("latency bounds must be positive")
+        if any(
+            type(v) not in (int, float) or not math.isfinite(v) or v <= 0
+            for v in (self.max_candidate_p95_ms, self.max_p95_ratio)
+        ):
+            raise ValueError("latency bounds must be positive and finite")
 
 
 @dataclass(frozen=True)
@@ -129,6 +136,13 @@ class CanaryAdmissionPolicy:
             return decision("hold", "independent canary telemetry unavailable")
         if not isinstance(evidence, CanarySnapshot):
             return decision("hold", "unexpected canary evidence structure")
+        if not isinstance(now, datetime):
+            return decision("hold", "invalid trusted clock")
+        if any(type(value) is not bool for value in (
+            evidence.rollback_ready, evidence.initial_quality_verified,
+            evidence.effect_unresolved, evidence.telemetry_complete,
+        )):
+            return decision("hold", "invalid canary assurance flags")
         if not isinstance(evidence.observed_at, datetime):
             return decision("hold", "telemetry timestamp is invalid")
         if now.tzinfo is None or evidence.observed_at.tzinfo is None:

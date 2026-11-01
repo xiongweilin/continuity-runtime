@@ -196,3 +196,22 @@ def test_invalid_remote_telemetry_is_held_not_promoted():
     assert policy.evaluate(intent, {}).decision == "hold"
     box["value"] = replace(box["value"], observed_at="invalid")
     assert policy.evaluate(intent, {}).decision == "hold"
+
+
+
+@pytest.mark.parametrize("change", [
+    {"rollback_ready": "false"},
+    {"initial_quality_verified": "true"},
+    {"telemetry_complete": "yes"},
+    {"effect_unresolved": None},
+])
+def test_canary_malformed_assurance_flags_fail_closed(change):
+    policy, intent, box = setup_policy()
+    box["value"] = replace(box["value"], **change)
+    assert policy.evaluate(intent, {}).decision == "hold"
+
+
+@pytest.mark.parametrize("bad", [float("nan"), float("inf"), 0, -1, "slow"])
+def test_canary_guardrail_configuration_rejects_unbounded_latency(bad):
+    with pytest.raises(ValueError, match="positive and finite"):
+        CanaryGuardrails(0.1, 0.1, bad, 1.5)

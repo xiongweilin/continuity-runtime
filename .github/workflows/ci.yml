@@ -31,3 +31,16 @@ jobs:
       - run: continuity demo
       - run: python examples/canary_guarded_handoff.py
       - run: docker build -t continuity-runtime:test .
+      - name: Compose integration smoke test
+        env:
+          POSTGRES_PASSWORD: ci_local_database_pass
+          CONTINUITY_TOKENS_JSON: '{"ci-admin":{"actor":"ci-root","admin":true},"ci-agent":{"actor":"ci-agent"}}'
+        run: |
+          docker compose up --build -d --wait
+          python scripts/smoke_compose.py
+      - name: Remove test containers and persistent volumes
+        if: always()
+        env:
+          POSTGRES_PASSWORD: ci_local_database_pass
+          CONTINUITY_TOKENS_JSON: '{"ci-admin":{"actor":"ci-root","admin":true},"ci-agent":{"actor":"ci-agent"}}'
+        run: docker compose down -v --remove-orphans

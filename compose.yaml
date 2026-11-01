@@ -31,5 +31,11 @@ services:
       CONTINUITY_TOKENS_JSON: ${CONTINUITY_TOKENS_JSON:?set CONTINUITY_TOKENS_JSON}
     ports:
       - "127.0.0.1:18086:8080"
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=3)"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
 volumes:
   continuity_data:

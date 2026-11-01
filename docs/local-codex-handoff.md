@@ -27,14 +27,13 @@ and isolation boundary have been explicitly selected by the owner.**
 3. Use local test-only environment variables for Compose:
    ```bash
    export POSTGRES_PASSWORD='<random_local_test_password>'
-   export CONTINUITY_TOKENS_JSON='{"admin-local":{"actor":"root","admin":true},"agent-local":{"actor":"agent:test"}}'
+   export CONTINUITY_TOKENS_JSON='{"ci-admin":{"actor":"ci-root","admin":true},"ci-agent":{"actor":"ci-agent"}}'
    docker compose up --build -d --wait
-   python scripts/smoke_compose.py  # uses CI tokens; for Compose smoke, use CI test token fixture instead
+   python scripts/smoke_compose.py
    docker compose down -v
    ```
-   For a direct smoke run, configure the script to match the local tokens; it
-   currently expects the CI fixture tokens `ci-admin` and `ci-agent`.
-   Do not confuse this synthetic bearer-token demo with production IAM.
+   The smoke script and this example intentionally use matching CI-only
+   fixture tokens. They are not production credentials or production IAM.
 
 ## Phase B — credential and effect mediation (requires local environment)
 

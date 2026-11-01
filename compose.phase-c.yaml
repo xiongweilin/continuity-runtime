@@ -1,0 +1,66 @@
+name: continuity-phase-c
+services:
+  postgres:
+    image: postgres:17@sha256:b8faeff7712663c2773a190181e1246e37e364b887611c04658c28b44e2408fe
+    environment:
+      POSTGRES_USER: phasec_admin
+      POSTGRES_PASSWORD: ${PHASEC_PG_PASSWORD:?set a fresh test-only password}
+      POSTGRES_DB: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U phasec_admin -d postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    volumes:
+      - phasec_postgres_data:/var/lib/postgresql/data
+    networks:
+      - phasec_internal
+    cpus: 2.0
+    mem_limit: 2g
+    restart: "no"
+
+  runner:
+    build:
+      context: .
+      dockerfile: Dockerfile.phase-c
+    environment:
+      PHASEC_ADMIN_DATABASE_URL: postgresql+psycopg://phasec_admin:${PHASEC_PG_PASSWORD}@postgres:5432/postgres
+      PHASEC_TEST_POSTGRES_URL: postgresql+psycopg://phasec_admin:${PHASEC_PG_PASSWORD}@postgres:5432/postgres
+      PHASEC_OUTPUT_DIR: /results
+      PHASEC_PROVIDER_DATA_DIR: /provider-data
+      PHASEC_PROXY_LOG_DIR: /proxy-log
+      PHASEC_NETWORK_POLICY: isolated_internal_no_egress
+      PHASEC_CODE_SHA: ${PHASEC_CODE_SHA:-unknown}
+      PHASEC_WORKTREE_CLEAN: ${PHASEC_WORKTREE_CLEAN:-false}
+      PYTHONPATH: /app
+      PHASEC_PYTHON_BASE_IMAGE: python:3.12-slim@sha256:aa943ce411423c7582288f18707ff66eddcbaeb510502d747a72aeb34f30d159
+      PHASEC_POSTGRES_IMAGE_DIGEST: sha256:b8faeff7712663c2773a190181e1246e37e364b887611c04658c28b44e2408fe
+      PHASEC_RUNNER_IMAGE_ID: ${PHASEC_RUNNER_IMAGE_ID:-unknown}
+    volumes:
+      - type: bind
+        source: ${PHASEC_RESULTS_HOST_DIR:?set a host output directory}
+        target: /results
+        bind:
+          create_host_path: true
+      - phasec_provider_data:/provider-data
+      - phasec_proxy_logs:/proxy-log
+    networks:
+      - phasec_internal
+    depends_on:
+      postgres:
+        condition: service_healthy
+    cpus: 2.0
+    mem_limit: 4g
+    init: true
+    security_opt:
+      - no-new-privileges:true
+    restart: "no"
+
+networks:
+  phasec_internal:
+    internal: true
+
+volumes:
+  phasec_postgres_data:
+  phasec_provider_data:
+  phasec_proxy_logs:

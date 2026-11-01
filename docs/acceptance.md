@@ -15,7 +15,7 @@ Tests in this repository are not a production guarantee. CI runs isolated SQLite
 | Handoff relationship invalidation event | `test_link_revision_invalidation_and_owner` | Multi-consumer processing and backpressure |
 | Baseline vs BAA admission | `test_baseline_vs_optional_admission_not_confused_with_authority` | BAA implementation and causal safety/cost study |
 | Outcome is not receipt | `test_no_auto_outcome_and_domain_verifier` | Independent real-world outcome measurement |
-| Cross-workflow engine interoperability | Same HTTP interface, optional DBOS bridge example | Live DBOS vs different engine experiment |
+| Cross-workflow engine interoperability | Same HTTP interface; DBOS workflow runs against isolated HTTP test adapter using its own durable Postgres state | Live DBOS vs a second workflow engine in different hosts |
 | Durable event consumption | Actor-owned DB checkpoint, CAS ack, bounded poll | Distributed consumer leases and production backpressure |
 | Second unrelated real domain | Not yet established | Required before claiming generality |
 | Net human/model/resource cost reduction | Not measured | Controlled baseline comparison needed |

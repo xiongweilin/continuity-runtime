@@ -11,11 +11,15 @@ import httpx
 from dbos import DBOS, DBOSConfig
 
 
+def _api_client(*, base_url: str, headers: dict[str, str]) -> httpx.Client:
+    return httpx.Client(base_url=base_url, headers=headers, timeout=30)
+
+
 @DBOS.step()
 def continue_effect(operation_id: str) -> dict:
     url = os.environ["CONTINUITY_API_BASE"].rstrip("/")
     headers = {"Authorization": "Bearer " + os.environ["CONTINUITY_AGENT_TOKEN"]}
-    with httpx.Client(base_url=url, headers=headers, timeout=30) as client:
+    with _api_client(base_url=url, headers=headers) as client:
         result = client.post(f"/v1/operations/{operation_id}/dispatch")
         result.raise_for_status()
         result = client.post(f"/v1/operations/{operation_id}/reconcile")

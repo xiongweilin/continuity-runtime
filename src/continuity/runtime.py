@@ -154,7 +154,7 @@ class ContinuityRuntime:
                 ))
                 if changed.rowcount != 1:
                     raise Conflict("concurrent observation revision")
-            self.db.emit(cx, ref, "observation.recorded", {
+            self.db.emit(cx, "observation:" + ref, "observation.recorded", {
                 "source": "actor:" + actor, "source_revision": source_revision,
                 "evidence_ref": evidence_ref, "revision": prior + 1,
             })
@@ -434,9 +434,9 @@ class ContinuityRuntime:
                     )).scalar_one_or_none()
                     if owner == actor:
                         authorized.append(event)
-                else:
+                elif entity.startswith("observation:"):
                     source = cx.execute(select(observations.c.source_ref).where(
-                        observations.c.ref == entity,
+                        observations.c.ref == entity[len("observation:"):],
                     )).scalar_one_or_none()
                     if source == "actor:" + actor:
                         authorized.append(event)

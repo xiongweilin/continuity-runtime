@@ -51,6 +51,8 @@ raise AssertionError("process was expected to die")
     assert op["dispatch_generation"] == 1
     recovered.dispatch("crash-op", actor="agent-a")
     assert adapter.calls == 0
-    assert recovered.reconcile("crash-op", actor="agent-b")["status"] == "unknown"
+    # An inconclusive readback cannot prove a crash-stopped request is absent;
+    # the conservative reservation remains until provider evidence resolves it.
+    assert recovered.reconcile("crash-op", actor="agent-b")["status"] == "may_have_been_sent"
     recovered.db.close()
     db.close()

@@ -1,0 +1,67 @@
+# Optional, explicit Phase B overlay. Never run with the owner CLI's broad
+# GitHub token. One fine-grained, sandbox-only Issues-write token goes to the
+# trusted executor service. Agents are NOT on the isolated effect network.
+#
+# docker compose -f compose.yaml -f compose.phase-b.yaml up --build -d --wait
+services:
+  api:
+    environment:
+      CONTINUITY_EXECUTOR_URL: http://trusted-executor:9090
+      CONTINUITY_EXECUTOR_KEY_FILE: /run/secrets/continuity_executor_key
+    secrets:
+      - continuity_executor_key
+    networks:
+      - default
+      - effects
+    depends_on:
+      trusted-executor:
+        condition: service_healthy
+  trusted-executor:
+    build: .
+    command: ["uvicorn", "continuity.github_executor:app",
+              "--host", "0.0.0.0", "--port", "9090"]
+    environment:
+      CONTINUITY_GITHUB_REPOSITORY: xiongweilin/continuity-runtime-phase-b-sandbox
+      CONTINUITY_GITHUB_ISSUE: "1"
+      CONTINUITY_GITHUB_LABEL: continuity-effect-test
+      CONTINUITY_GITHUB_TOKEN_FILE: /run/secrets/phase_b_github_token
+      CONTINUITY_EXECUTOR_KEY_FILE: /run/secrets/continuity_executor_key
+    secrets:
+      - phase_b_github_token
+      - continuity_executor_key
+    networks:
+      - effects
+      - provider-egress
+    read_only: true
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    tmpfs:
+      - /tmp
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request; urllib.request.urlopen('http://127.0.0.1:9090/health', timeout=3)"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+  agent-isolation-probe:
+    profiles: ["isolation-test"]
+    build: .
+    command: ["python", "/app/scripts/phase_b_isolation_probe.py"]
+    networks:
+      - default
+    volumes:
+      - ./scripts/phase_b_isolation_probe.py:/app/scripts/phase_b_isolation_probe.py:ro
+    read_only: true
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+
+networks:
+  effects:
+    internal: true
+  provider-egress: {}
+
+secrets:
+  phase_b_github_token:
+    file: ${CONTINUITY_PHASE_B_TOKEN_FILE:?must point to sandbox-only token file}
+  continuity_executor_key:
+    file: ${CONTINUITY_PHASE_B_EXECUTOR_KEY_FILE:?must point to private shared-key file}

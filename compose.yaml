@@ -1,0 +1,26 @@
+name: continuity
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: continuity
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: continuity
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U continuity -d continuity"]
+      interval: 5s
+      retries: 20
+    volumes:
+      - continuity_data:/var/lib/postgresql/data
+  api:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      CONTINUITY_DATABASE_URL: postgresql+psycopg://continuity:${POSTGRES_PASSWORD}@postgres:5432/continuity
+      CONTINUITY_TOKENS_JSON: ${CONTINUITY_TOKENS_JSON:?set CONTINUITY_TOKENS_JSON}
+    ports:
+      - "127.0.0.1:18086:8080"
+volumes:
+  continuity_data:

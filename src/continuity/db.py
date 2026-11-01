@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 
 from sqlalchemy import (
     JSON, Boolean, Column, DateTime, ForeignKey, Index, Integer, MetaData,
-    String, Table, Text, UniqueConstraint, create_engine, select,
+    String, Table, create_engine, select,
 )
 from sqlalchemy.engine import Connection, Engine
 

@@ -8,13 +8,12 @@ from datetime import datetime, timezone
 from typing import Any, Mapping
 
 from sqlalchemy import select, update
-from sqlalchemy.exc import IntegrityError
 
 from .contracts import (
     AdmissionPolicy, BaselinePolicy, Conflict, Denied, DomainVerifier,
-    EffectAdapter, Held, Intent, NoAutoOutcome, Outcome, Readback, UnknownOperation,
+    EffectAdapter, Held, Intent, Readback, UnknownOperation,
 )
-from .db import RuntimeDB, events, grants, links, observations, operations, utcnow
+from .db import RuntimeDB, grants, links, observations, operations, utcnow
 
 PURPOSES = frozenset({
     "handoff", "responsibility", "authorization", "conflict", "recovery", "verification"

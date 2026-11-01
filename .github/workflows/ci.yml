@@ -68,3 +68,6 @@ jobs:
           fi
           docker compose -p continuity-phase-b -f compose.yaml -f compose.phase-b.yaml --profile isolation-test run --rm agent-isolation-probe
           python scripts/phase_b_prepare.py
+
+      - name: Phase B one-command credential-free local offline preflight
+        run: python scripts/phase_b_offline.py

@@ -40,6 +40,7 @@ Requires Python 3.12+; real multi-process reliability is intended to use Postgre
 ```bash
 python -m pip install -e '.[dev]'
 continuity demo
+python examples/canary_guarded_handoff.py
 pytest -q
 ```
 
@@ -53,7 +54,9 @@ python -m continuity.handoff finish
 python -m continuity.handoff finish
 ```
 
-The first command creates a scoped authority grant, observation, necessary relationship, and operation. The second process executes, reads back, and verifies. The third call proves it will not dispatch a second time. Delete both temporary demo files to restart the example. This is a **local demonstration**, not a live Agent/model integration.
+The canary walkthrough performs a **simulated** cross-Agent action: unsafe telemetry denies dispatch, then newly validated mock telemetry allows one operation and separate effect/outcome checks. It uses no real release traffic.
+
+The two-process handoff's first command creates a scoped authority grant, observation, necessary relationship, and operation. The second process executes, reads back, and verifies. The third call proves it will not dispatch a second time. Delete both temporary demo files to restart the example. This is a **local demonstration**, not a live Agent/model integration.
 
 ## PostgreSQL + API
 
@@ -92,9 +95,9 @@ The `compose.yaml` profile runs PostgreSQL and the API; set `POSTGRES_PASSWORD` 
 | Dispatch right | PostgreSQL transactional row lock and conditional update permit one durable reservation for a given ID |
 | Uncertain network outcome | Conservative `unknown`; same logical operation is never blindly redispatched |
 | Readback | Only the trusted adapter can assert an effect; a negative snapshot is not historical no-effect proof |
-| Outcome | Separate trusted domain verifier, not an effect receipt |
+| Outcome | Separate trusted domain verifier, not an effect receipt; once recorded it cannot be silently overwritten by another verifier |
 | Authority | Administrator-owned grants, scoped principal/actor/provider/action/target, optional **mandatory source-version guards** enforced at submit and dispatch |
-| Admission | Baseline interface only; full BAA risk accounting and policy proof **not included** |
+| Admission | Authority-pinned named checker plus bounded BAA-inspired canary guard using independent telemetry; full BAA risk accounting and policy proof **not included** |
 | Global exactly-once effect | **Not guaranteed** without external support |
 | Non-bypassable effect | **Requires deployment credential isolation** |
 | Production readiness | **Not established**; no real production domain, sustained multi-week run, tenant isolation or independent security audit |

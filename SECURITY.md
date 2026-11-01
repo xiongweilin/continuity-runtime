@@ -20,3 +20,17 @@ deployment-specific evaluation and enforcement.
 This repository has not been independently security audited and has no published
 production safety guarantee. When reporting vulnerabilities, avoid posting
 credentials or sensitive test data in public issues.
+
+
+## Bounded canary protection
+
+The repository includes a narrow canary promotion admission evaluator based on
+the engineering boundary explored in [BAA-Protocol](https://github.com/xiongweilin/BAA-Protocol).
+It checks independently sourced staged telemetry and fail-closed prerequisites.
+Its policy identity is pinned by a grant and cannot silently fall back to the
+baseline. It does **not** implement complete BAA or make a universal formal claim.
+
+The demonstration's rollout connector and telemetry are synthetic. A real deployment
+must establish the telemetry's independent authority, reliable time/version
+semantics, provider-side conditional writes, rollback ability and actual credential
+isolation. Model-generated metrics do not satisfy that requirement.

@@ -72,3 +72,30 @@ The provider ledger must be exported from the provider, not reconstructed from a
 - **ChatGPT after evidence exists:** independently cross-check output against the frozen manifest, inspect fault barriers and raw logs, and decide KEEP-NARROW versus a justified incremental capability. Do not merge any previous experiment PR as an unintended dependency.
 
 A blocked transition or unresolved outcome is **honest continuity** when the system retains the necessary facts, responsibility and safe next options; it is not a reason to manufacture success.
+
+
+## Precommitted evaluator I/O contract
+
+The independent read-only checker at `scripts/evaluate_phase_d.py` accepts two **real** JSONL streams of exactly 24 unique `(scenario, seed, arm)` rows each. Its source is included in the protocol PR and must not be altered after the runner is frozen to fit a favorable result.
+
+`trials.jsonl` is emitted by the arm/workflow instrumentation with exactly these fields:
+
+`scenario, seed, arm, reported_goal_status, old_ship_dispatch_rejected, old_pack_reconciled, v1_link_invalidated, a_write_grants_revoked, b_grant_newly_issued, b_operation_generation, pack_readback_ref, new_goal_verifier_ref, stale_dispatch_ref, invalidation_ref, handoff_ref, fault_proof_ref, elapsed_ms, db_transactions, manual_reconstruction_steps, operator_seconds, model_cost_usd, infra_cost_usd`.
+
+`provider_domain_oracle.jsonl` must be independently derived from **the provider ledger plus the domain-owned goal/source history**. It has exactly:
+
+`scenario, seed, arm, pack_commits, ship_commits, quarantine_commits, pack_post_count, ship_post_count, quarantine_post_count, duplicate_commits, forbidden_commits, source_revisions, goal_event_types, handoff_actor, old_goal_retained, historical_pack_retained, outsider_denied, provider_ledger_ref, goal_ledger_ref, source_ledger_ref, fault_observed`.
+
+All evidence refs are nonempty ledger/event locators and must resolve to stored reviewable records. The evaluator checks recorded cross-source consistency and the frozen expectations; it **cannot independently prove the referenced ledgers' provenance**. Human review must recompute event chronology, hashes and fault barriers directly from the raw logs. For the expected success cases, `goal_event_types` is exactly `goal_created, evidence_revised, goal_superseded, handoff_authorized, goal_satisfied`; the injected crash ends in `goal_unresolved`. This event ordering is a domain ledger assertion, not a Runtime-native lifecycle state machine.
+
+Do not label synthetic unit-test fixture rows as empirical findings. The evaluator's outcomes are `SAFETY_FAILURE` (exit 3), `INCOMPLETE_FUNCTIONALITY` (exit 4), `EVIDENCE_INCOMPLETE` or `REQUIRES_INDEPENDENT_REVIEW` (exit 0; **neither means positive ROI**), and invalid/missing/unpaired data (exit 2). Infrastructure and measured human cost may be `null`, never invented.
+
+```bash
+python scripts/evaluate_phase_d.py \
+  --manifest experiments/phase_d_manifest.json \
+  --trials results/phase_d/full-24/trials.jsonl \
+  --oracle results/phase_d/full-24/provider_domain_oracle.jsonl \
+  --output results/phase_d/full-24/evaluation.json
+```
+
+In addition to those streams, preserve the mock provider raw ledger, domain goal/source ledger, relevant Runtime/DBOS/outbox records, per-fault barrier and process-exit evidence, source/run hashes, versions, seed and arm order, test environment, setup/maintenance labor (recorded **once per arm**, not multiplied per trial), and complete resource cleanup. The automatic evaluator explicitly does **not** decide whether engineering complexity and cost justify a new independent Runtime.

@@ -53,6 +53,14 @@ links = Table(
     Column("revision", Integer, nullable=False, default=1),
     Column("active", Boolean, nullable=False, default=True),
 )
+link_dependencies = Table(
+    "boundary_link_dependencies", metadata,
+    Column("link_id", String(160), ForeignKey("boundary_links.id", ondelete="CASCADE"),
+           primary_key=True),
+    Column("dependency_ref", String(512), primary_key=True),
+    Column("required_version", String(200), nullable=False),
+)
+Index("ix_dependency_ref", link_dependencies.c.dependency_ref)
 operations = Table(
     "effect_operations", metadata,
     Column("id", String(160), primary_key=True),
@@ -112,7 +120,7 @@ class RuntimeDB:
         with self.engine.connect() as cx:
             rows = cx.execute(
                 select(events, outbox.c.published_at).join(outbox)
-                .where(events.c.seq > after).order_by(events.c.seq).limit(min(limit, 500))
+                .where(events.c.seq > after).order_by(events.c.seq).limit(max(1, min(limit, 500)))
             ).mappings()
             return [dict(r) for r in rows]
 

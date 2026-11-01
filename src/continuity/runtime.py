@@ -7,13 +7,13 @@ from dataclasses import asdict
 from datetime import datetime, timezone
 from typing import Any, Mapping
 
-from sqlalchemy import select, update
+from sqlalchemy import delete, select, update
 
 from .contracts import (
     AdmissionPolicy, BaselinePolicy, Conflict, Denied, DomainVerifier,
     EffectAdapter, Held, Intent, Readback, UnknownOperation,
 )
-from .db import RuntimeDB, grants, links, observations, operations, utcnow
+from .db import RuntimeDB, grants, link_dependencies, links, observations, operations, utcnow
 
 PURPOSES = frozenset({
     "handoff", "responsibility", "authorization", "conflict", "recovery", "verification"
@@ -158,14 +158,17 @@ class ContinuityRuntime:
                 "evidence_ref": evidence_ref, "revision": prior + 1,
             })
             if old is not None and old["source_revision"] != source_revision:
-                # Only actual cross-boundary dependencies, no global graph scan.
-                dependencies = cx.execute(select(links).where(links.c.active.is_(True))).mappings()
-                for dep in dependencies:
-                    if ref in dep["constraints"].get("depends_on", {}):
-                        self.db.emit(cx, "link:" + dep["id"], "dependency.invalidated", {
-                            "source_ref": ref, "previous_revision": old["source_revision"],
-                            "new_revision": source_revision,
-                        })
+                # Indexed lookup: only links explicitly dependent on this ref.
+                affected = cx.execute(
+                    select(link_dependencies.c.link_id)
+                    .join(links, links.c.id == link_dependencies.c.link_id)
+                    .where(link_dependencies.c.dependency_ref == ref, links.c.active.is_(True))
+                ).scalars()
+                for link_id in affected:
+                    self.db.emit(cx, "link:" + link_id, "dependency.invalidated", {
+                        "source_ref": ref, "previous_revision": old["source_revision"],
+                        "new_revision": source_revision,
+                    })
         return self.get_observation(ref)
 
     def get_observation(self, ref: str) -> dict:
@@ -212,6 +215,11 @@ class ContinuityRuntime:
                 ).values(revision=old_rev + 1, **record))
                 if changed.rowcount != 1:
                     raise Conflict("concurrent link update")
+            cx.execute(delete(link_dependencies).where(link_dependencies.c.link_id == link_id))
+            for dep_ref, dep_version in constraints.get("depends_on", {}).items():
+                cx.execute(link_dependencies.insert().values(
+                    link_id=link_id, dependency_ref=dep_ref, required_version=dep_version,
+                ))
             self.db.emit(cx, "link:" + link_id, "link.updated", {
                 "revision": old_rev + 1, "purpose": purpose, "basis_ref": basis_ref,
             })
@@ -447,7 +455,7 @@ class ContinuityRuntime:
     def events(self, after: int = 0, limit: int = 100) -> list[dict]:
         return self.db.event_stream(after=after, limit=limit)
 
-    def events_for_actor(self, actor: str, after: int = 0, limit: int = 100) -> list[dict]:
+    def events_for_actor(self, actor: str, after: int = 0, limit: int = 100) -> dict:
         """A bounded event cursor; never expose another actor's event payloads."""
         candidates = self.db.event_stream(after=after, limit=limit)
         authorized = []
@@ -472,4 +480,4 @@ class ContinuityRuntime:
                     )).scalar_one_or_none()
                     if source == "actor:" + actor:
                         authorized.append(event)
-        return authorized
+        return {"events": authorized, "next_seq": candidates[-1]["seq"] if candidates else after}

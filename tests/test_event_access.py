@@ -22,7 +22,9 @@ def test_actor_event_cursor_restricts_operations_and_observations(setup):
     def events(token):
         res = client.get("/v1/my-events", headers={"Authorization": "Bearer " + token})
         assert res.status_code == 200
-        return res.json()
+        payload = res.json()
+        assert "next_seq" in payload
+        return payload["events"]
     assert any(v["kind"] == "operation.registered" for v in events("a"))
     assert any(v["kind"] == "operation.registered" for v in events("b"))
     assert not any(v["kind"] == "operation.registered" for v in events("bad"))

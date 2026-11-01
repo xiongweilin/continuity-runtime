@@ -14,12 +14,15 @@ from .contracts import Intent, Outcome, Readback, Receipt
 
 class GitHubLabelAdapter:
     def __init__(self, *, repository: str, token: str, allowed_labels: set[str],
-                 client: httpx.Client | None = None) -> None:
+                 client: httpx.Client | None = None, allowed_issue: int | None = None) -> None:
         if not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repository):
             raise ValueError("an exact owner/repository is required")
         if not token or not allowed_labels:
             raise ValueError("a server-side token and explicit label allowlist are required")
         self.repository = repository
+        if allowed_issue is not None and (type(allowed_issue) is not int or allowed_issue < 1):
+            raise ValueError("an exact positive test issue number is required")
+        self.allowed_issue = allowed_issue
         self.allowed_labels = frozenset(allowed_labels)
         self.client = client or httpx.Client(base_url="https://api.github.com", timeout=15)
         self.headers = {
@@ -37,6 +40,8 @@ class GitHubLabelAdapter:
         issue = intent.resource_ref[len(prefix):]
         if not issue.isdigit() or int(issue) < 1:
             raise ValueError("invalid issue number")
+        if self.allowed_issue is not None and int(issue) != self.allowed_issue:
+            raise ValueError("issue outside configured allowlist")
         label = intent.payload.get("label")
         if not isinstance(label, str) or label not in self.allowed_labels:
             raise ValueError("label outside allowlist")

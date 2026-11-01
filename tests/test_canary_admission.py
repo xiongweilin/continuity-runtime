@@ -2,14 +2,14 @@
 from __future__ import annotations
 
 from dataclasses import replace
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 import pytest
 
 from continuity.canary_admission import (
     CanaryAdmissionPolicy, CanaryGuardrails, CanaryScope, CanarySnapshot, CanaryStage,
 )
-from continuity.contracts import Denied, Held, Intent
+from continuity.contracts import Denied, Intent
 
 
 def setup_policy():

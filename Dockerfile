@@ -2,6 +2,7 @@ FROM python:3.12-slim
 WORKDIR /app
 COPY pyproject.toml README.md ./
 COPY src ./src
+COPY scripts ./scripts
 COPY migrations ./migrations
 COPY alembic.ini ./
 RUN pip install --no-cache-dir '.[github]'

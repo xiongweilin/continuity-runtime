@@ -209,3 +209,45 @@ unrestricted Agent network access, a second real business domain, or sustained
 unattended execution needs separate scope/approval. If trusted credential
 isolation or reliable independent readback cannot be established, remain in
 read-only/dry-run mode and document the blocker.
+
+
+## Phase C — local simulated failure/benefit experiment
+
+Phase B's one-shot real GitHub label effect is complete; **do not write to any
+real GitHub issue again**. The current task uses only isolated PostgreSQL,
+DBOS and an independently persisted **mock provider**. No PAT or broad owner
+CLI credential should be mounted, read or passed to a Phase C process.
+
+**Experiment contract:** [docs/phase-c-experiment-protocol.md](phase-c-experiment-protocol.md)
+and frozen [experiments/phase_c_manifest.json](../experiments/phase_c_manifest.json).
+The evaluator at [scripts/evaluate_phase_c.py](../scripts/evaluate_phase_c.py)
+will reject missing/unsafe/unpaired evidence. Its synthetic unit tests do
+not count as trial results.
+
+1. Check out the experimental PR branch, not a production deployment branch;
+   use Python 3.12+, Docker Desktop, PostgreSQL 17 and DBOS. Verify only
+   test-only secrets; pin SHA and versions.
+2. Implement a **durable separate-process mock provider** with an append-only
+   oracle ledger and fault barrier controls. It must expose independent
+   provider truth without passing that truth to the arm being tested.
+3. Implement arm A using the actual Continuity Runtime and PostgreSQL+DBOS;
+   implement arm B as a competent separate PostgreSQL+DBOS+scripts solution,
+   with equivalent fencing, grants, version guards, reconciliation and
+   independent outcome checks but **no Continuity dependency**.
+4. First run 2 seeds as a *development* shakedown; record what worked and
+   what failed, without calling it a statistically significant comparison.
+   Fix runner issues on its separate branch before freezing both arms.
+5. Run all 8 scenarios x 10 seeds x 2 arms = **160** trials; shuffle arm
+   order deterministically and use clean databases/workflow histories.
+   Generate actual trials.jsonl and provider_oracle.jsonl plus run metadata.
+6. Evaluate with the precommitted evaluator; report human interventions,
+   time, total resource costs, recovery success/ambiguity, and safety
+   violations. Report null for costs that cannot genuinely be measured.
+7. Submit a code PR and a separate sanitized evidence/report PR. Do not
+   silently alter the frozen manifest or evaluation logic to fit the result.
+   Clean test-only volumes, containers and networks; record exit codes.
+
+**Stop immediately** on any externally visible write, unauthorized provider
+commit, duplicate provider effect, false success, unreliable fault trigger
+or source of simulated truth from the tested system's own database. Report
+the blocker and raw evidence instead of self-certifying success.

@@ -123,3 +123,49 @@ def test_event_sequence_cannot_overtake_uncommitted_transaction():
     finally:
         release_first.set()
         db.close()
+
+
+
+@pytest.mark.skipif(not os.getenv("CONTINUITY_TEST_POSTGRES_URL"),
+                    reason="PostgreSQL required for grant-revocation race")
+def test_admission_cannot_dispatch_after_concurrent_grant_revocation():
+    from threading import Event
+
+    from continuity.contracts import Admission, Denied
+
+    url = os.environ["CONTINUITY_TEST_POSTGRES_URL"]
+    db1, db2 = RuntimeDB(url, create_schema=True), RuntimeDB(url)
+    adapter = CounterAdapter()
+    entered, resume = Event(), Event()
+
+    class SlowAdmission:
+        def evaluate(self, intent, observations):
+            entered.set()
+            if not resume.wait(timeout=15):
+                raise TimeoutError("test admission was not released")
+            return Admission("admit", policy_version="slow-revocation-test")
+
+    a = ContinuityRuntime(db1, adapters={"counter": adapter}, policy=SlowAdmission())
+    b = ContinuityRuntime(db2)
+    unique = uuid.uuid4().hex
+    grant = "revoke-grant:" + unique
+    operation = "revoke-op:" + unique
+    try:
+        a.issue_grant(grant_id=grant, principal="mission", actors=["a", "b"],
+                      provider="counter", resource_prefix="items", action="increment")
+        a.submit(Intent(operation, "mission", "counter", "items/one",
+                        "increment", {}, grant),
+                 actor="a", participants=["a", "b"])
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            future = pool.submit(a.dispatch, operation, actor="a")
+            assert entered.wait(timeout=10)
+            b.revoke_grant(grant)
+            resume.set()
+            with pytest.raises(Denied):
+                future.result(timeout=15)
+        assert adapter.calls == 0
+        assert a.get_operation(operation, actor="a")["status"] == "registered"
+    finally:
+        resume.set()
+        db1.close()
+        db2.close()

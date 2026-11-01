@@ -23,6 +23,7 @@ grants = Table(
     Column("id", String(160), primary_key=True),
     Column("principal", String(160), nullable=False),
     Column("actors", JSON, nullable=False),
+    Column("required_version_refs", JSON, nullable=False, default=list),
     Column("provider", String(160), nullable=False),
     Column("resource_prefix", String(512), nullable=False),
     Column("action", String(160), nullable=False),

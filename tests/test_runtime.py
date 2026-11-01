@@ -320,3 +320,28 @@ def test_inflight_absence_cannot_cancel_running_dispatch(setup):
     runtime.adapters["counter"] = EarlyAbsentProvider()
     submit(runtime)
     assert runtime.dispatch("op1", actor="agent-a")["status"] == "pending_verification"
+
+
+
+def test_grant_mandates_version_checks_even_when_agent_omits_them(setup):
+    runtime, adapter = setup
+    runtime.issue_grant(grant_id="guarded", principal="mission",
+        actors=["agent-a", "agent-b"], provider="counter",
+        resource_prefix="items", action="increment",
+        required_version_refs=["policy:mandatory"])
+    intent_no_guard = Intent("unguarded", "mission", "counter",
+        "items/one", "increment", {}, "guarded")
+    with pytest.raises(Denied, match="authority-required"):
+        runtime.submit(intent_no_guard, actor="agent-a",
+            participants=["agent-a", "agent-b"])
+
+    runtime.observe(actor="agent-a", ref="policy:mandatory",
+        source_revision="v5", evidence_ref="actor:claim")
+    runtime.version_authorities["policy:mandatory"] = lambda: "v5"
+    protected = Intent("guarded-op", "mission", "counter",
+        "items/one", "increment", {}, "guarded",
+        expected_versions={"policy:mandatory": "v5"})
+    runtime.submit(protected, actor="agent-a",
+        participants=["agent-a", "agent-b"])
+    assert runtime.dispatch("guarded-op", actor="agent-b")["status"] == "pending_verification"
+    assert adapter.calls == 1

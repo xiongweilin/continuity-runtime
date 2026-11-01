@@ -66,22 +66,30 @@ class ContinuityRuntime:
     def issue_grant(
         self, *, grant_id: str, principal: str, actors: list[str], provider: str,
         resource_prefix: str, action: str, expires_at: datetime | None = None,
+        required_version_refs: list[str] | None = None,
     ) -> dict:
         if not all([grant_id, principal, actors, provider, resource_prefix, action]):
             raise ValueError("grant fields and actors are required")
         if len(set(actors)) != len(actors) or any(not a for a in actors):
             raise ValueError("grant actors must be distinct and nonempty")
+        required_version_refs = required_version_refs or []
+        if len(set(required_version_refs)) != len(required_version_refs) or any(
+            not isinstance(ref, str) or not ref for ref in required_version_refs
+        ):
+            raise ValueError("required version refs must be distinct and nonempty")
         with self.db.engine.begin() as cx:
             if cx.execute(select(grants.c.id).where(grants.c.id == grant_id)).first():
                 raise Conflict("grant id already exists")
             cx.execute(grants.insert().values(
-                id=grant_id, principal=principal, actors=actors, provider=provider,
+                id=grant_id, principal=principal, actors=actors,
+                required_version_refs=required_version_refs, provider=provider,
                 resource_prefix=resource_prefix, action=action,
                 expires_at=expires_at, revoked=False, revision=1, created_at=utcnow(),
             ))
             self.db.emit(cx, "grant:" + grant_id, "grant.issued", {
                 "principal": principal, "provider": provider,
                 "resource_prefix": resource_prefix, "action": action,
+                "required_version_refs": required_version_refs,
             })
         return self.get_grant(grant_id)
 
@@ -125,6 +133,9 @@ class ContinuityRuntime:
             or row["provider"] != grant["provider"] or row["action"] != grant["action"]
             or not _scope_allows(grant["resource_prefix"], row["resource_ref"])):
             raise Denied("authority scope mismatch")
+        required = set(grant["required_version_refs"] or [])
+        if not required.issubset(row["expected_versions"].keys()):
+            raise Denied("operation omitted authority-required version preconditions")
 
     def _assert_versions(
         self, cx, expected: Mapping[str, str], *, lock: bool = False,

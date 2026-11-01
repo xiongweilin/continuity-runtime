@@ -26,6 +26,7 @@ class GrantIn(BaseModel):
     id: str
     principal: str
     actors: list[str]
+    required_version_refs: list[str] = Field(default_factory=list)
     provider: str
     resource_prefix: str
     action: str
@@ -107,7 +108,8 @@ def create_app(runtime: ContinuityRuntime, *, tokens: dict[str, Caller] | None =
         return runtime.issue_grant(grant_id=value.id, principal=value.principal,
             actors=value.actors, provider=value.provider,
             resource_prefix=value.resource_prefix, action=value.action,
-            expires_at=value.expires_at)
+            expires_at=value.expires_at,
+            required_version_refs=value.required_version_refs)
 
     @app.post("/v1/grants/{grant_id}/revoke")
     def revoke(grant_id: str, _: Caller = Depends(admin)):

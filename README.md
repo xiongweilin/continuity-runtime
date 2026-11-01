@@ -93,7 +93,7 @@ The `compose.yaml` profile runs PostgreSQL and the API; set `POSTGRES_PASSWORD` 
 | Uncertain network outcome | Conservative `unknown`; same logical operation is never blindly redispatched |
 | Readback | Only the trusted adapter can assert an effect; a negative snapshot is not historical no-effect proof |
 | Outcome | Separate trusted domain verifier, not an effect receipt |
-| Authority | Administrator-owned grants, scoped principal/actor/provider/action/target, rechecked at dispatch |
+| Authority | Administrator-owned grants, scoped principal/actor/provider/action/target, optional **mandatory source-version guards** enforced at submit and dispatch |
 | Admission | Baseline interface only; full BAA risk accounting and policy proof **not included** |
 | Global exactly-once effect | **Not guaranteed** without external support |
 | Non-bypassable effect | **Requires deployment credential isolation** |

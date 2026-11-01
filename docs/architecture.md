@@ -19,6 +19,8 @@
 
 ## Trust and production boundaries
 
+The administrator may configure `required_version_refs` on each grant. Agents cannot suppress those checks by submitting an empty `expected_versions` dictionary; guarded operations require independent trusted version readers and final local revalidation. Other domain-specific preconditions still need enforcement at the target executor.
+
 The HTTP bearer token only authenticates a caller identity. For effects, a separately granted authorization must cover principal, actors, provider, action and target; the grant can be revoked. Production requires upstream TLS, enterprise auth, secrets rotation, proper tenancy and an independent access-control review. Grants are a minimal example, not a replacement for sophisticated IAM.
 
 The current `AdmissionPolicy` may be replaced by a domain-specific BAA policy, but the baseline has no safety guarantee beyond the stated engineering constraints. **Never market it as BAA enforcement without an actual, verified BAA implementation and full mediation.**

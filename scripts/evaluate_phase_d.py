@@ -15,7 +15,6 @@ import json
 import math
 import statistics
 import sys
-from collections import Counter
 from pathlib import Path
 from typing import Any
 

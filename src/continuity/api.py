@@ -194,7 +194,19 @@ def default_app() -> FastAPI:
     url = os.environ.get("CONTINUITY_DATABASE_URL")
     if not url:
         return FastAPI(title="Continuity Runtime (unconfigured)")
-    return create_app(ContinuityRuntime(RuntimeDB(url)))
+    runtime = ContinuityRuntime(RuntimeDB(url))
+    executor_url = os.environ.get("CONTINUITY_EXECUTOR_URL")
+    if executor_url:
+        from .remote_executor import RemoteGitHubExecutor, read_secret_file
+
+        key_file = os.environ.get("CONTINUITY_EXECUTOR_KEY_FILE", "")
+        adapter = RemoteGitHubExecutor(
+            base_url=executor_url,
+            shared_secret=read_secret_file(key_file),
+        )
+        runtime.adapters["github-label"] = adapter
+        runtime.verifiers["github-label"] = adapter
+    return create_app(runtime)
 
 
 app = default_app()

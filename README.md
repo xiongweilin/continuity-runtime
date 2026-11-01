@@ -72,6 +72,8 @@ The `compose.yaml` profile runs PostgreSQL and the API; set `POSTGRES_PASSWORD` 
 
 **HTTP:** `/v1/grants` (admin issue), `/v1/grants/{id}/revoke` (admin), `/v1/observations`, `/v1/links`, `/v1/operations`, `/v1/operations/{id}/dispatch`, `/v1/operations/{id}/reconcile`, `/v1/operations/{id}/verify-outcome`, `/v1/events` (admin).
 
+**Durable handoff checkpoints:** `POST /v1/subscriptions` creates an actor-owned consumer, `GET /v1/subscriptions/{id}` polls from its last acknowledgement and `POST /v1/subscriptions/{id}/ack` advances the revision-checked cursor only up to a previously offered sequence. Delivery is **at least once**, not exactly once; the downstream worker must process events idempotently and acknowledge only after durable work. Two workers using the same consumer can see the same batch.
+
 **Event discovery:** `GET /v1/my-events?after=SEQ` returns `{events, next_seq}` for actor-filtered handoffs. Advance to `next_seq` even when `events` is empty (other actors may have events). It is not a durable multi-consumer queue; consumers must retain their offsets.
 
 **GitHub:** `continuity.github_labels.GitHubLabelAdapter` is an optional scoped, real-HTTP adapter restricted to one repository and an explicit label allowlist. Tests use mock HTTP only; no live repository is mutated. Install `.[github]` to use it. This example is suitable only for the goal that a label is present, not general GitHub writes.

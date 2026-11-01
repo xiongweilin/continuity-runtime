@@ -14,7 +14,10 @@ from .contracts import (
     AdmissionPolicy, BaselinePolicy, Conflict, Denied, DomainVerifier,
     EffectAdapter, Held, Intent, Readback, UnknownOperation, VersionAuthority,
 )
-from .db import RuntimeDB, grants, link_dependencies, links, observations, operations, utcnow
+from .db import (
+    RuntimeDB, consumer_offsets, grants, link_dependencies, links,
+    observations, operations, utcnow,
+)
 
 PURPOSES = frozenset({
     "handoff", "responsibility", "authorization", "conflict", "recovery", "verification"
@@ -525,3 +528,84 @@ class ContinuityRuntime:
                     if source == "actor:" + actor:
                         authorized.append(event)
         return {"events": authorized, "next_seq": candidates[-1]["seq"] if candidates else after}
+
+
+    def subscribe(self, subscription_id: str, *, actor: str) -> dict:
+        """A durable cursor for a named actor-owned consumer, not a broker lease."""
+        if not subscription_id or not actor:
+            raise ValueError("subscription ID and actor required")
+        with self.db.engine.begin() as cx:
+            row = cx.execute(select(consumer_offsets).where(
+                consumer_offsets.c.id == subscription_id,
+            ).with_for_update()).mappings().first()
+            if row is None:
+                try:
+                    cx.execute(consumer_offsets.insert().values(
+                        id=subscription_id, actor=actor, last_acked_seq=0,
+                        last_offered_seq=0, revision=1,
+                    ))
+                except IntegrityError as exc:
+                    raise Conflict("subscription already reserved") from exc
+            elif row["actor"] != actor:
+                raise Denied("subscription owned by a different actor")
+        return self.subscription(subscription_id, actor=actor)
+
+    def subscription(self, subscription_id: str, *, actor: str) -> dict:
+        with self.db.engine.connect() as cx:
+            row = cx.execute(select(consumer_offsets).where(
+                consumer_offsets.c.id == subscription_id,
+            )).mappings().first()
+            if row is None:
+                raise UnknownOperation("unknown subscription")
+            if row["actor"] != actor:
+                raise Denied("subscription owned by a different actor")
+            return dict(row)
+
+    def poll_subscription(
+        self, subscription_id: str, *, actor: str, limit: int = 100,
+    ) -> dict:
+        # Duplicate delivery is possible after a crash or across workers.
+        # Each consumer must apply idempotent processing and ack only afterwards.
+        with self.db.engine.begin() as cx:
+            row = cx.execute(select(consumer_offsets).where(
+                consumer_offsets.c.id == subscription_id,
+            ).with_for_update()).mappings().first()
+            if row is None:
+                raise UnknownOperation("unknown subscription")
+            if row["actor"] != actor:
+                raise Denied("subscription owned by a different actor")
+            batch = self.events_for_actor(actor, after=row["last_acked_seq"], limit=limit)
+            offered = max(row["last_offered_seq"], batch["next_seq"])
+            cx.execute(update(consumer_offsets).where(
+                consumer_offsets.c.id == subscription_id,
+            ).values(last_offered_seq=offered))
+            return {
+                "subscription_id": subscription_id,
+                "revision": row["revision"],
+                "last_acked_seq": row["last_acked_seq"],
+                "next_seq": batch["next_seq"],
+                "events": batch["events"],
+            }
+
+    def ack_subscription(
+        self, subscription_id: str, *, actor: str, expected_revision: int,
+        next_seq: int,
+    ) -> dict:
+        with self.db.engine.begin() as cx:
+            row = cx.execute(select(consumer_offsets).where(
+                consumer_offsets.c.id == subscription_id,
+            ).with_for_update()).mappings().first()
+            if row is None:
+                raise UnknownOperation("unknown subscription")
+            if row["actor"] != actor:
+                raise Denied("subscription owned by a different actor")
+            if expected_revision != row["revision"]:
+                raise Conflict("consumer checkpoint revision conflict")
+            if not (row["last_acked_seq"] <= next_seq <= row["last_offered_seq"]):
+                raise Conflict("ack would skip unoffered events or move cursor backwards")
+            if next_seq != row["last_acked_seq"]:
+                cx.execute(update(consumer_offsets).where(
+                    consumer_offsets.c.id == subscription_id,
+                    consumer_offsets.c.revision == expected_revision,
+                ).values(last_acked_seq=next_seq, revision=expected_revision + 1))
+        return self.subscription(subscription_id, actor=actor)

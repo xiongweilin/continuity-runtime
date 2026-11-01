@@ -103,6 +103,15 @@ outbox = Table(
 )
 Index("ix_boundary_events_entity", events.c.entity_ref, events.c.seq)
 
+consumer_offsets = Table(
+    "boundary_consumer_offsets", metadata,
+    Column("id", String(160), primary_key=True),
+    Column("actor", String(160), nullable=False),
+    Column("last_acked_seq", Integer, nullable=False, default=0),
+    Column("last_offered_seq", Integer, nullable=False, default=0),
+    Column("revision", Integer, nullable=False, default=1),
+)
+
 
 class RuntimeDB:
     def __init__(self, url: str, *, create_schema: bool = False) -> None:

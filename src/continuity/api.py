@@ -50,6 +50,15 @@ class LinkIn(BaseModel):
     expected_revision: int = 0
 
 
+class SubscriptionIn(BaseModel):
+    id: str
+
+
+class AckIn(BaseModel):
+    expected_revision: int
+    next_seq: int
+
+
 class OperationIn(BaseModel):
     id: str
     principal: str
@@ -156,6 +165,19 @@ def create_app(runtime: ContinuityRuntime, *, tokens: dict[str, Caller] | None =
     @app.get("/v1/my-events")
     def my_events(after: int = 0, limit: int = 100, actor: Caller = Depends(principal)):
         return runtime.events_for_actor(actor.actor, after=after, limit=limit)
+
+    @app.post("/v1/subscriptions")
+    def subscribe(value: SubscriptionIn, actor: Caller = Depends(principal)):
+        return runtime.subscribe(value.id, actor=actor.actor)
+
+    @app.get("/v1/subscriptions/{subscription_id}")
+    def poll(subscription_id: str, limit: int = 100, actor: Caller = Depends(principal)):
+        return runtime.poll_subscription(subscription_id, actor=actor.actor, limit=limit)
+
+    @app.post("/v1/subscriptions/{subscription_id}/ack")
+    def ack(subscription_id: str, value: AckIn, actor: Caller = Depends(principal)):
+        return runtime.ack_subscription(subscription_id, actor=actor.actor,
+            expected_revision=value.expected_revision, next_seq=value.next_seq)
 
     return app
 

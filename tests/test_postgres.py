@@ -39,3 +39,39 @@ def test_concurrent_dispatch_across_independent_runtime_instances():
     assert b.get_operation(operation, actor="b")["effect_disposition"] == "present"
     db1.close()
     db2.close()
+
+
+@pytest.mark.skipif(not os.getenv("CONTINUITY_TEST_POSTGRES_URL"),
+                    reason="PostgreSQL not configured")
+def test_concurrent_logical_effect_key_reservation_across_process_facades():
+    """Two Agent IDs cannot reserve the same provider-scoped logical effect."""
+    from continuity.contracts import Conflict
+
+    url = os.environ["CONTINUITY_TEST_POSTGRES_URL"]
+    a_db = RuntimeDB(url, create_schema=True)
+    b_db = RuntimeDB(url)
+    a = ContinuityRuntime(a_db)
+    b = ContinuityRuntime(b_db)
+    prefix = uuid.uuid4().hex
+    grant = "grant:" + prefix
+    a.issue_grant(grant_id=grant, principal="mission", actors=["a", "b"],
+        provider="counter", resource_prefix="items", action="increment")
+
+    def reserve(runtime, actor, ident):
+        return runtime.submit(Intent(ident, "mission", "counter", "items/one",
+            "increment", {"count": 1}, grant, effect_key="invoice:" + prefix),
+            actor=actor, participants=["a", "b"])
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        jobs = [pool.submit(reserve, a, "a", "op-a:" + prefix),
+                pool.submit(reserve, b, "b", "op-b:" + prefix)]
+        outcomes = []
+        for job in jobs:
+            try:
+                outcomes.append(job.result())
+            except Conflict:
+                outcomes.append("conflict")
+    assert len([x for x in outcomes if isinstance(x, dict)]) == 1
+    assert outcomes.count("conflict") == 1
+    a_db.close()
+    b_db.close()

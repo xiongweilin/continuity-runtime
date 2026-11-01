@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "seed_count": 10,
+  "scenarios": [
+    {
+      "id": "clean",
+      "injection_point": "no fault; dispatch and authoritative verify",
+      "expected_effect": true,
+      "expected_reported_status": "satisfied"
+    },
+    {
+      "id": "ack_lost_after_commit",
+      "injection_point": "provider durably commits once, then reply is lost before coordinator receipt",
+      "expected_effect": true,
+      "expected_reported_status": "satisfied"
+    },
+    {
+      "id": "crash_after_reservation_before_send",
+      "injection_point": "kill sender after durable may-have-sent reservation before any provider POST",
+      "expected_effect": false,
+      "expected_reported_status": "unknown"
+    },
+    {
+      "id": "timeout_before_send",
+      "injection_point": "request times out without any provider POST; negative snapshot alone cannot prove no-effect",
+      "expected_effect": false,
+      "expected_reported_status": "unknown"
+    },
+    {
+      "id": "concurrent_duplicate_intent",
+      "injection_point": "two actors submit same logical effect key concurrently with distinct operation IDs",
+      "expected_effect": true,
+      "expected_reported_status": "satisfied"
+    },
+    {
+      "id": "revoke_before_dispatch",
+      "injection_point": "revoke scoped grant after registration, before dispatch reservation",
+      "expected_effect": false,
+      "expected_reported_status": "blocked"
+    },
+    {
+      "id": "stale_version_before_dispatch",
+      "injection_point": "trusted source revision changes after registration, before dispatch reservation",
+      "expected_effect": false,
+      "expected_reported_status": "blocked"
+    },
+    {
+      "id": "readback_unavailable_after_commit",
+      "injection_point": "commit once, block all independent provider GETs and goal verification",
+      "expected_effect": true,
+      "expected_reported_status": "unverified"
+    }
+  ]
+}

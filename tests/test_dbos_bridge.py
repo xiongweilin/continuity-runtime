@@ -40,7 +40,7 @@ def test_dbos_workflow_uses_same_effect_coordinator_across_engines(setup, monkey
     monkeypatch.setattr(bridge, "_api_client", fake_client)
     monkeypatch.setenv("CONTINUITY_API_BASE", "http://internal.test")
     monkeypatch.setenv("CONTINUITY_AGENT_TOKEN", "token-b")
-    DBOS(config={"name": "continuity-integration-" + uuid.uuid4().hex,
+    DBOS(config={"name": "continuity-" + uuid.uuid4().hex[:12],
                  "system_database_url": os.environ["CONTINUITY_TEST_POSTGRES_URL"],
                  "application_version": "0.1"})
     DBOS.launch()

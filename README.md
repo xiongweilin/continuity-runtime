@@ -6,6 +6,17 @@
 
 Status: **engineering alpha / isolated reference integration. Not production-approved.**
 
+## Long-term goal
+
+Continuity is not the obligation to keep pursuing an old objective. It is the ability to preserve necessary facts, responsibility, and freedom of choice as circumstances change:
+
+- **Keep facts, not permanent goals:** preserve what happened while allowing objectives to end or be replaced.
+- **Keep experience, not fixed conclusions:** retain evidence and decision history while new evidence can revise prior judgments.
+- **Keep results, not permanent executors:** preserve verified outcomes across Agent or workflow handoffs.
+- **Keep accountability, not perpetual execution:** retain authorization and responsibility records while processes can pause, terminate, or restart.
+
+This is the long-term design direction, **not a claim that every lifecycle transition is implemented today**.
+
 ## What exists
 
 - **Selective state contracts**: purpose-scoped cross-boundary links, authoritative references, optimistic revisions, source observations and version-dependency invalidation events. No mandatory global resource registration.

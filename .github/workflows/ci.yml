@@ -58,7 +58,13 @@ jobs:
           python -c "import secrets; print(secrets.token_urlsafe(48))" > "$key_file"
           export CONTINUITY_PHASE_B_TOKEN_FILE="$token_file"
           export CONTINUITY_PHASE_B_EXECUTOR_KEY_FILE="$key_file"
+          # These two credentials are invalid CI fixtures; allow the unprivileged
+          # container to read their Docker bind-mounted secret files.
+          chmod 644 "$token_file" "$key_file"
           trap 'docker compose -p continuity-phase-b -f compose.yaml -f compose.phase-b.yaml down -v --remove-orphans || true; rm -f "$token_file" "$key_file"' EXIT
-          docker compose -p continuity-phase-b -f compose.yaml -f compose.phase-b.yaml up --build -d --wait
+          if ! docker compose -p continuity-phase-b -f compose.yaml -f compose.phase-b.yaml up --build -d --wait; then
+            docker compose -p continuity-phase-b -f compose.yaml -f compose.phase-b.yaml logs --no-color trusted-executor
+            exit 1
+          fi
           docker compose -p continuity-phase-b -f compose.yaml -f compose.phase-b.yaml --profile isolation-test run --rm agent-isolation-probe
           python scripts/phase_b_prepare.py

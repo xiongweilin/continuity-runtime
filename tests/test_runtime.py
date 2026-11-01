@@ -257,3 +257,25 @@ def test_logical_effect_key_scoped_to_target_and_principal(setup):
     runtime.submit(Intent("b", "mission", "counter", "items/two",
         "increment", {}, "grant", effect_key="same"),
         actor="agent-b", participants=["agent-b"])
+
+
+def test_authoritative_remote_version_changed_during_admission(setup):
+    runtime, adapter = setup
+    remote = {"revision": "v1"}
+    runtime.observe(actor="agent-a", ref="policy:remote", source_revision="v1",
+                    evidence_ref="agent:reported-v1")
+    runtime.version_authorities["policy:remote"] = lambda: remote["revision"]
+    submit(runtime, intent(expected={"policy:remote": "v1"}))
+
+    class RacingPolicy:
+        def evaluate(self, intent, observations):
+            # A remote source changes while admission is being evaluated,
+            # without any local observation update.
+            remote["revision"] = "v2"
+            return Admission("admit", policy_version="racing-v1")
+
+    runtime.policy = RacingPolicy()
+    with pytest.raises(Held, match="authoritative version changed"):
+        runtime.dispatch("op1", actor="agent-b")
+    assert adapter.calls == 0
+    assert runtime.get_operation("op1", actor="agent-a")["status"] == "registered"

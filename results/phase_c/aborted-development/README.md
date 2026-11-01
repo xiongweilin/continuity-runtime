@@ -1,0 +1,8 @@
+# Aborted development-only attempts (not evaluator input)
+
+These are runner/harness development attempts, not part of the 160-trial full run. They were not scored and are not used in `trials.jsonl`, `provider_oracle.jsonl`, or `evaluation.json` for the full run. Partial rows retain their original `partial_*.jsonl` names and must not be treated as a complete matrix.
+
+- `role-password-url-error/`: the runner aborted before an arm worker started because SQLAlchemy's default URL string representation masked the generated test password. The single created trial database was dropped; Compose cleanup succeeded; zero result rows were produced. Fixed before the final development shakedown and full run.
+- `concurrent-submit-overlap-miss/`: the runner aborted when a development-only concurrent-submit interval did not overlap. Nineteen completed arm-trial rows are preserved as partial evidence, plus the failing trial diagnostic. No evaluator was run and no synthetic rows were added. The harness was changed to a shared submit gate with an equal 100 ms post-gate hold for both arms; the final 32-row development shakedown and the full run passed the overlap barrier.
+
+Earlier bootstrap-only attempts also failed before any trial: one transient Docker Desktop engine-pipe failure during image build, and one runner-image packaging omission (`Dockerfile.phase-c`/Compose metadata files). They generated no trial rows. The Compose project resources were checked/cleaned after Docker became available. These bootstrap attempts are summarized in `attempts.jsonl`; they are not experimental observations.

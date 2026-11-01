@@ -1,0 +1,317 @@
+{
+  "arm": "postgres_dbos",
+  "arm_report": {
+    "arm": "postgres_dbos",
+    "attempted_provider_gets": 1,
+    "attempted_provider_posts": 1,
+    "manual_interventions": 0,
+    "model_cost_usd": 0.0,
+    "operations": [
+      {
+        "operation_id": "op:pair-3ec94beac57cd2c1:actor-a",
+        "registration": {
+          "detail": "BaselineConflict",
+          "kind": "blocked",
+          "reason": "operation_or_effect_conflict"
+        },
+        "reported_status": "blocked"
+      },
+      {
+        "dispatch": {
+          "kind": "dispatched",
+          "row": {
+            "dispatch_generation": 1,
+            "effect_disposition": "unverified",
+            "effect_evidence_ref": null,
+            "id": "op:pair-3ec94beac57cd2c1:actor-b",
+            "outcome_disposition": "unverified",
+            "outcome_evidence_ref": null,
+            "receipt_ref": "mock-commit:trial-c8a3790be474a904:3:sha256=653727cf3c1f9ff486c9ef14afcf8576f6887b1f57c292d8940fa2bdc0c6be0f",
+            "status": "pending_verification"
+          }
+        },
+        "operation": {
+          "dispatch_generation": 1,
+          "effect_disposition": "present",
+          "effect_evidence_ref": "mock-readback:trial-c8a3790be474a904:5:value=1:sha256=d69cfe2e5eba17c3e1c0b5070f76f3eb3dbd5c261d7015574bff2f37a96be6e2",
+          "id": "op:pair-3ec94beac57cd2c1:actor-b",
+          "outcome_disposition": "satisfied",
+          "outcome_evidence_ref": "goal-verifier:mock-readback:trial-c8a3790be474a904:5:value=1:sha256=d69cfe2e5eba17c3e1c0b5070f76f3eb3dbd5c261d7015574bff2f37a96be6e2",
+          "receipt_ref": "mock-commit:trial-c8a3790be474a904:3:sha256=653727cf3c1f9ff486c9ef14afcf8576f6887b1f57c292d8940fa2bdc0c6be0f",
+          "status": "effect_confirmed"
+        },
+        "operation_id": "op:pair-3ec94beac57cd2c1:actor-b",
+        "registration": {
+          "kind": "registered",
+          "operation_id": "op:pair-3ec94beac57cd2c1:actor-b",
+          "status": "registered"
+        },
+        "reported_status": "satisfied"
+      }
+    ],
+    "operator_seconds": 0.0,
+    "outcome_evidence": true,
+    "outcome_evidence_refs": [
+      "goal-verifier:mock-readback:trial-c8a3790be474a904:5:value=1:sha256=d69cfe2e5eba17c3e1c0b5070f76f3eb3dbd5c261d7015574bff2f37a96be6e2"
+    ],
+    "recovery_actions": 2,
+    "reported_status": "satisfied",
+    "trial_id": "trial-c8a3790be474a904",
+    "worker_completed_at": "2026-11-01T13:07:21.925414+00:00",
+    "worker_elapsed_ms": 298.975
+  },
+  "barriers": {
+    "concurrent_submit_overlap": {
+      "intervals_monotonic_ns": {
+        "op:pair-3ec94beac57cd2c1:actor-a": {
+          "finish": 964205110232,
+          "start": 964197998584
+        },
+        "op:pair-3ec94beac57cd2c1:actor-b": {
+          "finish": 964200832760,
+          "start": 964186762062
+        }
+      },
+      "overlap": true,
+      "release_window_ns": 35480221
+    },
+    "pre_submit": [
+      {
+        "announced_monotonic_ns": 964160220262,
+        "operation_id": "op:pair-3ec94beac57cd2c1:actor-a",
+        "pid": 359,
+        "stage": "pre_submit",
+        "trial_id": "trial-c8a3790be474a904"
+      },
+      {
+        "announced_monotonic_ns": 964160067486,
+        "operation_id": "op:pair-3ec94beac57cd2c1:actor-b",
+        "pid": 359,
+        "stage": "pre_submit",
+        "trial_id": "trial-c8a3790be474a904"
+      }
+    ],
+    "registered": {
+      "announced_monotonic_ns": 964203309354,
+      "operation_id": "op:pair-3ec94beac57cd2c1:actor-b",
+      "pid": 359,
+      "stage": "registered",
+      "trial_id": "trial-c8a3790be474a904"
+    },
+    "registered_snapshot": {
+      "rows": {
+        "op:pair-3ec94beac57cd2c1:actor-a": null,
+        "op:pair-3ec94beac57cd2c1:actor-b": {
+          "dispatch_generation": 0,
+          "status": "registered"
+        }
+      },
+      "winner": "op:pair-3ec94beac57cd2c1:actor-b"
+    },
+    "reservation_snapshot": {
+      "dispatch_generation": 1,
+      "status": "may_have_been_sent"
+    },
+    "reserved_before_send": {
+      "announced_monotonic_ns": 964275301699,
+      "operation_id": "op:pair-3ec94beac57cd2c1:actor-b",
+      "pid": 359,
+      "stage": "reserved_before_send",
+      "trial_id": "trial-c8a3790be474a904"
+    },
+    "submit_finished": [
+      {
+        "announced_monotonic_ns": 964205110232,
+        "operation_id": "op:pair-3ec94beac57cd2c1:actor-a",
+        "pid": 359,
+        "stage": "submit_finished",
+        "trial_id": "trial-c8a3790be474a904"
+      },
+      {
+        "announced_monotonic_ns": 964200832760,
+        "operation_id": "op:pair-3ec94beac57cd2c1:actor-b",
+        "pid": 359,
+        "stage": "submit_finished",
+        "trial_id": "trial-c8a3790be474a904"
+      }
+    ],
+    "submit_started": [
+      {
+        "announced_monotonic_ns": 964197998584,
+        "operation_id": "op:pair-3ec94beac57cd2c1:actor-a",
+        "pid": 359,
+        "stage": "submit_started",
+        "trial_id": "trial-c8a3790be474a904"
+      },
+      {
+        "announced_monotonic_ns": 964186762062,
+        "operation_id": "op:pair-3ec94beac57cd2c1:actor-b",
+        "pid": 359,
+        "stage": "submit_started",
+        "trial_id": "trial-c8a3790be474a904"
+      }
+    ]
+  },
+  "cleanup": {
+    "database_dropped": true,
+    "fault_proxy_exit": 0,
+    "fault_proxy_ledger_exported": true,
+    "process_exit_codes": {
+      "arm_first": 0,
+      "arm_recovery": null,
+      "fault_proxy": 0,
+      "mock_provider": 0
+    },
+    "provider_ledger_exported": true,
+    "provider_process_exit": 0,
+    "trial_db_drop": "success"
+  },
+  "control_event": null,
+  "database_name": "pc_8b0bdb1148a7",
+  "database_role_scope": "one fresh owner role for this single-trial database; credentials omitted",
+  "db_transactions": {
+    "after": {
+      "commit": 330,
+      "rollback": 26,
+      "total": 356
+    },
+    "before": {
+      "commit": 4,
+      "rollback": 1,
+      "total": 5
+    },
+    "controller_barrier_reads_included": true,
+    "measurement": "pg_stat_database.xact_commit + xact_rollback delta in the isolated trial DB",
+    "value": 351
+  },
+  "fault_proxy_ledger": {
+    "bytes": 2648,
+    "events": 6,
+    "relpath": "fault_proxy_logs/trial-c8a3790be474a904.jsonl",
+    "sha256": "da347842daa0d7c993e7eabed7aad4813acd779bf22241943a4d52e516c484cb"
+  },
+  "fault_proxy_relpath": "fault_proxy_logs/trial-c8a3790be474a904.jsonl",
+  "fault_proxy_summary": {
+    "fault_trigger_counts": {},
+    "forwarded_get_count": 1,
+    "forwarded_post_count": 1,
+    "ledger_event_count": 6,
+    "ledger_head_sha256": "91143e5343ba495a00de090c8ae81e1070c6b515bc688f5b6cac1361797337f6",
+    "ledger_sha256": "da347842daa0d7c993e7eabed7aad4813acd779bf22241943a4d52e516c484cb"
+  },
+  "operation_ids": [
+    "op:pair-3ec94beac57cd2c1:actor-a",
+    "op:pair-3ec94beac57cd2c1:actor-b"
+  ],
+  "outcome_evidence_refs": [
+    "goal-verifier:mock-readback:trial-c8a3790be474a904:5:value=1:sha256=d69cfe2e5eba17c3e1c0b5070f76f3eb3dbd5c261d7015574bff2f37a96be6e2"
+  ],
+  "paired_input_id": "pair-3ec94beac57cd2c1",
+  "process_exit_codes": {
+    "arm_first": 0,
+    "arm_recovery": null,
+    "fault_proxy": 0,
+    "mock_provider": 0
+  },
+  "provider_ledger": {
+    "bytes": 2866,
+    "events": 6,
+    "relpath": "provider_ledgers/trial-c8a3790be474a904.jsonl",
+    "sha256": "a95f3c8c8138c87abf25edc9872eaa35de50c4283d6eb6b1e9099fb7abce6ad3"
+  },
+  "provider_ledger_relpath": "provider_ledgers/trial-c8a3790be474a904.jsonl",
+  "provider_oracle": {
+    "arm": "postgres_dbos",
+    "commits": 1,
+    "duplicate_commits": 0,
+    "effect_present": true,
+    "forbidden_commits": 0,
+    "oracle_log_ref": "mock-provider-ledger:sha256:a95f3c8c8138c87abf25edc9872eaa35de50c4283d6eb6b1e9099fb7abce6ad3",
+    "provider_post_count": 1,
+    "scenario": "concurrent_duplicate_intent",
+    "seed": 0
+  },
+  "provider_readback_evidence": [
+    {
+      "effect_present": true,
+      "event_sha256": "d69cfe2e5eba17c3e1c0b5070f76f3eb3dbd5c261d7015574bff2f37a96be6e2",
+      "resource_ref": "counter:pair-3ec94beac57cd2c1",
+      "seq": 5,
+      "trial_id": "trial-c8a3790be474a904",
+      "value": 1
+    }
+  ],
+  "releases": [
+    {
+      "operation_id": "op:pair-3ec94beac57cd2c1:actor-a",
+      "released_by": "phase-c-runner",
+      "released_monotonic_ns": 964168959213,
+      "released_utc": "2026-11-01T13:07:21.667817Z",
+      "stage": "submit_started",
+      "trial_id": "trial-c8a3790be474a904"
+    },
+    {
+      "operation_id": "op:pair-3ec94beac57cd2c1:actor-a",
+      "released_by": "phase-c-runner",
+      "released_monotonic_ns": 964171164505,
+      "released_utc": "2026-11-01T13:07:21.670015Z",
+      "stage": "submit_finished",
+      "trial_id": "trial-c8a3790be474a904"
+    },
+    {
+      "operation_id": "op:pair-3ec94beac57cd2c1:actor-b",
+      "released_by": "phase-c-runner",
+      "released_monotonic_ns": 964173075068,
+      "released_utc": "2026-11-01T13:07:21.671924Z",
+      "stage": "submit_started",
+      "trial_id": "trial-c8a3790be474a904"
+    },
+    {
+      "operation_id": "op:pair-3ec94beac57cd2c1:actor-b",
+      "released_by": "phase-c-runner",
+      "released_monotonic_ns": 964175023158,
+      "released_utc": "2026-11-01T13:07:21.673872Z",
+      "stage": "submit_finished",
+      "trial_id": "trial-c8a3790be474a904"
+    },
+    {
+      "operation_id": "op:pair-3ec94beac57cd2c1:actor-a",
+      "released_by": "phase-c-runner",
+      "released_monotonic_ns": 964176992492,
+      "released_utc": "2026-11-01T13:07:21.675841Z",
+      "stage": "pre_submit",
+      "trial_id": "trial-c8a3790be474a904"
+    },
+    {
+      "operation_id": "op:pair-3ec94beac57cd2c1:actor-b",
+      "released_by": "phase-c-runner",
+      "released_monotonic_ns": 964179279568,
+      "released_utc": "2026-11-01T13:07:21.678128Z",
+      "stage": "pre_submit",
+      "trial_id": "trial-c8a3790be474a904"
+    },
+    {
+      "operation_id": "op:pair-3ec94beac57cd2c1:actor-b",
+      "released_by": "phase-c-runner",
+      "released_monotonic_ns": 964248847630,
+      "released_utc": "2026-11-01T13:07:21.747699Z",
+      "stage": "registered",
+      "trial_id": "trial-c8a3790be474a904"
+    },
+    {
+      "operation_id": "op:pair-3ec94beac57cd2c1:actor-b",
+      "released_by": "phase-c-runner",
+      "released_monotonic_ns": 964300239555,
+      "released_utc": "2026-11-01T13:07:21.799090Z",
+      "stage": "reserved_before_send",
+      "trial_id": "trial-c8a3790be474a904"
+    }
+  ],
+  "scenario": "concurrent_duplicate_intent",
+  "seed": 0,
+  "timing": {
+    "elapsed_ms": 1555.445,
+    "measurement": "runner monotonic_ns from first arm worker start through terminal/recovery result"
+  },
+  "trial_id": "trial-c8a3790be474a904"
+}

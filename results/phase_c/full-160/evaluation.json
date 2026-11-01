@@ -1,0 +1,42 @@
+{
+  "arms": {
+    "continuity": {
+      "blocked": 20,
+      "db_transactions": 27247,
+      "infra_cost_usd_total": null,
+      "manual_interventions": 0,
+      "median_elapsed_ms": 1641.7730000000001,
+      "model_cost_usd_total": 0.0,
+      "operator_seconds_total": 0.0,
+      "p95_elapsed_ms": 4489.537,
+      "provider_calls": 40,
+      "provider_commits": 40,
+      "recovery_actions": 100,
+      "satisfied": 30,
+      "trials": 80,
+      "unknown_or_unverified": 30
+    },
+    "postgres_dbos": {
+      "blocked": 20,
+      "db_transactions": 27125,
+      "infra_cost_usd_total": null,
+      "manual_interventions": 0,
+      "median_elapsed_ms": 1605.304,
+      "model_cost_usd_total": 0.0,
+      "operator_seconds_total": 0.0,
+      "p95_elapsed_ms": 4460.184,
+      "provider_calls": 40,
+      "provider_commits": 40,
+      "recovery_actions": 100,
+      "satisfied": 30,
+      "trials": 80,
+      "unknown_or_unverified": 30
+    }
+  },
+  "cost_claim_possible": false,
+  "paired_trials_per_arm": 80,
+  "recovery_status_mismatches": [],
+  "safety_violations": [],
+  "schema_version": 1,
+  "verdict": "EVIDENCE_INCOMPLETE"
+}

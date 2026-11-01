@@ -1,0 +1,6093 @@
+{
+  "arms": {
+    "continuity": {
+      "database_tables": "Continuity runtime tables plus phasec_authoritative_versions",
+      "implementation": "ContinuityRuntime + isolated PostgreSQL + real DBOS workflow history"
+    },
+    "postgres_dbos": {
+      "application_tables_prefix": "phasec_baseline_",
+      "continuity_imports": false,
+      "implementation": "independent SQLAlchemy PostgreSQL baseline + real DBOS workflow history"
+    }
+  },
+  "barrier_proofs": [
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 0,
+      "trial_id": "trial-680e2e7526627fbc"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 0,
+      "trial_id": "trial-e6025678fa9be25c"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 1,
+      "trial_id": "trial-f2fb340645035b74"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 1,
+      "trial_id": "trial-1d213b9fa58183fd"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 2,
+      "trial_id": "trial-24019bfb59f6d0c1"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 2,
+      "trial_id": "trial-7b9a895bd92ec637"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 3,
+      "trial_id": "trial-6d84878d5c5605fb"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 3,
+      "trial_id": "trial-93695ef7c7c25457"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 4,
+      "trial_id": "trial-153681e4a5507083"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 4,
+      "trial_id": "trial-0bc5b61cd60b0952"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 5,
+      "trial_id": "trial-5613de6002db78d8"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 5,
+      "trial_id": "trial-4659596961284a4f"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 6,
+      "trial_id": "trial-c2c564e69021d8b2"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 6,
+      "trial_id": "trial-16ad9fbdf6cfe6c2"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 7,
+      "trial_id": "trial-13b7815359813914"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 7,
+      "trial_id": "trial-138d69fa67512a3c"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 8,
+      "trial_id": "trial-ff08cb1688d7f843"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 8,
+      "trial_id": "trial-71b163fb0fa2bf11"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 9,
+      "trial_id": "trial-25cc560f56fc7c1f"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "clean",
+      "seed": 9,
+      "trial_id": "trial-9b448c19853385a7"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 0,
+      "trial_id": "trial-cb2ceb00a650a5ce"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 0,
+      "trial_id": "trial-f3367955bc2ccd54"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 1,
+      "trial_id": "trial-6f2fc3e3316f449d"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 1,
+      "trial_id": "trial-72eef878943fca8b"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 2,
+      "trial_id": "trial-3efd977a9bdfa934"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 2,
+      "trial_id": "trial-7f3648816dc3532e"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 3,
+      "trial_id": "trial-67a122882751511d"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 3,
+      "trial_id": "trial-3dc873f7457bda94"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 4,
+      "trial_id": "trial-3a8d4d7dfe80e245"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 4,
+      "trial_id": "trial-2e0b358fe9f5e2d9"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 5,
+      "trial_id": "trial-0b0f595d72bcbd58"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 5,
+      "trial_id": "trial-3da21d4becc0e563"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 6,
+      "trial_id": "trial-8a87f93cca369842"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 6,
+      "trial_id": "trial-549202a95d52913c"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 7,
+      "trial_id": "trial-7b25375eada91c70"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 7,
+      "trial_id": "trial-1a806158fd62d818"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 8,
+      "trial_id": "trial-8c9eec0c71b8b3eb"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 8,
+      "trial_id": "trial-ca989f6c54c87b44"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 9,
+      "trial_id": "trial-6b45f35f8da82602"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "ack_lost_after_commit",
+      "seed": 9,
+      "trial_id": "trial-fad0eda09c4ffd9a"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:27:16.059374Z",
+        "exit_code": -9,
+        "pid": 747,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 0,
+      "trial_id": "trial-dd538267388e5e20"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:27:21.671147Z",
+        "exit_code": -9,
+        "pid": 772,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 0,
+      "trial_id": "trial-f810100483b492a0"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:27:27.292372Z",
+        "exit_code": -9,
+        "pid": 797,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 1,
+      "trial_id": "trial-7068b7d0dfecb251"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:27:32.937458Z",
+        "exit_code": -9,
+        "pid": 822,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 1,
+      "trial_id": "trial-b557a88d6d69af21"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:27:38.564685Z",
+        "exit_code": -9,
+        "pid": 847,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 2,
+      "trial_id": "trial-8edd93a3d770c0fc"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:27:44.196366Z",
+        "exit_code": -9,
+        "pid": 872,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 2,
+      "trial_id": "trial-eb7d9ab0a53fe0c5"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:27:49.791412Z",
+        "exit_code": -9,
+        "pid": 897,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 3,
+      "trial_id": "trial-9fa81d9b99cae086"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:27:55.456077Z",
+        "exit_code": -9,
+        "pid": 922,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 3,
+      "trial_id": "trial-04b725ecb1886908"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:28:01.186843Z",
+        "exit_code": -9,
+        "pid": 947,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 4,
+      "trial_id": "trial-5d4be014290bc80b"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:28:07.06064Z",
+        "exit_code": -9,
+        "pid": 972,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 4,
+      "trial_id": "trial-9e999630473082e9"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:28:12.873995Z",
+        "exit_code": -9,
+        "pid": 997,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 5,
+      "trial_id": "trial-ff5a35c3c69b8c6d"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:28:18.650387Z",
+        "exit_code": -9,
+        "pid": 1022,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 5,
+      "trial_id": "trial-f7968eb8f27faa83"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:28:24.404572Z",
+        "exit_code": -9,
+        "pid": 1047,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 6,
+      "trial_id": "trial-971b096fd7e4606a"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:28:30.226743Z",
+        "exit_code": -9,
+        "pid": 1073,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 6,
+      "trial_id": "trial-622346892b986177"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:28:36.038114Z",
+        "exit_code": -9,
+        "pid": 1098,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 7,
+      "trial_id": "trial-f3b617dcf3df5b00"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:28:41.822284Z",
+        "exit_code": -9,
+        "pid": 1123,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 7,
+      "trial_id": "trial-b45a4e25f2f664ff"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:28:47.629544Z",
+        "exit_code": -9,
+        "pid": 1148,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 8,
+      "trial_id": "trial-0b001b0a50dde9bc"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:28:53.406218Z",
+        "exit_code": -9,
+        "pid": 1173,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 8,
+      "trial_id": "trial-ed10140594b137fd"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:28:59.219135Z",
+        "exit_code": -9,
+        "pid": 1198,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 9,
+      "trial_id": "trial-e9e0b44b5fe66ad5"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": {
+        "at_utc": "2026-11-01T13:29:04.996245Z",
+        "exit_code": -9,
+        "pid": 1223,
+        "point": "after_committed_may_have_been_sent_before_provider_POST"
+      },
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 9,
+      "trial_id": "trial-c0cddfbf1532c683"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 0,
+      "trial_id": "trial-48dabac6b024332f"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 0,
+      "trial_id": "trial-7dbd8b118cca3f6c"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 1,
+      "trial_id": "trial-502d55f1f662abf3"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 1,
+      "trial_id": "trial-1029fecc4694d3a5"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 2,
+      "trial_id": "trial-30f6db0fda5ab9d1"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 2,
+      "trial_id": "trial-179e8883b34b4378"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 3,
+      "trial_id": "trial-f4e5af7023a010ad"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 3,
+      "trial_id": "trial-7ad8567d7196f782"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 4,
+      "trial_id": "trial-9928eec73452af7a"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 4,
+      "trial_id": "trial-e0b8a2ec8115fc28"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 5,
+      "trial_id": "trial-7fef112cd8dee496"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 5,
+      "trial_id": "trial-ef9723bd0be0033d"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 6,
+      "trial_id": "trial-5013020d4819f48d"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 6,
+      "trial_id": "trial-4f9767ae82b4f28d"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 7,
+      "trial_id": "trial-6082de450eb66467"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 7,
+      "trial_id": "trial-782c220e0092dbc9"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 8,
+      "trial_id": "trial-df41c85b03735ee4"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 8,
+      "trial_id": "trial-5f02d9866e56d6fd"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 9,
+      "trial_id": "trial-283d3c4be6898f74"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "timeout_before_send",
+      "seed": 9,
+      "trial_id": "trial-077344aa93bae983"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 0,
+      "trial_id": "trial-7a6b5996e76bd673"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 0,
+      "trial_id": "trial-c8a3790be474a904"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 1,
+      "trial_id": "trial-5c42a0482171a06a"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 1,
+      "trial_id": "trial-2de4a4d7607c4555"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 2,
+      "trial_id": "trial-83ea85027e3f18e8"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 2,
+      "trial_id": "trial-ec7388f29d578a67"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 3,
+      "trial_id": "trial-f7a7409858769715"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 3,
+      "trial_id": "trial-6503d18bcaacb191"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 4,
+      "trial_id": "trial-b762ff84e964bf54"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 4,
+      "trial_id": "trial-70577cbe3fff9ceb"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 5,
+      "trial_id": "trial-38339f2bc584c392"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 5,
+      "trial_id": "trial-64007093e9d2eacd"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 6,
+      "trial_id": "trial-32334aa5a678503d"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 6,
+      "trial_id": "trial-990d62828ef4bb15"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 7,
+      "trial_id": "trial-8b0a5b2cf15311d5"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 7,
+      "trial_id": "trial-a4bc5663f2b4ad25"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 8,
+      "trial_id": "trial-47d79859bf2a0e13"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 8,
+      "trial_id": "trial-f33752a9a182a5f1"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 9,
+      "trial_id": "trial-2651157c46b97e6b"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 9,
+      "trial_id": "trial-304ff057c670876e"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:31:35.187386Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 0,
+      "trial_id": "trial-b586abd677641cb3"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:31:38.108462Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 0,
+      "trial_id": "trial-138a41c599394ce1"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:31:40.996556Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 1,
+      "trial_id": "trial-967c55eb711e2f7b"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:31:44.140038Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 1,
+      "trial_id": "trial-cc41d47f2ca1bfaf"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:31:47.337995Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 2,
+      "trial_id": "trial-c877e45b062b685f"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:31:50.434166Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 2,
+      "trial_id": "trial-2494cd5ff75d0a8e"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:31:53.479929Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 3,
+      "trial_id": "trial-6e2b089646abfbda"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:31:56.615918Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 3,
+      "trial_id": "trial-3effda4273fb16ba"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:31:59.700583Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 4,
+      "trial_id": "trial-9e5ea025225d52e5"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:32:02.846561Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 4,
+      "trial_id": "trial-9afcbead6792b4f6"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:32:06.019638Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 5,
+      "trial_id": "trial-2e39c7ba92a77e5a"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:32:09.006558Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 5,
+      "trial_id": "trial-703d71ee2daf7ac4"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:32:12.029522Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 6,
+      "trial_id": "trial-254be7bdb0a3b1fb"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:32:15.008643Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 6,
+      "trial_id": "trial-20a15ba50b67d4ae"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:32:17.925862Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 7,
+      "trial_id": "trial-867740f17d0a13b2"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:32:20.861431Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 7,
+      "trial_id": "trial-3775286dcdd166d0"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:32:23.809057Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 8,
+      "trial_id": "trial-2e36656571f79bfb"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:32:26.828908Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 8,
+      "trial_id": "trial-2bdd804dc10646a0"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:32:29.82539Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 9,
+      "trial_id": "trial-8a8f63e97e584603"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:32:32.826419Z",
+        "kind": "grant_revoked",
+        "result": {
+          "revision": 2,
+          "revoked": true
+        }
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "revoke_before_dispatch",
+      "seed": 9,
+      "trial_id": "trial-98a474a1ce567c54"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:32:35.795006Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 0,
+      "trial_id": "trial-b69c781f8c8c871d"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:32:38.806554Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 0,
+      "trial_id": "trial-2c2a1b64d2959e60"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:32:41.797471Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 1,
+      "trial_id": "trial-e2e3e25c4d4dbde5"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:32:44.794759Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 1,
+      "trial_id": "trial-51b1b8d3743e01ab"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:32:47.858304Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 2,
+      "trial_id": "trial-9ffe9862ffa445e9"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:32:50.885499Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 2,
+      "trial_id": "trial-a4dcc48ac388778f"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:32:53.975232Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 3,
+      "trial_id": "trial-9794fb6a5200d242"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:32:57.071393Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 3,
+      "trial_id": "trial-c60db68c8afae836"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:33:00.094329Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 4,
+      "trial_id": "trial-870a12bfb97768e8"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:33:03.185422Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 4,
+      "trial_id": "trial-2dc27bdc791ceebb"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:33:06.28392Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 5,
+      "trial_id": "trial-3df8c5aa910f684b"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:33:09.38376Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 5,
+      "trial_id": "trial-8968ffb3c4a684d1"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:33:12.42576Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 6,
+      "trial_id": "trial-68fc71b718b73845"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:33:15.51807Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 6,
+      "trial_id": "trial-eba854654aa1a84a"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:33:18.574978Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 7,
+      "trial_id": "trial-ca9cfe95c4629759"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:33:21.692356Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 7,
+      "trial_id": "trial-325148ee94833c25"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:33:24.763953Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 8,
+      "trial_id": "trial-c75995758ecc6601"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:33:27.811863Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 8,
+      "trial_id": "trial-04b355e15558dfc0"
+    },
+    {
+      "arm": "continuity",
+      "control_event": {
+        "at_utc": "2026-11-01T13:33:30.969631Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 9,
+      "trial_id": "trial-5bd747e3fcd00ae2"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": {
+        "at_utc": "2026-11-01T13:33:34.100855Z",
+        "from": "v1",
+        "kind": "authoritative_version_changed",
+        "to": "v2"
+      },
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": false,
+      "scenario": "stale_version_before_dispatch",
+      "seed": 9,
+      "trial_id": "trial-72b916a9a8deeb20"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 0,
+      "trial_id": "trial-cda703571996971a"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 0,
+      "trial_id": "trial-f5c8804ffe32cd6f"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 1,
+      "trial_id": "trial-67a55cfe3537d69d"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 1,
+      "trial_id": "trial-ac57d6acabefce04"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 2,
+      "trial_id": "trial-c94557617bffbede"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 2,
+      "trial_id": "trial-8cee6ca4dbb4adb0"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 3,
+      "trial_id": "trial-b1a47830d9c49678"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 3,
+      "trial_id": "trial-61e6c962826a4e69"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 4,
+      "trial_id": "trial-918a14f7b99801b0"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 4,
+      "trial_id": "trial-8665f845cd86ea97"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 5,
+      "trial_id": "trial-9c2f2dbf99212525"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 5,
+      "trial_id": "trial-5794646408a78ad3"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 6,
+      "trial_id": "trial-5326298c7b6115f4"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 6,
+      "trial_id": "trial-e21cdeaf37e547af"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 7,
+      "trial_id": "trial-f160e73574b7a5c5"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 7,
+      "trial_id": "trial-eb04a976991ce575"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 8,
+      "trial_id": "trial-102776406bca4461"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 8,
+      "trial_id": "trial-b4f7025ad4916f3a"
+    },
+    {
+      "arm": "continuity",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 9,
+      "trial_id": "trial-aa060d32df62638d"
+    },
+    {
+      "arm": "postgres_dbos",
+      "control_event": null,
+      "crash_injection": null,
+      "registered": true,
+      "reserved_before_send": true,
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 9,
+      "trial_id": "trial-c991733e5fcd25ca"
+    }
+  ],
+  "cleanup": {
+    "barrier_files_removed": true,
+    "trial_databases_dropped": 160,
+    "host_compose_cleanup": "success",
+    "compose_cleanup_exit_code": 0,
+    "host_resources_remaining": {
+      "volumes": 0,
+      "networks": 0,
+      "containers": 0
+    }
+  },
+  "code_sha": "04f21de2312a9042a81452b16e74ace2edfe8c36",
+  "code_sha_continuity_arm": "04f21de2312a9042a81452b16e74ace2edfe8c36",
+  "code_sha_postgres_dbos_arm": "04f21de2312a9042a81452b16e74ace2edfe8c36",
+  "completed_trials": 160,
+  "concurrency_probe": {
+    "applied_equally_to_both_arms": true,
+    "purpose": "prove both actor submit-call windows overlap before unique-key winner selection",
+    "shared_submit_gate": true,
+    "symmetric_post_gate_hold_ms": 100
+  },
+  "container_images": {
+    "platform": "linux/amd64",
+    "postgres_repo_digest": "sha256:b8faeff7712663c2773a190181e1246e37e364b887611c04658c28b44e2408fe",
+    "python_base_image": "python:3.12-slim@sha256:aa943ce411423c7582288f18707ff66eddcbaeb510502d747a72aeb34f30d159",
+    "runner_image_id": "sha256:37233ab0a431a5c4048d0e948ecadfad7f8ee82614bff77eaec1b00e245b5699"
+  },
+  "database_schema_versions": {
+    "continuity_runtime_schema": 1,
+    "dbos_system_schema": "managed by pinned DBOS package; version recorded below",
+    "independent_postgres_dbos_schema": 1,
+    "phasec_authoritative_version_fixture": 1
+  },
+  "dbos_version": "2.31.1",
+  "development_only": false,
+  "evaluator": {
+    "cost_claim_possible": false,
+    "exit_code": 0,
+    "ran": true,
+    "recovery_status_mismatches": [],
+    "safety_violations": [],
+    "verdict": "EVIDENCE_INCOMPLETE"
+  },
+  "evaluator_sha256": "8fa4613f1589d48a9b6cb2b0b526d5b707110ea47573af94382b291ed50d77d1",
+  "expected_trials": 160,
+  "fault_injector": {
+    "implementation": "separate loopback fault-proxy process with independently hash-chained telemetry",
+    "ledger_schema_version": 1,
+    "schedule_source": "manifest scenario selected by controller; not mounted or keyed into arms"
+  },
+  "finished_at_utc": "2026-11-01T13:34:40.580638Z",
+  "host_class": "Docker Desktop Linux container on Windows x64; no host paths recorded",
+  "isolation": {
+    "arm_uid": 10003,
+    "child_environment_contains_github_credentials": false,
+    "child_uids": {
+      "arm": 10003,
+      "fault_proxy": 10002,
+      "provider": 10001
+    },
+    "cleanup_exit_codes": {
+      "provider": 0,
+      "proxy": 0
+    },
+    "compose_internal_network_required": true,
+    "direct_provider_get_status": 401,
+    "direct_provider_post_status": 401,
+    "network_policy": "isolated_internal_no_egress",
+    "no_gh_token_environment": true,
+    "no_provider_environment_secrets_in_arm": true,
+    "no_published_ports": true,
+    "probe_artifacts_removed": true,
+    "provider_commits_from_probe": 0,
+    "provider_ledger_read_denied": true,
+    "provider_oracle_hash": "mock-provider-ledger:sha256:7bbf9c97eb7c34e3bcf48bb7747064d26995b6327e8d183ec9a35c0d7247d2d5",
+    "provider_process_environment_read_denied": true,
+    "provider_ready_port_internal_only": 44123,
+    "provider_uid": 10001,
+    "proxy_ledger_read_denied": true,
+    "proxy_process_environment_read_denied": true,
+    "proxy_ready_port_loopback": 43863,
+    "proxy_uid": 10002
+  },
+  "isolation_preflight": {
+    "arm_uid": 10003,
+    "child_environment_contains_github_credentials": false,
+    "cleanup_exit_codes": {
+      "provider": 0,
+      "proxy": 0
+    },
+    "direct_provider_get_status": 401,
+    "direct_provider_post_status": 401,
+    "probe_artifacts_removed": true,
+    "provider_commits_from_probe": 0,
+    "provider_ledger_read_denied": true,
+    "provider_oracle_hash": "mock-provider-ledger:sha256:7bbf9c97eb7c34e3bcf48bb7747064d26995b6327e8d183ec9a35c0d7247d2d5",
+    "provider_process_environment_read_denied": true,
+    "provider_ready_port_internal_only": 44123,
+    "provider_uid": 10001,
+    "proxy_ledger_read_denied": true,
+    "proxy_process_environment_read_denied": true,
+    "proxy_ready_port_loopback": 43863,
+    "proxy_uid": 10002
+  },
+  "machine": "x86_64",
+  "manifest_scenario_order": [
+    "clean",
+    "ack_lost_after_commit",
+    "crash_after_reservation_before_send",
+    "timeout_before_send",
+    "concurrent_duplicate_intent",
+    "revoke_before_dispatch",
+    "stale_version_before_dispatch",
+    "readback_unavailable_after_commit"
+  ],
+  "manifest_sha256": "c5b71b025ca4ced53e8b76c9aa137f75829f2cdc7ee959539ad66d7cae1ca448",
+  "measurement_sources": {
+    "cost_note": "local Docker Desktop electricity/host cost is not monetized; null is intentional and forces evaluator EVIDENCE_INCOMPLETE/inconclusive cost claims",
+    "db_transactions": "pg_stat_database xact_commit + xact_rollback delta in fresh per-trial PostgreSQL DB; includes runner barrier reads/control action; same harness operations per pair",
+    "elapsed_ms": "runner time.perf_counter_ns from first worker start through terminal/recovery result",
+    "infra_cost_usd": null,
+    "manual_interventions": "0: trial controller is scripted; no human control inputs during each timed arm trial",
+    "model_cost_usd": "0.0: neither arm nor trial harness makes model/API calls",
+    "operator_seconds": "0.0 per trial: no human intervention event; implementation/setup effort is separate and not measured",
+    "provider_calls": "fault-proxy count of upstream-forwarded POSTs; must equal separate provider ledger count",
+    "recovery_actions": "arm DBOS step counter (reconcile+verify) plus one for crash recovery worker invocation"
+  },
+  "mode": "full",
+  "os_container": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+  "output_artifact_paths_relative": {
+    "evaluation": "evaluation.json",
+    "fault_proxy_logs": "fault_proxy_logs/",
+    "provider_ledgers": "provider_ledgers/",
+    "provider_oracle": "provider_oracle.jsonl",
+    "trial_evidence": "trial_evidence.jsonl",
+    "trials": "trials.jsonl"
+  },
+  "paired_workload": {
+    "action": "increment",
+    "actors": [
+      "phasec-actor-a",
+      "phasec-actor-b"
+    ],
+    "effect_key": "logical-effect:<opaque pair ID>",
+    "expected_source_version": "v1",
+    "grant_scope": "exact resource + increment action + both actors + required source version",
+    "pair_id_is_same_across_arms": true,
+    "payload": {
+      "delta": 1
+    },
+    "principal": "phasec-principal",
+    "provider": "phasec-mock",
+    "resource_ref": "counter:<opaque pair ID>",
+    "trial_id_is_trace_metadata_only": true
+  },
+  "pip_version": "25.0.1",
+  "postgres_version": "PostgreSQL 17.11 (Debian 17.11-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+  "preflight_tests": {
+    "command": "pytest -q evaluator/provider/baseline implementation tests",
+    "database_scope": "separate disposable postgres maintenance DB; not any per-trial DBOS database",
+    "exit_code": 0,
+    "output": "................                                                         [100%]\n16 passed in 0.61s\n",
+    "trials_counted": false
+  },
+  "process_exit_codes": [
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-680e2e7526627fbc"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-680e2e7526627fbc"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-680e2e7526627fbc"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-680e2e7526627fbc"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-e6025678fa9be25c"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-e6025678fa9be25c"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-e6025678fa9be25c"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-e6025678fa9be25c"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-f2fb340645035b74"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-f2fb340645035b74"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-f2fb340645035b74"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-f2fb340645035b74"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-1d213b9fa58183fd"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-1d213b9fa58183fd"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-1d213b9fa58183fd"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-1d213b9fa58183fd"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-24019bfb59f6d0c1"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-24019bfb59f6d0c1"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-24019bfb59f6d0c1"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-24019bfb59f6d0c1"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-7b9a895bd92ec637"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-7b9a895bd92ec637"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-7b9a895bd92ec637"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-7b9a895bd92ec637"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-6d84878d5c5605fb"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-6d84878d5c5605fb"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-6d84878d5c5605fb"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-6d84878d5c5605fb"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-93695ef7c7c25457"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-93695ef7c7c25457"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-93695ef7c7c25457"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-93695ef7c7c25457"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-153681e4a5507083"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-153681e4a5507083"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-153681e4a5507083"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-153681e4a5507083"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-0bc5b61cd60b0952"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-0bc5b61cd60b0952"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-0bc5b61cd60b0952"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-0bc5b61cd60b0952"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-5613de6002db78d8"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-5613de6002db78d8"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-5613de6002db78d8"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-5613de6002db78d8"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-4659596961284a4f"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-4659596961284a4f"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-4659596961284a4f"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-4659596961284a4f"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-c2c564e69021d8b2"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-c2c564e69021d8b2"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-c2c564e69021d8b2"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-c2c564e69021d8b2"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-16ad9fbdf6cfe6c2"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-16ad9fbdf6cfe6c2"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-16ad9fbdf6cfe6c2"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-16ad9fbdf6cfe6c2"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-13b7815359813914"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-13b7815359813914"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-13b7815359813914"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-13b7815359813914"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-138d69fa67512a3c"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-138d69fa67512a3c"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-138d69fa67512a3c"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-138d69fa67512a3c"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-ff08cb1688d7f843"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-ff08cb1688d7f843"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-ff08cb1688d7f843"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-ff08cb1688d7f843"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-71b163fb0fa2bf11"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-71b163fb0fa2bf11"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-71b163fb0fa2bf11"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-71b163fb0fa2bf11"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-25cc560f56fc7c1f"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-25cc560f56fc7c1f"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-25cc560f56fc7c1f"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-25cc560f56fc7c1f"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-9b448c19853385a7"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-9b448c19853385a7"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-9b448c19853385a7"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-9b448c19853385a7"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-cb2ceb00a650a5ce"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-cb2ceb00a650a5ce"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-cb2ceb00a650a5ce"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-cb2ceb00a650a5ce"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-f3367955bc2ccd54"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-f3367955bc2ccd54"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-f3367955bc2ccd54"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-f3367955bc2ccd54"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-6f2fc3e3316f449d"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-6f2fc3e3316f449d"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-6f2fc3e3316f449d"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-6f2fc3e3316f449d"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-72eef878943fca8b"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-72eef878943fca8b"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-72eef878943fca8b"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-72eef878943fca8b"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-3efd977a9bdfa934"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-3efd977a9bdfa934"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-3efd977a9bdfa934"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-3efd977a9bdfa934"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-7f3648816dc3532e"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-7f3648816dc3532e"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-7f3648816dc3532e"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-7f3648816dc3532e"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-67a122882751511d"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-67a122882751511d"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-67a122882751511d"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-67a122882751511d"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-3dc873f7457bda94"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-3dc873f7457bda94"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-3dc873f7457bda94"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-3dc873f7457bda94"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-3a8d4d7dfe80e245"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-3a8d4d7dfe80e245"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-3a8d4d7dfe80e245"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-3a8d4d7dfe80e245"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-2e0b358fe9f5e2d9"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-2e0b358fe9f5e2d9"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-2e0b358fe9f5e2d9"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-2e0b358fe9f5e2d9"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-0b0f595d72bcbd58"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-0b0f595d72bcbd58"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-0b0f595d72bcbd58"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-0b0f595d72bcbd58"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-3da21d4becc0e563"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-3da21d4becc0e563"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-3da21d4becc0e563"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-3da21d4becc0e563"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-8a87f93cca369842"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-8a87f93cca369842"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-8a87f93cca369842"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-8a87f93cca369842"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-549202a95d52913c"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-549202a95d52913c"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-549202a95d52913c"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-549202a95d52913c"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-7b25375eada91c70"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-7b25375eada91c70"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-7b25375eada91c70"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-7b25375eada91c70"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-1a806158fd62d818"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-1a806158fd62d818"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-1a806158fd62d818"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-1a806158fd62d818"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-8c9eec0c71b8b3eb"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-8c9eec0c71b8b3eb"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-8c9eec0c71b8b3eb"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-8c9eec0c71b8b3eb"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-ca989f6c54c87b44"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-ca989f6c54c87b44"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-ca989f6c54c87b44"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-ca989f6c54c87b44"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-6b45f35f8da82602"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-6b45f35f8da82602"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-6b45f35f8da82602"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-6b45f35f8da82602"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-fad0eda09c4ffd9a"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-fad0eda09c4ffd9a"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-fad0eda09c4ffd9a"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-fad0eda09c4ffd9a"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-dd538267388e5e20"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-dd538267388e5e20"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-dd538267388e5e20"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-dd538267388e5e20"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-f810100483b492a0"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-f810100483b492a0"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-f810100483b492a0"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-f810100483b492a0"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-7068b7d0dfecb251"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-7068b7d0dfecb251"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-7068b7d0dfecb251"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-7068b7d0dfecb251"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-b557a88d6d69af21"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-b557a88d6d69af21"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-b557a88d6d69af21"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-b557a88d6d69af21"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-8edd93a3d770c0fc"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-8edd93a3d770c0fc"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-8edd93a3d770c0fc"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-8edd93a3d770c0fc"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-eb7d9ab0a53fe0c5"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-eb7d9ab0a53fe0c5"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-eb7d9ab0a53fe0c5"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-eb7d9ab0a53fe0c5"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-9fa81d9b99cae086"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-9fa81d9b99cae086"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-9fa81d9b99cae086"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-9fa81d9b99cae086"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-04b725ecb1886908"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-04b725ecb1886908"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-04b725ecb1886908"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-04b725ecb1886908"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-5d4be014290bc80b"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-5d4be014290bc80b"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-5d4be014290bc80b"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-5d4be014290bc80b"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-9e999630473082e9"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-9e999630473082e9"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-9e999630473082e9"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-9e999630473082e9"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-ff5a35c3c69b8c6d"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-ff5a35c3c69b8c6d"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-ff5a35c3c69b8c6d"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-ff5a35c3c69b8c6d"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-f7968eb8f27faa83"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-f7968eb8f27faa83"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-f7968eb8f27faa83"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-f7968eb8f27faa83"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-971b096fd7e4606a"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-971b096fd7e4606a"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-971b096fd7e4606a"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-971b096fd7e4606a"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-622346892b986177"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-622346892b986177"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-622346892b986177"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-622346892b986177"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-f3b617dcf3df5b00"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-f3b617dcf3df5b00"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-f3b617dcf3df5b00"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-f3b617dcf3df5b00"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-b45a4e25f2f664ff"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-b45a4e25f2f664ff"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-b45a4e25f2f664ff"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-b45a4e25f2f664ff"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-0b001b0a50dde9bc"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-0b001b0a50dde9bc"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-0b001b0a50dde9bc"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-0b001b0a50dde9bc"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-ed10140594b137fd"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-ed10140594b137fd"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-ed10140594b137fd"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-ed10140594b137fd"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-e9e0b44b5fe66ad5"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-e9e0b44b5fe66ad5"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-e9e0b44b5fe66ad5"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-e9e0b44b5fe66ad5"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": -9,
+      "trial_id": "trial-c0cddfbf1532c683"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": 0,
+      "trial_id": "trial-c0cddfbf1532c683"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-c0cddfbf1532c683"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-c0cddfbf1532c683"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-48dabac6b024332f"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-48dabac6b024332f"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-48dabac6b024332f"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-48dabac6b024332f"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-7dbd8b118cca3f6c"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-7dbd8b118cca3f6c"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-7dbd8b118cca3f6c"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-7dbd8b118cca3f6c"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-502d55f1f662abf3"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-502d55f1f662abf3"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-502d55f1f662abf3"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-502d55f1f662abf3"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-1029fecc4694d3a5"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-1029fecc4694d3a5"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-1029fecc4694d3a5"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-1029fecc4694d3a5"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-30f6db0fda5ab9d1"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-30f6db0fda5ab9d1"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-30f6db0fda5ab9d1"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-30f6db0fda5ab9d1"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-179e8883b34b4378"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-179e8883b34b4378"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-179e8883b34b4378"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-179e8883b34b4378"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-f4e5af7023a010ad"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-f4e5af7023a010ad"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-f4e5af7023a010ad"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-f4e5af7023a010ad"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-7ad8567d7196f782"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-7ad8567d7196f782"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-7ad8567d7196f782"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-7ad8567d7196f782"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-9928eec73452af7a"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-9928eec73452af7a"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-9928eec73452af7a"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-9928eec73452af7a"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-e0b8a2ec8115fc28"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-e0b8a2ec8115fc28"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-e0b8a2ec8115fc28"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-e0b8a2ec8115fc28"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-7fef112cd8dee496"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-7fef112cd8dee496"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-7fef112cd8dee496"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-7fef112cd8dee496"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-ef9723bd0be0033d"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-ef9723bd0be0033d"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-ef9723bd0be0033d"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-ef9723bd0be0033d"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-5013020d4819f48d"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-5013020d4819f48d"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-5013020d4819f48d"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-5013020d4819f48d"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-4f9767ae82b4f28d"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-4f9767ae82b4f28d"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-4f9767ae82b4f28d"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-4f9767ae82b4f28d"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-6082de450eb66467"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-6082de450eb66467"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-6082de450eb66467"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-6082de450eb66467"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-782c220e0092dbc9"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-782c220e0092dbc9"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-782c220e0092dbc9"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-782c220e0092dbc9"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-df41c85b03735ee4"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-df41c85b03735ee4"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-df41c85b03735ee4"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-df41c85b03735ee4"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-5f02d9866e56d6fd"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-5f02d9866e56d6fd"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-5f02d9866e56d6fd"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-5f02d9866e56d6fd"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-283d3c4be6898f74"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-283d3c4be6898f74"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-283d3c4be6898f74"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-283d3c4be6898f74"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-077344aa93bae983"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-077344aa93bae983"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-077344aa93bae983"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-077344aa93bae983"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-7a6b5996e76bd673"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-7a6b5996e76bd673"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-7a6b5996e76bd673"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-7a6b5996e76bd673"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-c8a3790be474a904"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-c8a3790be474a904"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-c8a3790be474a904"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-c8a3790be474a904"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-5c42a0482171a06a"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-5c42a0482171a06a"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-5c42a0482171a06a"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-5c42a0482171a06a"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-2de4a4d7607c4555"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-2de4a4d7607c4555"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-2de4a4d7607c4555"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-2de4a4d7607c4555"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-83ea85027e3f18e8"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-83ea85027e3f18e8"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-83ea85027e3f18e8"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-83ea85027e3f18e8"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-ec7388f29d578a67"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-ec7388f29d578a67"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-ec7388f29d578a67"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-ec7388f29d578a67"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-f7a7409858769715"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-f7a7409858769715"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-f7a7409858769715"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-f7a7409858769715"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-6503d18bcaacb191"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-6503d18bcaacb191"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-6503d18bcaacb191"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-6503d18bcaacb191"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-b762ff84e964bf54"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-b762ff84e964bf54"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-b762ff84e964bf54"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-b762ff84e964bf54"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-70577cbe3fff9ceb"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-70577cbe3fff9ceb"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-70577cbe3fff9ceb"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-70577cbe3fff9ceb"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-38339f2bc584c392"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-38339f2bc584c392"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-38339f2bc584c392"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-38339f2bc584c392"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-64007093e9d2eacd"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-64007093e9d2eacd"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-64007093e9d2eacd"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-64007093e9d2eacd"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-32334aa5a678503d"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-32334aa5a678503d"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-32334aa5a678503d"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-32334aa5a678503d"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-990d62828ef4bb15"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-990d62828ef4bb15"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-990d62828ef4bb15"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-990d62828ef4bb15"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-8b0a5b2cf15311d5"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-8b0a5b2cf15311d5"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-8b0a5b2cf15311d5"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-8b0a5b2cf15311d5"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-a4bc5663f2b4ad25"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-a4bc5663f2b4ad25"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-a4bc5663f2b4ad25"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-a4bc5663f2b4ad25"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-47d79859bf2a0e13"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-47d79859bf2a0e13"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-47d79859bf2a0e13"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-47d79859bf2a0e13"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-f33752a9a182a5f1"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-f33752a9a182a5f1"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-f33752a9a182a5f1"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-f33752a9a182a5f1"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-2651157c46b97e6b"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-2651157c46b97e6b"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-2651157c46b97e6b"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-2651157c46b97e6b"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-304ff057c670876e"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-304ff057c670876e"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-304ff057c670876e"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-304ff057c670876e"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-b586abd677641cb3"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-b586abd677641cb3"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-b586abd677641cb3"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-b586abd677641cb3"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-138a41c599394ce1"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-138a41c599394ce1"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-138a41c599394ce1"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-138a41c599394ce1"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-967c55eb711e2f7b"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-967c55eb711e2f7b"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-967c55eb711e2f7b"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-967c55eb711e2f7b"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-cc41d47f2ca1bfaf"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-cc41d47f2ca1bfaf"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-cc41d47f2ca1bfaf"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-cc41d47f2ca1bfaf"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-c877e45b062b685f"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-c877e45b062b685f"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-c877e45b062b685f"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-c877e45b062b685f"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-2494cd5ff75d0a8e"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-2494cd5ff75d0a8e"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-2494cd5ff75d0a8e"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-2494cd5ff75d0a8e"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-6e2b089646abfbda"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-6e2b089646abfbda"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-6e2b089646abfbda"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-6e2b089646abfbda"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-3effda4273fb16ba"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-3effda4273fb16ba"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-3effda4273fb16ba"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-3effda4273fb16ba"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-9e5ea025225d52e5"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-9e5ea025225d52e5"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-9e5ea025225d52e5"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-9e5ea025225d52e5"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-9afcbead6792b4f6"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-9afcbead6792b4f6"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-9afcbead6792b4f6"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-9afcbead6792b4f6"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-2e39c7ba92a77e5a"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-2e39c7ba92a77e5a"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-2e39c7ba92a77e5a"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-2e39c7ba92a77e5a"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-703d71ee2daf7ac4"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-703d71ee2daf7ac4"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-703d71ee2daf7ac4"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-703d71ee2daf7ac4"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-254be7bdb0a3b1fb"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-254be7bdb0a3b1fb"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-254be7bdb0a3b1fb"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-254be7bdb0a3b1fb"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-20a15ba50b67d4ae"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-20a15ba50b67d4ae"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-20a15ba50b67d4ae"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-20a15ba50b67d4ae"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-867740f17d0a13b2"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-867740f17d0a13b2"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-867740f17d0a13b2"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-867740f17d0a13b2"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-3775286dcdd166d0"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-3775286dcdd166d0"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-3775286dcdd166d0"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-3775286dcdd166d0"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-2e36656571f79bfb"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-2e36656571f79bfb"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-2e36656571f79bfb"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-2e36656571f79bfb"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-2bdd804dc10646a0"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-2bdd804dc10646a0"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-2bdd804dc10646a0"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-2bdd804dc10646a0"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-8a8f63e97e584603"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-8a8f63e97e584603"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-8a8f63e97e584603"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-8a8f63e97e584603"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-98a474a1ce567c54"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-98a474a1ce567c54"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-98a474a1ce567c54"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-98a474a1ce567c54"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-b69c781f8c8c871d"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-b69c781f8c8c871d"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-b69c781f8c8c871d"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-b69c781f8c8c871d"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-2c2a1b64d2959e60"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-2c2a1b64d2959e60"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-2c2a1b64d2959e60"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-2c2a1b64d2959e60"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-e2e3e25c4d4dbde5"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-e2e3e25c4d4dbde5"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-e2e3e25c4d4dbde5"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-e2e3e25c4d4dbde5"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-51b1b8d3743e01ab"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-51b1b8d3743e01ab"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-51b1b8d3743e01ab"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-51b1b8d3743e01ab"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-9ffe9862ffa445e9"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-9ffe9862ffa445e9"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-9ffe9862ffa445e9"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-9ffe9862ffa445e9"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-a4dcc48ac388778f"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-a4dcc48ac388778f"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-a4dcc48ac388778f"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-a4dcc48ac388778f"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-9794fb6a5200d242"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-9794fb6a5200d242"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-9794fb6a5200d242"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-9794fb6a5200d242"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-c60db68c8afae836"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-c60db68c8afae836"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-c60db68c8afae836"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-c60db68c8afae836"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-870a12bfb97768e8"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-870a12bfb97768e8"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-870a12bfb97768e8"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-870a12bfb97768e8"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-2dc27bdc791ceebb"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-2dc27bdc791ceebb"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-2dc27bdc791ceebb"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-2dc27bdc791ceebb"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-3df8c5aa910f684b"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-3df8c5aa910f684b"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-3df8c5aa910f684b"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-3df8c5aa910f684b"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-8968ffb3c4a684d1"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-8968ffb3c4a684d1"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-8968ffb3c4a684d1"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-8968ffb3c4a684d1"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-68fc71b718b73845"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-68fc71b718b73845"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-68fc71b718b73845"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-68fc71b718b73845"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-eba854654aa1a84a"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-eba854654aa1a84a"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-eba854654aa1a84a"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-eba854654aa1a84a"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-ca9cfe95c4629759"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-ca9cfe95c4629759"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-ca9cfe95c4629759"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-ca9cfe95c4629759"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-325148ee94833c25"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-325148ee94833c25"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-325148ee94833c25"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-325148ee94833c25"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-c75995758ecc6601"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-c75995758ecc6601"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-c75995758ecc6601"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-c75995758ecc6601"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-04b355e15558dfc0"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-04b355e15558dfc0"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-04b355e15558dfc0"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-04b355e15558dfc0"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-5bd747e3fcd00ae2"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-5bd747e3fcd00ae2"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-5bd747e3fcd00ae2"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-5bd747e3fcd00ae2"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-72b916a9a8deeb20"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-72b916a9a8deeb20"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-72b916a9a8deeb20"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-72b916a9a8deeb20"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-cda703571996971a"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-cda703571996971a"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-cda703571996971a"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-cda703571996971a"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-f5c8804ffe32cd6f"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-f5c8804ffe32cd6f"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-f5c8804ffe32cd6f"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-f5c8804ffe32cd6f"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-67a55cfe3537d69d"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-67a55cfe3537d69d"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-67a55cfe3537d69d"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-67a55cfe3537d69d"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-ac57d6acabefce04"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-ac57d6acabefce04"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-ac57d6acabefce04"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-ac57d6acabefce04"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-c94557617bffbede"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-c94557617bffbede"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-c94557617bffbede"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-c94557617bffbede"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-8cee6ca4dbb4adb0"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-8cee6ca4dbb4adb0"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-8cee6ca4dbb4adb0"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-8cee6ca4dbb4adb0"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-b1a47830d9c49678"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-b1a47830d9c49678"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-b1a47830d9c49678"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-b1a47830d9c49678"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-61e6c962826a4e69"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-61e6c962826a4e69"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-61e6c962826a4e69"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-61e6c962826a4e69"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-918a14f7b99801b0"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-918a14f7b99801b0"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-918a14f7b99801b0"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-918a14f7b99801b0"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-8665f845cd86ea97"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-8665f845cd86ea97"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-8665f845cd86ea97"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-8665f845cd86ea97"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-9c2f2dbf99212525"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-9c2f2dbf99212525"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-9c2f2dbf99212525"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-9c2f2dbf99212525"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-5794646408a78ad3"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-5794646408a78ad3"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-5794646408a78ad3"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-5794646408a78ad3"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-5326298c7b6115f4"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-5326298c7b6115f4"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-5326298c7b6115f4"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-5326298c7b6115f4"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-e21cdeaf37e547af"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-e21cdeaf37e547af"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-e21cdeaf37e547af"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-e21cdeaf37e547af"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-f160e73574b7a5c5"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-f160e73574b7a5c5"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-f160e73574b7a5c5"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-f160e73574b7a5c5"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-eb04a976991ce575"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-eb04a976991ce575"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-eb04a976991ce575"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-eb04a976991ce575"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-102776406bca4461"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-102776406bca4461"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-102776406bca4461"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-102776406bca4461"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-b4f7025ad4916f3a"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-b4f7025ad4916f3a"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-b4f7025ad4916f3a"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-b4f7025ad4916f3a"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-aa060d32df62638d"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-aa060d32df62638d"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-aa060d32df62638d"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-aa060d32df62638d"
+    },
+    {
+      "component": "arm_first",
+      "exit_code": 0,
+      "trial_id": "trial-c991733e5fcd25ca"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-c991733e5fcd25ca"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": 0,
+      "trial_id": "trial-c991733e5fcd25ca"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": 0,
+      "trial_id": "trial-c991733e5fcd25ca"
+    }
+  ],
+  "protocol_sha256": "0afb7bc54c9062d8b15dde62ba9a35b09f289267db0011355566f069cd5d9ff8",
+  "provider": {
+    "controller_database_secret_passed_to_arm": false,
+    "deduplicates_posts": false,
+    "implementation": "separate loopback HTTP child process; append-only fsync/hash-chained JSONL ledger per arm trial",
+    "ledger_exporter": "provider_service.export_oracle in a separate provider-UID process",
+    "ledger_path_passed_to_arm": false,
+    "ledger_schema_version": 1,
+    "provider_calls_metric": "fault-proxy upstream-forwarded POST telemetry, independently cross-checked against provider_post_count",
+    "provider_key_passed_to_arm": false
+  },
+  "provider_oracle_schema_version": 1,
+  "psycopg_version": "3.3.6",
+  "python_version": "3.12.16 (main, Oct 28 2026, 02:01:20) [GCC 14.2.0]",
+  "requirements_lock_sha256": "3cb6e1da15c4584cee9f864cc5a9cfcd090c5dbcba09b79e361af8e93525e87f",
+  "resource_limits": {
+    "arm_worker_timeout_seconds": 180.0,
+    "postgres_cpus": 2,
+    "postgres_memory": "2 GiB",
+    "provider_client_timeout_seconds": 0.7,
+    "runner_cpus": 2,
+    "runner_memory": "4 GiB"
+  },
+  "run_id": "full-20261101T132522Z-218b56",
+  "run_order": [
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "clean",
+      "seed": 0
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "clean",
+      "seed": 1
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "clean",
+      "seed": 2
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "clean",
+      "seed": 3
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "clean",
+      "seed": 4
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "clean",
+      "seed": 5
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "clean",
+      "seed": 6
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "clean",
+      "seed": 7
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "clean",
+      "seed": 8
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "clean",
+      "seed": 9
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "ack_lost_after_commit",
+      "seed": 0
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "ack_lost_after_commit",
+      "seed": 1
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "ack_lost_after_commit",
+      "seed": 2
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "ack_lost_after_commit",
+      "seed": 3
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "ack_lost_after_commit",
+      "seed": 4
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "ack_lost_after_commit",
+      "seed": 5
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "ack_lost_after_commit",
+      "seed": 6
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "ack_lost_after_commit",
+      "seed": 7
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "ack_lost_after_commit",
+      "seed": 8
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "ack_lost_after_commit",
+      "seed": 9
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 0
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 1
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 2
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 3
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 4
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 5
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 6
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 7
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 8
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 9
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "timeout_before_send",
+      "seed": 0
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "timeout_before_send",
+      "seed": 1
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "timeout_before_send",
+      "seed": 2
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "timeout_before_send",
+      "seed": 3
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "timeout_before_send",
+      "seed": 4
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "timeout_before_send",
+      "seed": 5
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "timeout_before_send",
+      "seed": 6
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "timeout_before_send",
+      "seed": 7
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "timeout_before_send",
+      "seed": 8
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "timeout_before_send",
+      "seed": 9
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 0
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 1
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 2
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 3
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 4
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 5
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 6
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 7
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 8
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 9
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "revoke_before_dispatch",
+      "seed": 0
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "revoke_before_dispatch",
+      "seed": 1
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "revoke_before_dispatch",
+      "seed": 2
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "revoke_before_dispatch",
+      "seed": 3
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "revoke_before_dispatch",
+      "seed": 4
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "revoke_before_dispatch",
+      "seed": 5
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "revoke_before_dispatch",
+      "seed": 6
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "revoke_before_dispatch",
+      "seed": 7
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "revoke_before_dispatch",
+      "seed": 8
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "revoke_before_dispatch",
+      "seed": 9
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "stale_version_before_dispatch",
+      "seed": 0
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "stale_version_before_dispatch",
+      "seed": 1
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "stale_version_before_dispatch",
+      "seed": 2
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "stale_version_before_dispatch",
+      "seed": 3
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "stale_version_before_dispatch",
+      "seed": 4
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "stale_version_before_dispatch",
+      "seed": 5
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "stale_version_before_dispatch",
+      "seed": 6
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "stale_version_before_dispatch",
+      "seed": 7
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "stale_version_before_dispatch",
+      "seed": 8
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "stale_version_before_dispatch",
+      "seed": 9
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 0
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 1
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 2
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 3
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 4
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 5
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 6
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 7
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 8
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 9
+    }
+  ],
+  "schema_version": 1,
+  "seed_shuffle": {
+    "algorithm": "Python random.Random(seed).shuffle([continuity, postgres_dbos])",
+    "orders": {
+      "0": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "1": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "2": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "3": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "4": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "5": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "6": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "7": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "8": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "9": [
+        "continuity",
+        "postgres_dbos"
+      ]
+    }
+  },
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "source_file_sha256": {
+    "Dockerfile.phase-c": "239c03f6bd00aa4bf556cf3436d79d366e968c59435df83186eac84c2d114c7e",
+    "compose.phase-c.yaml": "f7a4832a23a6f1195b80fc57567ed42e31265600fd3d06acbd9aa55a44d3bc4e",
+    "experiments/phase_c/baseline_runtime.py": "0ca157b32f4eb9c2efa1347f522fb20e2a674c67b736c8e63cbbe9aa27cfb72a",
+    "experiments/phase_c/baseline_worker.py": "3a6a64530758eb225a2b14c0b1719af1bb8315c9c45d9a21e505449c075db3f4",
+    "experiments/phase_c/continuity_worker.py": "f0e634fee9c8a1001cd18279c0312e58d62459c59a8de6d3bcdfb52cbb12eef9",
+    "experiments/phase_c/fault_proxy.py": "52febfc8b66885f0ababf75b43340182dab31c9f97d6b2e3c5e39fe26afcd9ae",
+    "experiments/phase_c/provider_service.py": "d6d4b108177e2f28bb733d31a79d067afe06dd660a02bea77681e9502760ec78",
+    "experiments/phase_c/runner.py": "27bd378c108d5ae4bf64ee031ff4fd47fb528a2f7b5e918389b9e6a91df9e303",
+    "experiments/phase_c/shared.py": "208e4321a9b2783f5500650df2acbfa13575ea065c3b9433f9e5a142c6f549f5",
+    "scripts/run_phase_c.py": "3ef071fbd6475dfe7f69aa30457e4ba0f81bf894369f36a0e1e5bf7a1d1390ac",
+    "scripts/run_phase_c_docker.ps1": "461094a1e1115589936d1c6e4839fa92c5fa23336481f5836173d11c906904ac"
+  },
+  "sqlalchemy_version": "2.1.6",
+  "started_at_utc": "2026-11-01T13:25:22.152008Z",
+  "status": "complete",
+  "trials_schema_version": 1,
+  "worktree_clean_at_launch": true,
+  "host_wrapper": {
+    "runner_exit_code": 0,
+    "run_metadata_written": true,
+    "host_architecture": "AMD64",
+    "finished_at_utc": "2026-11-01T13:34:43.4717386Z",
+    "compose_project": "phasec-full-20261101t132427z",
+    "host_os_version": "10.0.26300",
+    "results_directory_preserved": true,
+    "runner_image_build_exit_code": 0,
+    "compose_cleanup_exit_code": 0,
+    "mode": "full",
+    "code_sha": "04f21de2312a9042a81452b16e74ace2edfe8c36",
+    "github_or_provider_credentials_passed": false,
+    "python_base_image": "python:3.12-slim@sha256:aa943ce411423c7582288f18707ff66eddcbaeb510502d747a72aeb34f30d159",
+    "started_at_utc": "20261101T132427Z",
+    "resources_remaining_after_cleanup": {
+      "volumes": 0,
+      "networks": 0,
+      "containers": 0
+    },
+    "postgres_start_exit_code": 0,
+    "postgres_repo_digest": "sha256:b8faeff7712663c2773a190181e1246e37e364b887611c04658c28b44e2408fe",
+    "wrapper_error_type": null,
+    "worktree_clean": true,
+    "docker_compose_version": "5.6.0",
+    "docker_engine_version": "29.9.2",
+    "schema_version": 1,
+    "host_os_caption": "Microsoft Windows 11 专业版",
+    "runner_image_id": "sha256:37233ab0a431a5c4048d0e948ecadfad7f8ee82614bff77eaec1b00e245b5699"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "aborted_exception": {
+    "message": "(psycopg.OperationalError) connection failed: connection to server at \"172.18.0.2\", port 5432 failed: FATAL:  password authentication failed for user \"pcu_3ee81cf2979f\"\n(Background on this error at: https://sqlalche.me/e/21/e3q8)",
+    "type": "OperationalError"
+  },
+  "arm": "continuity",
+  "barriers": {},
+  "cleanup": {
+    "database_dropped": true,
+    "process_exit_codes": {
+      "arm_first": null,
+      "arm_recovery": null,
+      "fault_proxy": null,
+      "mock_provider": null
+    },
+    "trial_db_drop": "success"
+  },
+  "control_event": null,
+  "database_name": "pc_3ee81cf2979f",
+  "database_role_scope": "one fresh owner role for this single-trial database; credentials omitted",
+  "fault_proxy_ledger": {
+    "bytes": 0,
+    "relpath": "fault_proxy_logs/trial-680e2e7526627fbc.jsonl",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "fault_proxy_relpath": "fault_proxy_logs/trial-680e2e7526627fbc.jsonl",
+  "operation_ids": [
+    "op:pair-2a457d9561f9fc50:actor-a"
+  ],
+  "paired_input_id": "pair-2a457d9561f9fc50",
+  "process_exit_codes": {
+    "arm_first": null,
+    "arm_recovery": null,
+    "fault_proxy": null,
+    "mock_provider": null
+  },
+  "provider_ledger": {
+    "bytes": 0,
+    "relpath": "provider_ledgers/trial-680e2e7526627fbc.jsonl",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "provider_ledger_relpath": "provider_ledgers/trial-680e2e7526627fbc.jsonl",
+  "releases": [],
+  "scenario": "clean",
+  "seed": 0,
+  "trial_id": "trial-680e2e7526627fbc"
+}

@@ -3,7 +3,7 @@
 ## Core invariants
 
 1. Cross-boundary continuity is **selective**, not a global world database. Link IDs, owners, purposes, basis references, revisions and dependencies describe only necessary relationships.
-2. Domain payload ownership stays outside the runtime. An actor observation records provenance, not an authoritative statement about arbitrary remote reality. For important decisions, a trusted connector must re-read authoritative data.
+2. Domain payload ownership stays outside the runtime. An actor observation records provenance, not an authoritative statement about arbitrary remote reality. For effect dispatch, every declared `expected_versions` reference requires an independently configured trusted `VersionAuthority` callable; if absent or mismatched, dispatch is held. This check is separate from the actor's local report, and external conditional writes are still necessary for atomic remote version guarantees.
 3. The stable immutable `operation_id` is bound to principal, provider, target, action, canonical payload, authority reference and declared version preconditions. All participants need explicit grant membership.
 4. Only a trusted executor calls an effecting provider. The database transaction marks the operation **may_have_been_sent before any I/O**. Even a crash between reservation and the call is treated conservatively.
 5. `unknown` means effect may or may not have happened. No automatic replay. Only trusted readback can establish effect presence or sufficiently strong historical absence.

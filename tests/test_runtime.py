@@ -112,6 +112,7 @@ def test_source_version_changes_block_dispatch(setup):
     runtime, adapter = setup
     runtime.observe(actor="agent-a", ref="policy", source_revision="v1",
                     evidence_ref="evidence:1")
+    runtime.version_authorities["policy"] = lambda: "v1"
     submit(runtime, intent(expected={"policy": "v1"}))
     runtime.observe(actor="agent-a", ref="policy", source_revision="v2",
                     evidence_ref="evidence:2", expected_revision=1)

@@ -11,7 +11,7 @@ from sqlalchemy import delete, select, update
 
 from .contracts import (
     AdmissionPolicy, BaselinePolicy, Conflict, Denied, DomainVerifier,
-    EffectAdapter, Held, Intent, Readback, UnknownOperation,
+    EffectAdapter, Held, Intent, Readback, UnknownOperation, VersionAuthority,
 )
 from .db import RuntimeDB, grants, link_dependencies, links, observations, operations, utcnow
 
@@ -48,11 +48,15 @@ class ContinuityRuntime:
         self, db: RuntimeDB, *, adapters: dict[str, EffectAdapter] | None = None,
         policy: AdmissionPolicy | None = None,
         verifiers: dict[str, DomainVerifier] | None = None,
+        version_authorities: dict[str, VersionAuthority] | None = None,
     ) -> None:
         self.db = db
         self.adapters = dict(adapters or {})
         self.policy = policy or BaselinePolicy()
         self.verifiers = dict(verifiers or {})
+        # Caller-controlled observations can never alone authorize reality-facing writes.
+        # An independent trusted source reader must cover every guarded version ref.
+        self.version_authorities = dict(version_authorities or {})
 
     def issue_grant(
         self, *, grant_id: str, principal: str, actors: list[str], provider: str,
@@ -121,6 +125,23 @@ class ContinuityRuntime:
             )).scalar_one_or_none()
             if current is None or current != revision:
                 raise Held("recorded source version changed or is unknown: " + ref)
+
+    def _assert_authoritative_versions(self, expected: Mapping[str, str]) -> None:
+        """Fail closed unless a trusted adapter confirms every guarded source version.
+
+        This external check is not an atomic lock on the remote resource. Where
+        needed, the provider must enforce a conditional write on its own side.
+        """
+        for ref, revision in expected.items():
+            authority = self.version_authorities.get(ref)
+            if authority is None:
+                raise Held("no trusted version authority registered: " + ref)
+            try:
+                current = authority()
+            except Exception as exc:
+                raise Held("source version authority unavailable: " + ref) from exc
+            if current is None or current != revision:
+                raise Held("authoritative version changed or is unknown: " + ref)
 
     def observe(
         self, *, actor: str, ref: str, source_revision: str, evidence_ref: str,
@@ -309,6 +330,7 @@ class ContinuityRuntime:
                 seen_versions[ref] = cx.execute(select(observations.c.revision).where(
                     observations.c.ref == ref,
                 )).scalar_one()
+        self._assert_authoritative_versions(row["expected_versions"])
         adapter = self.adapters.get(intent.provider)
         if adapter is None:
             raise Denied("no trusted executor registered for provider")
@@ -329,6 +351,8 @@ class ContinuityRuntime:
                 raise Held(decision.reason or "admission held")
             raise Denied(decision.reason or "admission denied")
 
+        # Recheck after an arbitrarily slow admission, *before* taking the row lock.
+        self._assert_authoritative_versions(row["expected_versions"])
         with self.db.engine.begin() as cx:
             current = cx.execute(select(operations).where(
                 operations.c.id == operation_id,

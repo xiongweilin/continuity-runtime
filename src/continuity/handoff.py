@@ -27,7 +27,8 @@ def main() -> None:
     db = RuntimeDB(url, create_schema=(phase == "start"))
     adapter = SampleExternalSystem(external)
     runtime = ContinuityRuntime(db, adapters={"sample": adapter},
-                                verifiers={"sample": SampleOutcomeVerifier()})
+                                verifiers={"sample": SampleOutcomeVerifier()},
+                                version_authorities={"policy:handoff": lambda: "1"})
     if phase == "start":
         runtime.issue_grant(
             grant_id="handoff-grant", principal="handoff-mission",

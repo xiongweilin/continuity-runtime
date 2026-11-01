@@ -56,6 +56,11 @@ class EffectAdapter(Protocol):
     def readback(self, intent: Intent) -> Readback: ...
 
 
+class VersionAuthority(Protocol):
+    """Trusted source-side version reader, configured by the host, not the Agent."""
+    def __call__(self) -> str | None: ...
+
+
 class AdmissionPolicy(Protocol):
     def evaluate(self, intent: Intent, observations: dict[str, str]) -> Admission: ...
 

@@ -31,7 +31,8 @@ def scenario(url: str = "sqlite:///:memory:") -> dict:
     db = RuntimeDB(url, create_schema=True)
     adapter = CounterAdapter()
     runtime = ContinuityRuntime(db, adapters={"counter": adapter},
-                                verifiers={"counter": CounterVerifier()})
+                                verifiers={"counter": CounterVerifier()},
+                                version_authorities={"policy:demo": lambda: "1"})
     runtime.issue_grant(grant_id="demo-grant", principal="demo-mission",
         actors=["agent-a", "agent-b"], provider="counter",
         resource_prefix="items", action="increment")

@@ -106,10 +106,13 @@ class ContinuityRuntime:
                 })
         return self.get_grant(grant_id)
 
-    def _assert_authority(self, cx, row: Mapping[str, Any], actor: str) -> None:
-        grant = cx.execute(select(grants).where(
-            grants.c.id == row["authority_id"],
-        )).mappings().first()
+    def _assert_authority(
+        self, cx, row: Mapping[str, Any], actor: str, *, lock: bool = False,
+    ) -> None:
+        stmt = select(grants).where(grants.c.id == row["authority_id"])
+        if lock:
+            stmt = stmt.with_for_update()
+        grant = cx.execute(stmt).mappings().first()
         if grant is None or grant["revoked"]:
             raise Denied("missing or revoked authority")
         if grant["expires_at"] is not None:
@@ -123,11 +126,14 @@ class ContinuityRuntime:
             or not _scope_allows(grant["resource_prefix"], row["resource_ref"])):
             raise Denied("authority scope mismatch")
 
-    def _assert_versions(self, cx, expected: Mapping[str, str]) -> None:
-        for ref, revision in expected.items():
-            current = cx.execute(select(observations.c.source_revision).where(
-                observations.c.ref == ref,
-            )).scalar_one_or_none()
+    def _assert_versions(
+        self, cx, expected: Mapping[str, str], *, lock: bool = False,
+    ) -> None:
+        for ref, revision in sorted(expected.items()):
+            stmt = select(observations.c.source_revision).where(observations.c.ref == ref)
+            if lock:
+                stmt = stmt.with_for_update(read=True)
+            current = cx.execute(stmt).scalar_one_or_none()
             if current is None or current != revision:
                 raise Held("recorded source version changed or is unknown: " + ref)
 
@@ -386,8 +392,10 @@ class ContinuityRuntime:
                 return dict(current)
             if current["fingerprint"] != row["fingerprint"]:
                 raise Conflict("operation was rebound during admission")
-            self._assert_authority(cx, current, actor)
-            self._assert_versions(cx, current["expected_versions"])
+            # Serialize with local revocation and local source revisions until
+            # dispatch reservation commits. External API writes are still not atomic.
+            self._assert_authority(cx, current, actor, lock=True)
+            self._assert_versions(cx, current["expected_versions"], lock=True)
             for ref, revision in seen_versions.items():
                 latest = cx.execute(select(observations.c.revision).where(
                     observations.c.ref == ref,
@@ -450,6 +458,11 @@ class ContinuityRuntime:
                 operations.c.id == operation_id,
             ).with_for_update()).mappings().one()
             if current["status"] not in ("may_have_been_sent", "unknown", "pending_verification"):
+                return dict(current)
+            if current["status"] == "may_have_been_sent" and readback.disposition != "present":
+                # The original dispatcher may still be executing. Even an
+                # authoritative absence at this instant cannot rule out a
+                # write about to complete. Do not overwrite its in-flight state.
                 return dict(current)
             if readback.disposition == "present":
                 next_status, effect = "effect_confirmed", "present"

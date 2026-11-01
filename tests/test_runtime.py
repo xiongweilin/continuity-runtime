@@ -279,3 +279,44 @@ def test_authoritative_remote_version_changed_during_admission(setup):
         runtime.dispatch("op1", actor="agent-b")
     assert adapter.calls == 0
     assert runtime.get_operation("op1", actor="agent-a")["status"] == "registered"
+
+
+
+def test_inflight_readback_does_not_erase_later_dispatch_ack(setup):
+    runtime, adapter = setup
+
+    class ReentrantProvider:
+        def execute(self, intent):
+            # A separate workflow re-reads the effect during provider execution.
+            first = runtime.reconcile(intent.operation_id, actor="agent-b")
+            assert first["status"] == "may_have_been_sent"
+            adapter.effects.add(intent.operation_id)
+            return Receipt(True, "provider:ack")
+
+        def readback(self, intent):
+            return Readback("unknown")
+
+    runtime.adapters["counter"] = ReentrantProvider()
+    submit(runtime)
+    op = runtime.dispatch("op1", actor="agent-a")
+    assert op["status"] == "pending_verification"
+    assert op["receipt_ref"] == "provider:ack"
+    assert op["dispatch_generation"] == 1
+
+
+def test_inflight_absence_cannot_cancel_running_dispatch(setup):
+    runtime, adapter = setup
+
+    class EarlyAbsentProvider:
+        def execute(self, intent):
+            state = runtime.reconcile(intent.operation_id, actor="agent-b")
+            assert state["status"] == "may_have_been_sent"
+            adapter.effects.add(intent.operation_id)
+            return Receipt(True, "provider:ack")
+
+        def readback(self, intent):
+            return Readback("absent", "provider:historical-check", reliable_no_effect=True)
+
+    runtime.adapters["counter"] = EarlyAbsentProvider()
+    submit(runtime)
+    assert runtime.dispatch("op1", actor="agent-a")["status"] == "pending_verification"

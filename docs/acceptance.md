@@ -24,6 +24,19 @@ Tests in this repository are not a production guarantee. CI runs isolated SQLite
 | Second unrelated real domain | Not yet established | Required before claiming generality |
 | Net human/model/resource cost reduction | Not measured | Controlled baseline comparison needed |
 
+## Local Phase A acceptance — reported 2026-11-01
+
+**Reporter:** local Codex run as supplied by the operator; this entry records the reported execution, not independent access to the workstation.
+
+- **Source baseline:** `e4c90db4a7d49156b4f40a5a4a4de2a611ade1ae`, with clean checkout matching `origin/main` at the time of the run. This baseline independently passed [GitHub CI](https://github.com/xiongweilin/continuity-runtime/actions/runs/41267817646) prior to local acceptance.
+- **Runtime:** Python 3.12.13; editable install `.[dev,dbos,github]` in local `.venv`.
+- **Tests:** full `pytest -q` reported **77 passed, 0 skipped, 0 failed**, including actual PostgreSQL 17 concurrency and DBOS history tests with `CONTINUITY_TEST_POSTGRES_URL` set. One Starlette/httpx deprecation warning remained.
+- **Isolated flows:** bounded canary demonstration and Docker Compose smoke reported passing; authenticated API, blocked missing executor, and persistent event behavior were observed in the test environment.
+- **Cleanup:** the locally created PostgreSQL container and volume, Compose containers/networks/volumes and test ports were reported removed. `.venv` and local image cache retained. A previously policy-blocked temporary Docker CLI configuration directory was intentionally left untouched.
+- **Limits:** no provider write credentials, real external system mutation, production data or Phase B tests. Local success does **not** establish external credential isolation or independent provider-side reconciliation.
+
+**Decision:** Phase A's local engineering checks are complete based on the operator's report. **Phase B remains blocked for real writes** until the owner chooses an explicit disposable repository, issue/label scope, credential permissions and an isolated trusted-executor boundary.
+
 ## Stop conditions before production
 
 No deployment may claim controlled, non-bypassable writes without evidence that provider credentials are inaccessible to the proposing Agents. No deployment may claim global exactly-once effect without external idempotency/fencing guarantees. No deployment may claim autonomous effectiveness without independently verified target outcomes and accounting of human effort, model costs and incidents.

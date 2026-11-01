@@ -181,14 +181,26 @@ class ContinuityRuntime:
             if old is not None and old["source_revision"] != source_revision:
                 # Indexed lookup: only links explicitly dependent on this ref.
                 affected = cx.execute(
-                    select(link_dependencies.c.link_id)
-                    .join(links, links.c.id == link_dependencies.c.link_id)
-                    .where(link_dependencies.c.dependency_ref == ref, links.c.active.is_(True))
-                ).scalars()
-                for link_id in affected:
+                    select(links.c.id, links.c.revision)
+                    .join(link_dependencies, links.c.id == link_dependencies.c.link_id)
+                    .where(
+                        link_dependencies.c.dependency_ref == ref,
+                        link_dependencies.c.required_version != source_revision,
+                        links.c.active.is_(True),
+                    )
+                ).all()
+                for link_id, link_revision in affected:
+                    updated = cx.execute(update(links).where(
+                        links.c.id == link_id,
+                        links.c.revision == link_revision,
+                        links.c.active.is_(True),
+                    ).values(active=False, revision=link_revision + 1))
+                    if updated.rowcount != 1:
+                        raise Conflict("concurrent link invalidation; retry observation")
                     self.db.emit(cx, "link:" + link_id, "dependency.invalidated", {
                         "source_ref": ref, "previous_revision": old["source_revision"],
                         "new_revision": source_revision,
+                        "revision": link_revision + 1,
                     })
         return self.get_observation(ref)
 

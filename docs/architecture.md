@@ -27,6 +27,6 @@ The external readback adapter must be trusted and correctly implement evidence a
 
 ## Durability
 
-PostgreSQL is the intended concurrency backend. SQLite is a unit-test/example backend and has different locking semantics. Local state commits include an outbox record with each boundary event. Indexed link-dependency rows support targeted invalidation events without scanning every relation. The API currently exposes a read-only admin event cursor; it is **not yet** a durable multi-consumer subscription manager. Event dispatch/brokers can be added when a real integration needs them.
+PostgreSQL is the intended concurrency backend. SQLite is a unit-test/example backend and has different locking semantics. Local state commits include an outbox record with each boundary event. Indexed link-dependency rows support targeted invalidation events without scanning every relation. Source revision changes also persistently deactivate affected links and increment their revision. A link owner must explicitly requalify them against the new source version. The API currently exposes a read-only admin event cursor; it is **not yet** a durable multi-consumer subscription manager. Event dispatch/brokers can be added when a real integration needs them.
 
 Schema migration uses Alembic with an initial versioned baseline. **Online/zero-downtime migration is not guaranteed**; destructive downgrade is local-experiment-only. Credential isolation, workload-specific verification and deployment SLOs remain prerequisites before production.

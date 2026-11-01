@@ -174,6 +174,7 @@ def test_admission_rechecks_evidence_after_slow_policy(setup):
     runtime, adapter = setup
     runtime.observe(actor="agent-a", ref="policy", source_revision="v1",
                     evidence_ref="source:v1")
+    runtime.version_authorities["policy"] = lambda: "v1"
     submit(runtime, intent(expected={"policy": "v1"}))
 
     class StalePolicy:
@@ -199,3 +200,36 @@ def test_hold_is_auditable_and_never_mints_authority(setup):
     with pytest.raises(Held):
         runtime.dispatch("op1", actor="agent-a")
     assert any(e["kind"] == "admission.hold" for e in runtime.events())
+
+
+def test_untrusted_observation_cannot_authorize_version_guarded_effect(setup):
+    runtime, adapter = setup
+    runtime.observe(actor="agent-a", ref="version:remote", source_revision="7",
+                    evidence_ref="agent:self-assertion")
+    submit(runtime, intent(expected={"version:remote": "7"}))
+    with pytest.raises(Held, match="no trusted version authority"):
+        runtime.dispatch("op1", actor="agent-b")
+    assert adapter.calls == 0
+
+
+def test_trusted_source_disagrees_with_actor_observation(setup):
+    runtime, adapter = setup
+    runtime.observe(actor="agent-a", ref="version:remote", source_revision="7",
+                    evidence_ref="agent:self-assertion")
+    runtime.version_authorities["version:remote"] = lambda: "8"
+    submit(runtime, intent(expected={"version:remote": "7"}))
+    with pytest.raises(Held, match="authoritative version changed"):
+        runtime.dispatch("op1", actor="agent-a")
+    assert adapter.calls == 0
+
+
+def test_trusted_source_becomes_unavailable(setup):
+    runtime, adapter = setup
+    runtime.observe(actor="agent-a", ref="version:remote", source_revision="7",
+                    evidence_ref="agent:self-assertion")
+    runtime.version_authorities["version:remote"] = lambda: (_ for _ in ()).throw(
+        ConnectionError("source offline"))
+    submit(runtime, intent(expected={"version:remote": "7"}))
+    with pytest.raises(Held, match="authority unavailable"):
+        runtime.dispatch("op1", actor="agent-b")
+    assert adapter.calls == 0

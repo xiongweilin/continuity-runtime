@@ -103,6 +103,12 @@ outbox = Table(
 )
 Index("ix_boundary_events_entity", events.c.entity_ref, events.c.seq)
 
+event_clock = Table(
+    "boundary_event_clock", metadata,
+    Column("id", Integer, primary_key=True),
+    Column("last_seq", Integer, nullable=False),
+)
+
 consumer_offsets = Table(
     "boundary_consumer_offsets", metadata,
     Column("id", String(160), primary_key=True),
@@ -118,15 +124,32 @@ class RuntimeDB:
         self.engine: Engine = create_engine(url, pool_pre_ping=True)
         if create_schema:
             metadata.create_all(self.engine)
+            with self.engine.begin() as cx:
+                exists = cx.execute(select(event_clock.c.id).where(
+                    event_clock.c.id == 1,
+                )).scalar_one_or_none()
+                if exists is None:
+                    latest = cx.execute(select(events.c.seq).order_by(
+                        events.c.seq.desc()).limit(1)).scalar_one_or_none() or 0
+                    cx.execute(event_clock.insert().values(id=1, last_seq=latest))
 
     def emit(self, cx: Connection, entity: str, kind: str, payload: dict) -> int:
-        result = cx.execute(events.insert().values(
-            entity_ref=entity, kind=kind, payload=payload, created_at=utcnow(),
+        # PostgreSQL sequences allocate IDs before commit and can commit out of
+        # order. A resumed cursor could otherwise skip a late-committing event.
+        # This row is locked for the entire producer transaction, so assigned
+        # IDs follow commit order (rollback does not consume an ID).
+        current = cx.execute(
+            select(event_clock.c.last_seq).where(
+                event_clock.c.id == 1,
+            ).with_for_update()
+        ).scalar_one()
+        seq = current + 1
+        cx.execute(event_clock.update().where(event_clock.c.id == 1).values(last_seq=seq))
+        cx.execute(events.insert().values(
+            seq=seq, entity_ref=entity, kind=kind, payload=payload, created_at=utcnow(),
         ))
-        # Works for PostgreSQL and SQLite when sequence is a single integer PK.
-        seq = result.inserted_primary_key[0]
         cx.execute(outbox.insert().values(seq=seq))
-        return int(seq)
+        return seq
 
     def event_stream(self, after: int = 0, limit: int = 100) -> list[dict]:
         with self.engine.connect() as cx:

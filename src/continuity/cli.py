@@ -5,7 +5,7 @@ import argparse
 import json
 import os
 
-from .db import RuntimeDB, metadata
+from .db import RuntimeDB
 
 
 def main() -> None:
@@ -19,7 +19,6 @@ def main() -> None:
         return
     if not args.database_url:
         parser.error("database URL is required")
-    db = RuntimeDB(args.database_url)
-    metadata.create_all(db.engine)
+    db = RuntimeDB(args.database_url, create_schema=True)
     db.close()
     print("schema initialized")

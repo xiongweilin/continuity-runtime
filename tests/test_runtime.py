@@ -167,3 +167,34 @@ def test_no_auto_outcome_and_domain_verifier(setup):
             return Outcome(False, "domain:evidence")
     runtime.verifiers["counter"] = Verifier()
     assert runtime.verify_outcome("op1", actor="agent-b")["outcome_disposition"] == "not_satisfied"
+
+
+def test_admission_rechecks_evidence_after_slow_policy(setup):
+    runtime, adapter = setup
+    runtime.observe(actor="agent-a", ref="policy", source_revision="v1",
+                    evidence_ref="source:v1")
+    submit(runtime, intent(expected={"policy": "v1"}))
+
+    class StalePolicy:
+        def evaluate(self, intent, observations):
+            # Simulates observation changing while a slow model/policy decides.
+            runtime.observe(actor="agent-a", ref="policy", source_revision="v2",
+                            evidence_ref="source:v2", expected_revision=1)
+            return Admission("admit", policy_version="slow-policy-v1")
+
+    runtime.policy = StalePolicy()
+    with pytest.raises(Held):
+        runtime.dispatch("op1", actor="agent-b")
+    assert adapter.calls == 0
+    assert runtime.get_operation("op1", actor="agent-a")["status"] == "registered"
+
+
+def test_hold_is_auditable_and_never_mints_authority(setup):
+    runtime, _ = setup
+    submit(runtime)
+    runtime.policy = type("HoldPolicy", (), {
+        "evaluate": lambda self, i, o: Admission("hold", "needs evidence")
+    })()
+    with pytest.raises(Held):
+        runtime.dispatch("op1", actor="agent-a")
+    assert any(e["kind"] == "admission.hold" for e in runtime.events())

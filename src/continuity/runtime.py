@@ -587,17 +587,29 @@ class ContinuityRuntime:
                 raise UnknownOperation("unknown subscription")
             if row["actor"] != actor:
                 raise Denied("subscription owned by a different actor")
-            batch = self.events_for_actor(actor, after=row["last_acked_seq"], limit=limit)
-            offered = max(row["last_offered_seq"], batch["next_seq"])
-            cx.execute(update(consumer_offsets).where(
-                consumer_offsets.c.id == subscription_id,
-            ).values(last_offered_seq=offered))
+            if row["last_offered_seq"] > row["last_acked_seq"]:
+                # An outstanding batch is immutable until ack. Polling with a
+                # different limit cannot silently expand what the actor can ack.
+                batch = self.events_for_actor(
+                    actor, after=row["last_acked_seq"], limit=500,
+                )
+                offered = row["last_offered_seq"]
+                visible = [event for event in batch["events"] if event["seq"] <= offered]
+            else:
+                batch = self.events_for_actor(
+                    actor, after=row["last_acked_seq"], limit=limit,
+                )
+                offered = batch["next_seq"]
+                visible = batch["events"]
+                cx.execute(update(consumer_offsets).where(
+                    consumer_offsets.c.id == subscription_id,
+                ).values(last_offered_seq=offered))
             return {
                 "subscription_id": subscription_id,
                 "revision": row["revision"],
                 "last_acked_seq": row["last_acked_seq"],
-                "next_seq": batch["next_seq"],
-                "events": batch["events"],
+                "next_seq": offered,
+                "events": visible,
             }
 
     def ack_subscription(
@@ -614,8 +626,8 @@ class ContinuityRuntime:
                 raise Denied("subscription owned by a different actor")
             if expected_revision != row["revision"]:
                 raise Conflict("consumer checkpoint revision conflict")
-            if not (row["last_acked_seq"] <= next_seq <= row["last_offered_seq"]):
-                raise Conflict("ack would skip unoffered events or move cursor backwards")
+            if next_seq != row["last_offered_seq"]:
+                raise Conflict("ack must match the exact outstanding batch boundary")
             if next_seq != row["last_acked_seq"]:
                 cx.execute(update(consumer_offsets).where(
                     consumer_offsets.c.id == subscription_id,

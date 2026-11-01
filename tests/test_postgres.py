@@ -75,3 +75,51 @@ def test_concurrent_logical_effect_key_reservation_across_process_facades():
     assert outcomes.count("conflict") == 1
     a_db.close()
     b_db.close()
+
+
+
+@pytest.mark.skipif(not os.getenv("CONTINUITY_TEST_POSTGRES_URL"),
+                    reason="PostgreSQL required for concurrent committed event sequence test")
+def test_event_sequence_cannot_overtake_uncommitted_transaction():
+    from threading import Event
+
+    url = os.environ["CONTINUITY_TEST_POSTGRES_URL"]
+    db = RuntimeDB(url, create_schema=True)
+    old = db.event_stream(limit=500)
+    prior = old[-1]["seq"] if old else 0
+    first_emitted = Event()
+    release_first = Event()
+    second_started = Event()
+
+    def first_transaction():
+        with db.engine.begin() as cx:
+            number = db.emit(cx, "test:first", "test.order", {"id": "first"})
+            first_emitted.set()
+            if not release_first.wait(timeout=15):
+                raise TimeoutError("test failed to release first transaction")
+        return number
+
+    def second_transaction():
+        if not first_emitted.wait(timeout=10):
+            raise TimeoutError("first event not ready")
+        second_started.set()
+        with db.engine.begin() as cx:
+            return db.emit(cx, "test:second", "test.order", {"id": "second"})
+
+    try:
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            f1 = pool.submit(first_transaction)
+            assert first_emitted.wait(timeout=10)
+            f2 = pool.submit(second_transaction)
+            assert second_started.wait(timeout=10)
+            # Second event cannot become visible while first has not committed.
+            assert not f2.done()
+            assert db.event_stream(after=prior) == []
+            release_first.set()
+            assert f1.result(timeout=15) == prior + 1
+            assert f2.result(timeout=15) == prior + 2
+        actual = db.event_stream(after=prior)
+        assert [r["payload"]["id"] for r in actual] == ["first", "second"]
+    finally:
+        release_first.set()
+        db.close()

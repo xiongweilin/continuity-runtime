@@ -59,3 +59,25 @@ def test_api_subscription_auth_and_ack(setup):
     assert client.post("/v1/subscriptions/shared/ack",
         json={"expected_revision": page["revision"], "next_seq": page["next_seq"] + 1000},
         headers=b).status_code == 409
+
+
+
+def test_subscription_freezes_offered_batch_until_ack(setup):
+    runtime, _ = setup
+    runtime.subscribe("cursor:fixed", actor="agent-b")
+    for n in range(3):
+        runtime.submit(Intent(f"batch:{n}", "mission", "counter", "items/one",
+            "increment", {"n": n}, "grant"),
+            actor="agent-a", participants=["agent-a", "agent-b"])
+    first = runtime.poll_subscription("cursor:fixed", actor="agent-b", limit=1)
+    assert len(first["events"]) == 1
+    larger = runtime.poll_subscription("cursor:fixed", actor="agent-b", limit=100)
+    assert larger["next_seq"] == first["next_seq"]
+    assert larger["events"] == first["events"]
+    with pytest.raises(Conflict, match="exact outstanding"):
+        runtime.ack_subscription("cursor:fixed", actor="agent-b",
+            expected_revision=first["revision"], next_seq=first["next_seq"] - 1)
+    runtime.ack_subscription("cursor:fixed", actor="agent-b",
+        expected_revision=first["revision"], next_seq=first["next_seq"])
+    next_batch = runtime.poll_subscription("cursor:fixed", actor="agent-b", limit=1)
+    assert next_batch["next_seq"] > first["next_seq"]

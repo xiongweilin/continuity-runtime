@@ -72,6 +72,10 @@ The `compose.yaml` profile runs PostgreSQL and the API; set `POSTGRES_PASSWORD` 
 
 **HTTP:** `/v1/grants` (admin issue), `/v1/grants/{id}/revoke` (admin), `/v1/observations`, `/v1/links`, `/v1/operations`, `/v1/operations/{id}/dispatch`, `/v1/operations/{id}/reconcile`, `/v1/operations/{id}/verify-outcome`, `/v1/events` (admin).
 
+**Event discovery:** `GET /v1/my-events?after=SEQ` is an actor-filtered cursor for handoffs. It is not a durable multi-consumer queue; consumers must retain their own offsets.
+
+**GitHub:** `continuity.github_labels.GitHubLabelAdapter` is an optional scoped, real-HTTP adapter restricted to one repository and an explicit label allowlist. Tests use mock HTTP only; no live repository is mutated. Install `.[github]` to use it. This example is suitable only for the goal that a label is present, not general GitHub writes.
+
 **DBOS:** `examples/dbos_bridge.py` wraps API calls in a durable DBOS step. It requires `.[dbos]` and a configured `DBOS_SYSTEM_DATABASE_URL`; DBOS runs its own execution history, while Continuity stores cross-engine effects.
 
 **Other engines:** any authenticated client can use the same stable operation ID and readback endpoints. The model/Agent is never entrusted with provider credentials or final domain outcome assertions.

@@ -12,11 +12,20 @@ services:
       retries: 20
     volumes:
       - continuity_data:/var/lib/postgresql/data
-  api:
+  init-db:
     build: .
+    command: ["continuity", "init-db"]
+    restart: "no"
     depends_on:
       postgres:
         condition: service_healthy
+    environment:
+      CONTINUITY_DATABASE_URL: postgresql+psycopg://continuity:${POSTGRES_PASSWORD}@postgres:5432/continuity
+  api:
+    build: .
+    depends_on:
+      init-db:
+        condition: service_completed_successfully
     environment:
       CONTINUITY_DATABASE_URL: postgresql+psycopg://continuity:${POSTGRES_PASSWORD}@postgres:5432/continuity
       CONTINUITY_TOKENS_JSON: ${CONTINUITY_TOKENS_JSON:?set CONTINUITY_TOKENS_JSON}

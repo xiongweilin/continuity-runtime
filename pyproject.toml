@@ -18,7 +18,8 @@ dependencies = [
 ]
 [project.optional-dependencies]
 dev = ["pytest>=8,<10", "httpx>=0.27,<1", "ruff>=0.9,<1"]
-dbos = ["dbos>=2.31,<3"]
+dbos = ["dbos>=2.31,<3", "httpx>=0.27,<1"]
+github = ["httpx>=0.27,<1"]
 [project.scripts]
 continuity = "continuity.cli:main"
 

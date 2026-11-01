@@ -191,6 +191,7 @@ class ContinuityRuntime:
         if not isinstance(constraints.get("depends_on", {}), dict):
             raise ValueError("depends_on must map reference to version")
         with self.db.engine.begin() as cx:
+            self._assert_versions(cx, constraints.get("depends_on", {}))
             old = cx.execute(select(links).where(
                 links.c.id == link_id,
             ).with_for_update()).mappings().first()
@@ -413,3 +414,30 @@ class ContinuityRuntime:
 
     def events(self, after: int = 0, limit: int = 100) -> list[dict]:
         return self.db.event_stream(after=after, limit=limit)
+
+    def events_for_actor(self, actor: str, after: int = 0, limit: int = 100) -> list[dict]:
+        """A bounded event cursor; never expose another actor's event payloads."""
+        candidates = self.db.event_stream(after=after, limit=limit)
+        authorized = []
+        with self.db.engine.connect() as cx:
+            for event in candidates:
+                entity = event["entity_ref"]
+                if entity.startswith("operation:"):
+                    row = cx.execute(select(operations.c.participants).where(
+                        operations.c.id == entity[len("operation:"):],
+                    )).scalar_one_or_none()
+                    if row is not None and actor in row:
+                        authorized.append(event)
+                elif entity.startswith("link:"):
+                    owner = cx.execute(select(links.c.owner).where(
+                        links.c.id == entity[len("link:"):],
+                    )).scalar_one_or_none()
+                    if owner == actor:
+                        authorized.append(event)
+                else:
+                    source = cx.execute(select(observations.c.source_ref).where(
+                        observations.c.ref == entity,
+                    )).scalar_one_or_none()
+                    if source == "actor:" + actor:
+                        authorized.append(event)
+        return authorized

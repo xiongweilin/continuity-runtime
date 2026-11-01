@@ -152,6 +152,10 @@ def create_app(runtime: ContinuityRuntime, *, tokens: dict[str, Caller] | None =
     def stream(after: int = 0, limit: int = 100, _: Caller = Depends(admin)):
         return runtime.events(after=after, limit=limit)
 
+    @app.get("/v1/my-events")
+    def my_events(after: int = 0, limit: int = 100, actor: Caller = Depends(principal)):
+        return runtime.events_for_actor(actor.actor, after=after, limit=limit)
+
     return app
 
 

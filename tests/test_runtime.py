@@ -345,3 +345,28 @@ def test_grant_mandates_version_checks_even_when_agent_omits_them(setup):
         participants=["agent-a", "agent-b"])
     assert runtime.dispatch("guarded-op", actor="agent-b")["status"] == "pending_verification"
     assert adapter.calls == 1
+
+
+
+def test_outcome_confirmation_is_monotonic_and_cannot_be_reversed(setup):
+    runtime, _ = setup
+    submit(runtime)
+    runtime.dispatch("op1", actor="agent-a")
+    runtime.reconcile("op1", actor="agent-b")
+
+    class FirstVerifier:
+        def verify(self, intent, effect):
+            return Outcome(True, "evidence:first")
+
+    class ContradictoryVerifier:
+        def verify(self, intent, effect):
+            return Outcome(False, "evidence:second")
+
+    runtime.verifiers["counter"] = FirstVerifier()
+    first = runtime.verify_outcome("op1", actor="agent-a")
+    assert first["outcome_disposition"] == "satisfied"
+    runtime.verifiers["counter"] = ContradictoryVerifier()
+    second = runtime.verify_outcome("op1", actor="agent-b")
+    assert second["outcome_disposition"] == "satisfied"
+    assert second["outcome_evidence_ref"] == "evidence:first"
+    assert len([e for e in runtime.events() if e["kind"] == "outcome.verified"]) == 1

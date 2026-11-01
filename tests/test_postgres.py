@@ -169,3 +169,55 @@ def test_admission_cannot_dispatch_after_concurrent_grant_revocation():
         resume.set()
         db1.close()
         db2.close()
+
+
+
+@pytest.mark.skipif(not os.getenv("CONTINUITY_TEST_POSTGRES_URL"),
+                    reason="PostgreSQL required for competing outcome verification")
+def test_concurrent_verifiers_cannot_overwrite_first_committed_outcome():
+    from threading import Barrier
+
+    from continuity.contracts import Outcome
+
+    url = os.environ["CONTINUITY_TEST_POSTGRES_URL"]
+    db_a = RuntimeDB(url, create_schema=True)
+    db_b = RuntimeDB(url)
+    unique = uuid.uuid4().hex
+    grant = "outcome-grant:" + unique
+    op_id = "outcome-op:" + unique
+    adapter = CounterAdapter()
+    a = ContinuityRuntime(db_a, adapters={"counter": adapter})
+    a.issue_grant(grant_id=grant, principal="mission", actors=["a", "b"],
+                  provider="counter", resource_prefix="items", action="increment")
+    a.submit(Intent(op_id, "mission", "counter", "items/one",
+                    "increment", {}, grant), actor="a", participants=["a", "b"])
+    a.dispatch(op_id, actor="a")
+    a.reconcile(op_id, actor="a")
+
+    gate = Barrier(2)
+    class Verifier:
+        def __init__(self, value):
+            self.value = value
+        def verify(self, intent, effect):
+            gate.wait(timeout=10)
+            return Outcome(self.value, "evidence:" + str(self.value))
+
+    a.verifiers["counter"] = Verifier(True)
+    b = ContinuityRuntime(db_b, verifiers={"counter": Verifier(False)})
+    try:
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            fa = pool.submit(a.verify_outcome, op_id, actor="a")
+            fb = pool.submit(b.verify_outcome, op_id, actor="b")
+            first = fa.result(timeout=15)
+            second = fb.result(timeout=15)
+        actual = a.get_operation(op_id, actor="a")
+        assert first["outcome_disposition"] == second["outcome_disposition"]
+        assert actual["outcome_disposition"] in ("satisfied", "not_satisfied")
+        assert actual["outcome_evidence_ref"] in ("evidence:True", "evidence:False")
+        history = [e for e in a.events() if
+                   e["entity_ref"] == "operation:" + op_id and
+                   e["kind"] == "outcome.verified"]
+        assert len(history) == 1
+    finally:
+        db_a.close()
+        db_b.close()

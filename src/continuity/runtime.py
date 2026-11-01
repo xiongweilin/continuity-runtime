@@ -516,6 +516,8 @@ class ContinuityRuntime:
 
     def verify_outcome(self, operation_id: str, *, actor: str) -> dict:
         row = self.get_operation(operation_id, actor=actor)
+        if row["outcome_disposition"] != "unverified":
+            return row  # A verified outcome cannot be silently overwritten.
         if row["effect_disposition"] != "present":
             raise Held("external effect is not independently confirmed")
         verifier = self.verifiers.get(row["provider"])
@@ -530,15 +532,20 @@ class ContinuityRuntime:
             current = cx.execute(select(operations).where(
                 operations.c.id == operation_id,
             ).with_for_update()).mappings().one()
-            if current["status"] != "effect_confirmed":
+            if (current["status"] != "effect_confirmed"
+                    or current["outcome_disposition"] != "unverified"):
                 return dict(current)
             outcome = "satisfied" if result.satisfied else "not_satisfied"
-            cx.execute(update(operations).where(
-                operations.c.id == operation_id, operations.c.status == "effect_confirmed",
+            updated = cx.execute(update(operations).where(
+                operations.c.id == operation_id,
+                operations.c.status == "effect_confirmed",
+                operations.c.outcome_disposition == "unverified",
             ).values(
                 outcome_disposition=outcome,
                 outcome_evidence_ref=result.evidence_ref, updated_at=utcnow(),
             ))
+            if updated.rowcount != 1:
+                raise Conflict("concurrent outcome verification")
             self.db.emit(cx, "operation:" + operation_id, "outcome.verified", {
                 "outcome": outcome, "evidence_ref": result.evidence_ref,
             })

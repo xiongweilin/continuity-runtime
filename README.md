@@ -87,6 +87,19 @@ The `compose.yaml` profile runs PostgreSQL and the API; set `POSTGRES_PASSWORD` 
 
 **Other engines:** any authenticated client can use the same stable operation ID and readback endpoints. The model/Agent is never entrusted with provider credentials or final domain outcome assertions.
 
+
+## Local / real-environment acceptance
+
+The repository-only CI now starts the complete **Docker Compose** stack:
+PostgreSQL schema migration, live HTTP API authentication, failed dispatch
+without a trusted executor, event storage, health checks and cleanup.
+This uses test-only tokens, not a real provider write credential.
+
+The next gates require an explicitly authorized isolated execution environment.
+See [local Codex handoff](docs/local-codex-handoff.md) for the controlled
+credential-isolation, real readback and failure-injection protocol. **Do not
+provide credentials in chat or commit them to this repository.**
+
 ## Guarantees and important non-guarantees
 
 | Mechanism | Current scope |

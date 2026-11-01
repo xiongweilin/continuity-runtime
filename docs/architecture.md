@@ -29,4 +29,4 @@ The external readback adapter must be trusted and correctly implement evidence a
 
 PostgreSQL is the intended concurrency backend. SQLite is a unit-test/example backend and has different locking semantics. Local state commits include an outbox record with each boundary event. The API currently exposes a read-only admin event cursor; it is **not yet** a durable multi-consumer subscription manager. Event dispatch/brokers can be added when a real integration needs them.
 
-Schema setup uses SQLAlchemy metadata for version 0.1; **there is no online schema migration guarantee yet**. Migrations, credential isolation, workload-specific verification and deployment SLOs are prerequisites before treating this as production software.
+Schema migration uses Alembic with an initial versioned baseline. **Online/zero-downtime migration is not guaranteed**; destructive downgrade is local-experiment-only. Credential isolation, workload-specific verification and deployment SLOs remain prerequisites before production.

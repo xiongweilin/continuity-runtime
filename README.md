@@ -59,7 +59,7 @@ The first command creates a scoped authority grant, observation, necessary relat
 
 ```bash
 export CONTINUITY_DATABASE_URL='postgresql+psycopg://continuity:password@localhost:5432/continuity'
-continuity init-db
+alembic upgrade head
 export CONTINUITY_TOKENS_JSON='{"example-admin-token":{"actor":"root","admin":true},"example-agent-token":{"actor":"agent-a"}}'
 uvicorn continuity.api:app --host 127.0.0.1 --port 8080
 ```

@@ -14,7 +14,7 @@ services:
       - continuity_data:/var/lib/postgresql/data
   init-db:
     build: .
-    command: ["continuity", "init-db"]
+    command: ["alembic", "upgrade", "head"]
     restart: "no"
     depends_on:
       postgres:

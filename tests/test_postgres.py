@@ -32,6 +32,7 @@ def test_concurrent_dispatch_across_independent_runtime_instances():
         futures = [pool.submit(runtime.dispatch, operation, actor=actor)
                    for runtime, actor in ((a, "a"), (b, "b"))]
         results = [future.result() for future in futures]
+    assert all(result["dispatch_generation"] == 1 for result in results)
     assert adapter.calls == 1
     assert a.get_operation(operation, actor="a")["dispatch_generation"] == 1
     a.reconcile(operation, actor="a")

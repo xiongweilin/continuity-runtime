@@ -159,7 +159,7 @@ class ContinuityRuntime:
             })
             if old is not None and old["source_revision"] != source_revision:
                 # Only actual cross-boundary dependencies, no global graph scan.
-                dependencies = cx.execute(select(links).where(links.c.active == True)).mappings()
+                dependencies = cx.execute(select(links).where(links.c.active.is_(True))).mappings()
                 for dep in dependencies:
                     if ref in dep["constraints"].get("depends_on", {}):
                         self.db.emit(cx, "link:" + dep["id"], "dependency.invalidated", {

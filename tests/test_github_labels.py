@@ -5,7 +5,6 @@ import pytest
 
 from continuity.contracts import Intent
 from continuity.github_labels import GitHubLabelAdapter, GitHubLabelVerifier
-from continuity.runtime import ContinuityRuntime
 
 
 def test_allowlisted_github_label_with_independent_readback(setup):

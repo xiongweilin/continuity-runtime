@@ -13,7 +13,8 @@ def test_authz_and_independent_agent_handoff(setup):
         "agent-b-token": Caller("agent-b"),
         "attacker-token": Caller("untrusted"),
     }))
-    headers = lambda token: {"Authorization": "Bearer " + token}
+    def headers(token):
+        return {"Authorization": "Bearer " + token}
     payload = {
         "id": "op-api", "principal": "mission", "provider": "counter",
         "resource_ref": "items/one", "action": "increment", "payload": {"count": 1},

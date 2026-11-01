@@ -49,8 +49,6 @@ services:
     command: ["python", "/app/scripts/phase_b_isolation_probe.py"]
     networks:
       - default
-    volumes:
-      - ./scripts/phase_b_isolation_probe.py:/app/scripts/phase_b_isolation_probe.py:ro
     read_only: true
     cap_drop: ["ALL"]
     security_opt: ["no-new-privileges:true"]

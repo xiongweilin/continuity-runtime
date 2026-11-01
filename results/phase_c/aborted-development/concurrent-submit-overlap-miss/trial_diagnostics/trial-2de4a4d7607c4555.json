@@ -1,0 +1,160 @@
+{
+  "aborted_exception": {
+    "message": "submitter intervals did not overlap",
+    "type": "TrialInvalid"
+  },
+  "arm": "continuity",
+  "barriers": {
+    "concurrent_submit_overlap": {
+      "intervals_monotonic_ns": {
+        "op:pair-81b4896eb1257081:actor-a": {
+          "finish": 969472223980,
+          "start": 969458542462
+        },
+        "op:pair-81b4896eb1257081:actor-b": {
+          "finish": 969484476316,
+          "start": 969477726824
+        }
+      },
+      "overlap": false,
+      "release_window_ns": 35123752
+    },
+    "pre_submit": [
+      {
+        "announced_monotonic_ns": 969442682246,
+        "operation_id": "op:pair-81b4896eb1257081:actor-a",
+        "pid": 399,
+        "stage": "pre_submit",
+        "trial_id": "trial-2de4a4d7607c4555"
+      },
+      {
+        "announced_monotonic_ns": 969440683952,
+        "operation_id": "op:pair-81b4896eb1257081:actor-b",
+        "pid": 399,
+        "stage": "pre_submit",
+        "trial_id": "trial-2de4a4d7607c4555"
+      }
+    ],
+    "submit_finished": [
+      {
+        "announced_monotonic_ns": 969472223980,
+        "operation_id": "op:pair-81b4896eb1257081:actor-a",
+        "pid": 399,
+        "stage": "submit_finished",
+        "trial_id": "trial-2de4a4d7607c4555"
+      },
+      {
+        "announced_monotonic_ns": 969484476316,
+        "operation_id": "op:pair-81b4896eb1257081:actor-b",
+        "pid": 399,
+        "stage": "submit_finished",
+        "trial_id": "trial-2de4a4d7607c4555"
+      }
+    ],
+    "submit_started": [
+      {
+        "announced_monotonic_ns": 969458542462,
+        "operation_id": "op:pair-81b4896eb1257081:actor-a",
+        "pid": 399,
+        "stage": "submit_started",
+        "trial_id": "trial-2de4a4d7607c4555"
+      },
+      {
+        "announced_monotonic_ns": 969477726824,
+        "operation_id": "op:pair-81b4896eb1257081:actor-b",
+        "pid": 399,
+        "stage": "submit_started",
+        "trial_id": "trial-2de4a4d7607c4555"
+      }
+    ]
+  },
+  "cleanup": {
+    "database_dropped": true,
+    "process_exit_codes": {
+      "arm_first": -9,
+      "arm_recovery": null,
+      "fault_proxy": 0,
+      "mock_provider": 0
+    },
+    "trial_db_drop": "success"
+  },
+  "control_event": null,
+  "database_name": "pc_e92cf8f5f9e1",
+  "database_role_scope": "one fresh owner role for this single-trial database; credentials omitted",
+  "fault_proxy_ledger": {
+    "bytes": 775,
+    "relpath": "fault_proxy_logs/trial-2de4a4d7607c4555.jsonl",
+    "sha256": "b432efec3f29503f0a7bb69d92f5d2b718e8d92cfdb4815943100f9ec07c42e6"
+  },
+  "fault_proxy_relpath": "fault_proxy_logs/trial-2de4a4d7607c4555.jsonl",
+  "operation_ids": [
+    "op:pair-81b4896eb1257081:actor-a",
+    "op:pair-81b4896eb1257081:actor-b"
+  ],
+  "paired_input_id": "pair-81b4896eb1257081",
+  "process_exit_codes": {
+    "arm_first": -9,
+    "arm_recovery": null,
+    "fault_proxy": 0,
+    "mock_provider": 0
+  },
+  "provider_ledger": {
+    "bytes": 754,
+    "relpath": "provider_ledgers/trial-2de4a4d7607c4555.jsonl",
+    "sha256": "6765fa5df9f4b340672d2feaeba6bae0a59a1de55a54a99ac8a1bea1976d0239"
+  },
+  "provider_ledger_relpath": "provider_ledgers/trial-2de4a4d7607c4555.jsonl",
+  "releases": [
+    {
+      "operation_id": "op:pair-81b4896eb1257081:actor-a",
+      "released_by": "phase-c-runner",
+      "released_monotonic_ns": 969446231451,
+      "released_utc": "2026-11-01T13:07:26.943106Z",
+      "stage": "submit_started",
+      "trial_id": "trial-2de4a4d7607c4555"
+    },
+    {
+      "operation_id": "op:pair-81b4896eb1257081:actor-a",
+      "released_by": "phase-c-runner",
+      "released_monotonic_ns": 969448462821,
+      "released_utc": "2026-11-01T13:07:26.945330Z",
+      "stage": "submit_finished",
+      "trial_id": "trial-2de4a4d7607c4555"
+    },
+    {
+      "operation_id": "op:pair-81b4896eb1257081:actor-b",
+      "released_by": "phase-c-runner",
+      "released_monotonic_ns": 969450535147,
+      "released_utc": "2026-11-01T13:07:26.947401Z",
+      "stage": "submit_started",
+      "trial_id": "trial-2de4a4d7607c4555"
+    },
+    {
+      "operation_id": "op:pair-81b4896eb1257081:actor-b",
+      "released_by": "phase-c-runner",
+      "released_monotonic_ns": 969452497355,
+      "released_utc": "2026-11-01T13:07:26.949362Z",
+      "stage": "submit_finished",
+      "trial_id": "trial-2de4a4d7607c4555"
+    },
+    {
+      "operation_id": "op:pair-81b4896eb1257081:actor-a",
+      "released_by": "phase-c-runner",
+      "released_monotonic_ns": 969454417283,
+      "released_utc": "2026-11-01T13:07:26.951282Z",
+      "stage": "pre_submit",
+      "trial_id": "trial-2de4a4d7607c4555"
+    },
+    {
+      "operation_id": "op:pair-81b4896eb1257081:actor-b",
+      "released_by": "phase-c-runner",
+      "released_monotonic_ns": 969456386689,
+      "released_utc": "2026-11-01T13:07:26.953252Z",
+      "stage": "pre_submit",
+      "trial_id": "trial-2de4a4d7607c4555"
+    }
+  ],
+  "scenario": "concurrent_duplicate_intent",
+  "seed": 1,
+  "trial_id": "trial-2de4a4d7607c4555"
+}

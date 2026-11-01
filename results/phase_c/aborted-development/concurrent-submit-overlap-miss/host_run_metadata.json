@@ -1,0 +1,30 @@
+{
+  "wrapper_error_type": null,
+  "host_os_version": "10.0.26300",
+  "schema_version": 1,
+  "code_sha": "b1e4194dcac2fd26b61ffdeee11ea0d6414b5854",
+  "postgres_start_exit_code": 0,
+  "compose_cleanup_exit_code": 0,
+  "docker_compose_version": "5.6.0",
+  "postgres_repo_digest": "sha256:b8faeff7712663c2773a190181e1246e37e364b887611c04658c28b44e2408fe",
+  "host_architecture": "AMD64",
+  "results_directory_preserved": true,
+  "finished_at_utc": "2026-11-01T13:07:37.2110221Z",
+  "github_or_provider_credentials_passed": false,
+  "python_base_image": "python:3.12-slim@sha256:aa943ce411423c7582288f18707ff66eddcbaeb510502d747a72aeb34f30d159",
+  "worktree_clean": false,
+  "started_at_utc": "20261101T130533Z",
+  "resources_remaining_after_cleanup": {
+    "volumes": 0,
+    "networks": 0,
+    "containers": 0
+  },
+  "mode": "development",
+  "docker_engine_version": "29.9.2",
+  "compose_project": "phasec-development-20261101t130533z",
+  "runner_image_build_exit_code": 0,
+  "host_os_caption": "Microsoft Windows 11 专业版",
+  "run_metadata_written": true,
+  "runner_image_id": "sha256:e5d627917549c1aed4fbc57531d3b0090c97e0d032e238c6853f9269547ffd2d",
+  "runner_exit_code": 2
+}

@@ -1,0 +1,935 @@
+{
+  "by_arm": {
+    "continuity": {
+      "blocked": 20,
+      "db_transactions": 27247,
+      "infra_cost_usd_total": null,
+      "manual_interventions": 0,
+      "median_elapsed_ms": 1641.7730000000001,
+      "model_cost_usd_total": 0.0,
+      "operator_seconds_total": 0.0,
+      "p95_elapsed_ms": 4489.537,
+      "provider_calls": 40,
+      "provider_commits": 40,
+      "recovery_actions": 100,
+      "satisfied": 30,
+      "trials": 80,
+      "unknown_or_unverified": 30
+    },
+    "postgres_dbos": {
+      "blocked": 20,
+      "db_transactions": 27125,
+      "infra_cost_usd_total": null,
+      "manual_interventions": 0,
+      "median_elapsed_ms": 1605.304,
+      "model_cost_usd_total": 0.0,
+      "operator_seconds_total": 0.0,
+      "p95_elapsed_ms": 4460.184,
+      "provider_calls": 40,
+      "provider_commits": 40,
+      "recovery_actions": 100,
+      "satisfied": 30,
+      "trials": 80,
+      "unknown_or_unverified": 30
+    }
+  },
+  "code_sha": "04f21de2312a9042a81452b16e74ace2edfe8c36",
+  "cost_claim_possible": false,
+  "decision_heuristic_assessment": {
+    "all_expected_reported_statuses_matched": true,
+    "attributable_cost_increase_under_30pct_assessable": false,
+    "decision": "INCONCLUSIVE: no measured intervention/time advantage in this mock workload and infrastructure cost is unknown; do not claim positive ROI.",
+    "manual_intervention_reduction_target_met": false,
+    "operator_time_reduction_target_met": false,
+    "p95_wall_time_under_2x_baseline": true,
+    "safety_gate_passed": true
+  },
+  "evaluator_sha256": "8fa4613f1589d48a9b6cb2b0b526d5b707110ea47573af94382b291ed50d77d1",
+  "evaluator_verdict": "EVIDENCE_INCOMPLETE",
+  "manifest_sha256": "c5b71b025ca4ced53e8b76c9aa137f75829f2cdc7ee959539ad66d7cae1ca448",
+  "mode": "full",
+  "overall_paired_metrics": {
+    "db_transactions": {
+      "continuity_minus_postgres_dbos_mean": 1.525,
+      "continuity_minus_postgres_dbos_median": 4.0,
+      "mean_absolute_paired_difference": 5.15,
+      "n_pairs": 80,
+      "paired_mean_difference_bootstrap_95pct_ci": [
+        0.1,
+        2.975
+      ]
+    },
+    "elapsed_ms": {
+      "continuity_minus_postgres_dbos_mean": 36.422700000000006,
+      "continuity_minus_postgres_dbos_median": 24.848500000000058,
+      "mean_absolute_paired_difference": 52.66209999999998,
+      "n_pairs": 80,
+      "paired_mean_difference_bootstrap_95pct_ci": [
+        20.19239906249999,
+        56.03324968749998
+      ]
+    },
+    "manual_interventions": {
+      "continuity_minus_postgres_dbos_mean": 0.0,
+      "continuity_minus_postgres_dbos_median": 0.0,
+      "mean_absolute_paired_difference": 0.0,
+      "n_pairs": 80,
+      "paired_mean_difference_bootstrap_95pct_ci": [
+        0.0,
+        0.0
+      ]
+    },
+    "outcome_evidence": {
+      "continuity_minus_postgres_dbos_mean": 0.0,
+      "continuity_minus_postgres_dbos_median": 0.0,
+      "mean_absolute_paired_difference": 0.0,
+      "n_pairs": 80,
+      "paired_mean_difference_bootstrap_95pct_ci": [
+        0.0,
+        0.0
+      ]
+    },
+    "provider_calls": {
+      "continuity_minus_postgres_dbos_mean": 0.0,
+      "continuity_minus_postgres_dbos_median": 0.0,
+      "mean_absolute_paired_difference": 0.0,
+      "n_pairs": 80,
+      "paired_mean_difference_bootstrap_95pct_ci": [
+        0.0,
+        0.0
+      ]
+    },
+    "recovery_actions": {
+      "continuity_minus_postgres_dbos_mean": 0.0,
+      "continuity_minus_postgres_dbos_median": 0.0,
+      "mean_absolute_paired_difference": 0.0,
+      "n_pairs": 80,
+      "paired_mean_difference_bootstrap_95pct_ci": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "paired_trials": 80,
+  "per_scenario": {
+    "ack_lost_after_commit": {
+      "paired_metrics": {
+        "db_transactions": {
+          "continuity_minus_postgres_dbos_mean": 6.5,
+          "continuity_minus_postgres_dbos_median": 4.0,
+          "mean_absolute_paired_difference": 6.5,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            4.0,
+            10.4
+          ]
+        },
+        "elapsed_ms": {
+          "continuity_minus_postgres_dbos_mean": 31.247399999999992,
+          "continuity_minus_postgres_dbos_median": 35.41099999999983,
+          "mean_absolute_paired_difference": 33.76319999999998,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            16.491779999999967,
+            45.30520499999999
+          ]
+        },
+        "manual_interventions": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "outcome_evidence": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "provider_calls": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "recovery_actions": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "paired_trials": 10,
+      "per_arm": {
+        "continuity": {
+          "mean_db_transactions": 342.5,
+          "mean_recovery_actions": 2,
+          "median_elapsed_ms": 1598.37,
+          "p95_elapsed_ms": 1728.966
+        },
+        "postgres_dbos": {
+          "mean_db_transactions": 336,
+          "mean_recovery_actions": 2,
+          "median_elapsed_ms": 1572.708,
+          "p95_elapsed_ms": 1676.616
+        }
+      },
+      "provider_commits": {
+        "continuity": 10,
+        "postgres_dbos": 10
+      },
+      "status_counts": {
+        "continuity": {
+          "blocked": 0,
+          "satisfied": 10,
+          "unknown": 0,
+          "unverified": 0
+        },
+        "postgres_dbos": {
+          "blocked": 0,
+          "satisfied": 10,
+          "unknown": 0,
+          "unverified": 0
+        }
+      },
+      "status_disagreements": 0
+    },
+    "clean": {
+      "paired_metrics": {
+        "db_transactions": {
+          "continuity_minus_postgres_dbos_mean": 4.0,
+          "continuity_minus_postgres_dbos_median": 4.0,
+          "mean_absolute_paired_difference": 4.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            4.0,
+            4.0
+          ]
+        },
+        "elapsed_ms": {
+          "continuity_minus_postgres_dbos_mean": 15.486200000000007,
+          "continuity_minus_postgres_dbos_median": 22.343999999999937,
+          "mean_absolute_paired_difference": 33.53300000000004,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            -5.861947500000053,
+            36.11383499999999
+          ]
+        },
+        "manual_interventions": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "outcome_evidence": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "provider_calls": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "recovery_actions": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "paired_trials": 10,
+      "per_arm": {
+        "continuity": {
+          "mean_db_transactions": 340,
+          "mean_recovery_actions": 2,
+          "median_elapsed_ms": 1642.2505,
+          "p95_elapsed_ms": 1676.357
+        },
+        "postgres_dbos": {
+          "mean_db_transactions": 336,
+          "mean_recovery_actions": 2,
+          "median_elapsed_ms": 1605.304,
+          "p95_elapsed_ms": 1718.543
+        }
+      },
+      "provider_commits": {
+        "continuity": 10,
+        "postgres_dbos": 10
+      },
+      "status_counts": {
+        "continuity": {
+          "blocked": 0,
+          "satisfied": 10,
+          "unknown": 0,
+          "unverified": 0
+        },
+        "postgres_dbos": {
+          "blocked": 0,
+          "satisfied": 10,
+          "unknown": 0,
+          "unverified": 0
+        }
+      },
+      "status_disagreements": 0
+    },
+    "concurrent_duplicate_intent": {
+      "paired_metrics": {
+        "db_transactions": {
+          "continuity_minus_postgres_dbos_mean": 3.6,
+          "continuity_minus_postgres_dbos_median": 4.0,
+          "mean_absolute_paired_difference": 4.8,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            1.1,
+            6.0
+          ]
+        },
+        "elapsed_ms": {
+          "continuity_minus_postgres_dbos_mean": 72.90030000000006,
+          "continuity_minus_postgres_dbos_median": 29.325500000000034,
+          "mean_absolute_paired_difference": 94.39470000000001,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            -8.635489999999916,
+            196.04950000000008
+          ]
+        },
+        "manual_interventions": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "outcome_evidence": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "provider_calls": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "recovery_actions": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "paired_trials": 10,
+      "per_arm": {
+        "continuity": {
+          "mean_db_transactions": 356,
+          "mean_recovery_actions": 2,
+          "median_elapsed_ms": 1842.8865,
+          "p95_elapsed_ms": 2441.387
+        },
+        "postgres_dbos": {
+          "mean_db_transactions": 352.4,
+          "mean_recovery_actions": 2,
+          "median_elapsed_ms": 1797.0895,
+          "p95_elapsed_ms": 1938.801
+        }
+      },
+      "provider_commits": {
+        "continuity": 10,
+        "postgres_dbos": 10
+      },
+      "status_counts": {
+        "continuity": {
+          "blocked": 0,
+          "satisfied": 10,
+          "unknown": 0,
+          "unverified": 0
+        },
+        "postgres_dbos": {
+          "blocked": 0,
+          "satisfied": 10,
+          "unknown": 0,
+          "unverified": 0
+        }
+      },
+      "status_disagreements": 0
+    },
+    "crash_after_reservation_before_send": {
+      "paired_metrics": {
+        "db_transactions": {
+          "continuity_minus_postgres_dbos_mean": -1.4,
+          "continuity_minus_postgres_dbos_median": -2.0,
+          "mean_absolute_paired_difference": 7.8,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            -7.5,
+            6.0
+          ]
+        },
+        "elapsed_ms": {
+          "continuity_minus_postgres_dbos_mean": 4.669399999999951,
+          "continuity_minus_postgres_dbos_median": 11.824499999999716,
+          "mean_absolute_paired_difference": 38.32079999999987,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            -31.17691250000008,
+            35.2788999999997
+          ]
+        },
+        "manual_interventions": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "outcome_evidence": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "provider_calls": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "recovery_actions": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "paired_trials": 10,
+      "per_arm": {
+        "continuity": {
+          "mean_db_transactions": 393.8,
+          "mean_recovery_actions": 2,
+          "median_elapsed_ms": 4476.3099999999995,
+          "p95_elapsed_ms": 4521.183
+        },
+        "postgres_dbos": {
+          "mean_db_transactions": 395.2,
+          "mean_recovery_actions": 2,
+          "median_elapsed_ms": 4440.734,
+          "p95_elapsed_ms": 4650.32
+        }
+      },
+      "provider_commits": {
+        "continuity": 0,
+        "postgres_dbos": 0
+      },
+      "status_counts": {
+        "continuity": {
+          "blocked": 0,
+          "satisfied": 0,
+          "unknown": 10,
+          "unverified": 0
+        },
+        "postgres_dbos": {
+          "blocked": 0,
+          "satisfied": 0,
+          "unknown": 10,
+          "unverified": 0
+        }
+      },
+      "status_disagreements": 0
+    },
+    "readback_unavailable_after_commit": {
+      "paired_metrics": {
+        "db_transactions": {
+          "continuity_minus_postgres_dbos_mean": 2.9,
+          "continuity_minus_postgres_dbos_median": 4.0,
+          "mean_absolute_paired_difference": 4.5,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.4,
+            5.0
+          ]
+        },
+        "elapsed_ms": {
+          "continuity_minus_postgres_dbos_mean": 42.5346,
+          "continuity_minus_postgres_dbos_median": 36.785499999999956,
+          "mean_absolute_paired_difference": 60.895599999999966,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            3.977549999999984,
+            81.69729999999997
+          ]
+        },
+        "manual_interventions": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "outcome_evidence": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "provider_calls": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "recovery_actions": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "paired_trials": 10,
+      "per_arm": {
+        "continuity": {
+          "mean_db_transactions": 330.5,
+          "mean_recovery_actions": 1,
+          "median_elapsed_ms": 1605.0729999999999,
+          "p95_elapsed_ms": 1701.193
+        },
+        "postgres_dbos": {
+          "mean_db_transactions": 327.6,
+          "mean_recovery_actions": 1,
+          "median_elapsed_ms": 1558.1055000000001,
+          "p95_elapsed_ms": 1647.318
+        }
+      },
+      "provider_commits": {
+        "continuity": 10,
+        "postgres_dbos": 10
+      },
+      "status_counts": {
+        "continuity": {
+          "blocked": 0,
+          "satisfied": 0,
+          "unknown": 0,
+          "unverified": 10
+        },
+        "postgres_dbos": {
+          "blocked": 0,
+          "satisfied": 0,
+          "unknown": 0,
+          "unverified": 10
+        }
+      },
+      "status_disagreements": 0
+    },
+    "revoke_before_dispatch": {
+      "paired_metrics": {
+        "db_transactions": {
+          "continuity_minus_postgres_dbos_mean": -3.8,
+          "continuity_minus_postgres_dbos_median": -4.0,
+          "mean_absolute_paired_difference": 4.8,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            -6.1,
+            -1.3
+          ]
+        },
+        "elapsed_ms": {
+          "continuity_minus_postgres_dbos_mean": 43.53330000000001,
+          "continuity_minus_postgres_dbos_median": 28.991999999999962,
+          "mean_absolute_paired_difference": 69.02069999999999,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            -1.08065499999994,
+            90.14958749999988
+          ]
+        },
+        "manual_interventions": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "outcome_evidence": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "provider_calls": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "recovery_actions": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "paired_trials": 10,
+      "per_arm": {
+        "continuity": {
+          "mean_db_transactions": 315.9,
+          "mean_recovery_actions": 0,
+          "median_elapsed_ms": 1567.0025,
+          "p95_elapsed_ms": 1642.019
+        },
+        "postgres_dbos": {
+          "mean_db_transactions": 319.7,
+          "mean_recovery_actions": 0,
+          "median_elapsed_ms": 1489.7825,
+          "p95_elapsed_ms": 1651.107
+        }
+      },
+      "provider_commits": {
+        "continuity": 0,
+        "postgres_dbos": 0
+      },
+      "status_counts": {
+        "continuity": {
+          "blocked": 10,
+          "satisfied": 0,
+          "unknown": 0,
+          "unverified": 0
+        },
+        "postgres_dbos": {
+          "blocked": 10,
+          "satisfied": 0,
+          "unknown": 0,
+          "unverified": 0
+        }
+      },
+      "status_disagreements": 0
+    },
+    "stale_version_before_dispatch": {
+      "paired_metrics": {
+        "db_transactions": {
+          "continuity_minus_postgres_dbos_mean": -4.1,
+          "continuity_minus_postgres_dbos_median": -2.0,
+          "mean_absolute_paired_difference": 4.1,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            -7.3,
+            -2.0
+          ]
+        },
+        "elapsed_ms": {
+          "continuity_minus_postgres_dbos_mean": 18.850900000000003,
+          "continuity_minus_postgres_dbos_median": 10.294500000000085,
+          "mean_absolute_paired_difference": 25.985099999999967,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.7518025000000444,
+            38.958099999999966
+          ]
+        },
+        "manual_interventions": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "outcome_evidence": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "provider_calls": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "recovery_actions": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "paired_trials": 10,
+      "per_arm": {
+        "continuity": {
+          "mean_db_transactions": 315,
+          "mean_recovery_actions": 0,
+          "median_elapsed_ms": 1535.0565,
+          "p95_elapsed_ms": 1585.55
+        },
+        "postgres_dbos": {
+          "mean_db_transactions": 319.1,
+          "mean_recovery_actions": 0,
+          "median_elapsed_ms": 1504.6835,
+          "p95_elapsed_ms": 1557.872
+        }
+      },
+      "provider_commits": {
+        "continuity": 0,
+        "postgres_dbos": 0
+      },
+      "status_counts": {
+        "continuity": {
+          "blocked": 10,
+          "satisfied": 0,
+          "unknown": 0,
+          "unverified": 0
+        },
+        "postgres_dbos": {
+          "blocked": 10,
+          "satisfied": 0,
+          "unknown": 0,
+          "unverified": 0
+        }
+      },
+      "status_disagreements": 0
+    },
+    "timeout_before_send": {
+      "paired_metrics": {
+        "db_transactions": {
+          "continuity_minus_postgres_dbos_mean": 4.5,
+          "continuity_minus_postgres_dbos_median": 4.0,
+          "mean_absolute_paired_difference": 4.7,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            3.0,
+            6.0
+          ]
+        },
+        "elapsed_ms": {
+          "continuity_minus_postgres_dbos_mean": 62.15950000000002,
+          "continuity_minus_postgres_dbos_median": 44.178499999999985,
+          "mean_absolute_paired_difference": 65.38370000000005,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            24.39531500000004,
+            106.34677750000002
+          ]
+        },
+        "manual_interventions": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "outcome_evidence": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "provider_calls": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "recovery_actions": {
+          "continuity_minus_postgres_dbos_mean": 0.0,
+          "continuity_minus_postgres_dbos_median": 0.0,
+          "mean_absolute_paired_difference": 0.0,
+          "n_pairs": 10,
+          "paired_mean_difference_bootstrap_95pct_ci": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "paired_trials": 10,
+      "per_arm": {
+        "continuity": {
+          "mean_db_transactions": 331,
+          "mean_recovery_actions": 1,
+          "median_elapsed_ms": 2386.0795,
+          "p95_elapsed_ms": 2484.481
+        },
+        "postgres_dbos": {
+          "mean_db_transactions": 326.5,
+          "mean_recovery_actions": 1,
+          "median_elapsed_ms": 2324.73,
+          "p95_elapsed_ms": 2387.596
+        }
+      },
+      "provider_commits": {
+        "continuity": 0,
+        "postgres_dbos": 0
+      },
+      "status_counts": {
+        "continuity": {
+          "blocked": 0,
+          "satisfied": 0,
+          "unknown": 10,
+          "unverified": 0
+        },
+        "postgres_dbos": {
+          "blocked": 0,
+          "satisfied": 0,
+          "unknown": 10,
+          "unverified": 0
+        }
+      },
+      "status_disagreements": 0
+    }
+  },
+  "protocol_sha256": "0afb7bc54c9062d8b15dde62ba9a35b09f289267db0011355566f069cd5d9ff8",
+  "provider_oracle_totals": {
+    "commits": 80,
+    "duplicate_commits": 0,
+    "effect_present_rows": 80,
+    "forbidden_commits": 0,
+    "provider_post_count": 80
+  },
+  "recovery_status_mismatches": [],
+  "safety_violations": [],
+  "schema_version": 1,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "source_run_id": "full-20261101T132522Z-218b56",
+  "status_agreement": {
+    "paired_status_agreements": 80,
+    "paired_status_disagreements": 0
+  },
+  "trials_per_arm": 80,
+  "uncertainty_method": {
+    "method": "paired nonparametric bootstrap of mean within-seed differences; percentile 95% interval",
+    "note": "Descriptive uncertainty only; n=10 pairs per scenario; not a statistical or production-safety certification.",
+    "random_seed_base": 20261101,
+    "resamples": 20000
+  }
+}

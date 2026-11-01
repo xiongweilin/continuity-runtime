@@ -1,0 +1,190 @@
+{
+  "arm": "continuity",
+  "arm_report": {
+    "arm": "continuity",
+    "attempted_provider_gets": 1,
+    "attempted_provider_posts": 1,
+    "manual_interventions": 0,
+    "model_cost_usd": 0.0,
+    "operations": [
+      {
+        "dispatch": {
+          "kind": "dispatched",
+          "row": {
+            "dispatch_generation": 1,
+            "effect_disposition": "unverified",
+            "effect_evidence_ref": null,
+            "id": "op:pair-9ed0a374c80f83e7:actor-a",
+            "outcome_disposition": "unverified",
+            "outcome_evidence_ref": null,
+            "receipt_ref": null,
+            "status": "unknown"
+          }
+        },
+        "operation": {
+          "dispatch_generation": 1,
+          "effect_disposition": "unknown",
+          "effect_evidence_ref": null,
+          "id": "op:pair-9ed0a374c80f83e7:actor-a",
+          "outcome_disposition": "unverified",
+          "outcome_evidence_ref": null,
+          "receipt_ref": null,
+          "status": "unknown"
+        },
+        "operation_id": "op:pair-9ed0a374c80f83e7:actor-a",
+        "registration": {
+          "kind": "registered",
+          "operation_id": "op:pair-9ed0a374c80f83e7:actor-a",
+          "status": "registered"
+        },
+        "reported_status": "unknown"
+      }
+    ],
+    "operator_seconds": 0.0,
+    "outcome_evidence": false,
+    "outcome_evidence_refs": [],
+    "recovery_actions": 1,
+    "reported_status": "unknown",
+    "trial_id": "trial-6082de450eb66467",
+    "worker_completed_at": "2026-11-01T13:30:06.476860+00:00",
+    "worker_elapsed_ms": 930.754
+  },
+  "barriers": {
+    "registered": {
+      "announced_monotonic_ns": 2328184090202,
+      "operation_id": "op:pair-9ed0a374c80f83e7:actor-a",
+      "pid": 1486,
+      "stage": "registered",
+      "trial_id": "trial-6082de450eb66467"
+    },
+    "registered_snapshot": {
+      "dispatch_generation": 0,
+      "status": "registered"
+    },
+    "reservation_snapshot": {
+      "dispatch_generation": 1,
+      "status": "may_have_been_sent"
+    },
+    "reserved_before_send": {
+      "announced_monotonic_ns": 2328249337190,
+      "operation_id": "op:pair-9ed0a374c80f83e7:actor-a",
+      "pid": 1486,
+      "stage": "reserved_before_send",
+      "trial_id": "trial-6082de450eb66467"
+    }
+  },
+  "cleanup": {
+    "database_dropped": true,
+    "fault_proxy_exit": 0,
+    "fault_proxy_ledger_exported": true,
+    "process_exit_codes": {
+      "arm_first": 0,
+      "arm_recovery": null,
+      "fault_proxy": 0,
+      "mock_provider": 0
+    },
+    "provider_ledger_exported": true,
+    "provider_process_exit": 0,
+    "trial_db_drop": "success"
+  },
+  "control_event": null,
+  "database_name": "pc_4760b868dced",
+  "database_role_scope": "one fresh owner role for this single-trial database; credentials omitted",
+  "db_transactions": {
+    "after": {
+      "commit": 314,
+      "rollback": 21,
+      "total": 335
+    },
+    "before": {
+      "commit": 4,
+      "rollback": 1,
+      "total": 5
+    },
+    "controller_barrier_reads_included": true,
+    "measurement": "pg_stat_database.xact_commit + xact_rollback delta in the isolated trial DB",
+    "value": 330
+  },
+  "fault_proxy_ledger": {
+    "bytes": 2924,
+    "events": 7,
+    "relpath": "fault_proxy_logs/trial-6082de450eb66467.jsonl",
+    "sha256": "0ae6e7d671965dbc8628145645ca21c8489e9fdbb86ecdc9d5d30da279975907"
+  },
+  "fault_proxy_relpath": "fault_proxy_logs/trial-6082de450eb66467.jsonl",
+  "fault_proxy_summary": {
+    "fault_trigger_counts": {
+      "timeout_before_send": 1
+    },
+    "forwarded_get_count": 1,
+    "forwarded_post_count": 0,
+    "ledger_event_count": 7,
+    "ledger_head_sha256": "d0a86e7c9c9a2b18c33fa9d717d37a480ae056cb321a906d6914218157a29215",
+    "ledger_sha256": "0ae6e7d671965dbc8628145645ca21c8489e9fdbb86ecdc9d5d30da279975907",
+    "upstream_response_count": 1
+  },
+  "operation_ids": [
+    "op:pair-9ed0a374c80f83e7:actor-a"
+  ],
+  "outcome_evidence_refs": [],
+  "paired_input_id": "pair-9ed0a374c80f83e7",
+  "process_exit_codes": {
+    "arm_first": 0,
+    "arm_recovery": null,
+    "fault_proxy": 0,
+    "mock_provider": 0
+  },
+  "provider_ledger": {
+    "bytes": 1619,
+    "events": 4,
+    "relpath": "provider_ledgers/trial-6082de450eb66467.jsonl",
+    "sha256": "9a3d3657161514bc5b7f0ab3a1a91a938eb8938cb21c1610638de675f96e65e7"
+  },
+  "provider_ledger_relpath": "provider_ledgers/trial-6082de450eb66467.jsonl",
+  "provider_oracle": {
+    "arm": "continuity",
+    "commits": 0,
+    "duplicate_commits": 0,
+    "effect_present": false,
+    "forbidden_commits": 0,
+    "oracle_log_ref": "mock-provider-ledger:sha256:9a3d3657161514bc5b7f0ab3a1a91a938eb8938cb21c1610638de675f96e65e7",
+    "provider_post_count": 0,
+    "scenario": "timeout_before_send",
+    "seed": 7
+  },
+  "provider_readback_evidence": [
+    {
+      "effect_present": false,
+      "event_sha256": "53caa459672687bb9883d3bbacc4c30a14c7d2e9548fb39938361ca12baeb562",
+      "resource_ref": "counter:pair-9ed0a374c80f83e7",
+      "seq": 3,
+      "trial_id": "trial-6082de450eb66467",
+      "value": 0
+    }
+  ],
+  "releases": [
+    {
+      "operation_id": "op:pair-9ed0a374c80f83e7:actor-a",
+      "released_by": "phase-c-runner",
+      "released_monotonic_ns": 2328207499409,
+      "released_utc": "2026-11-01T13:30:05.614013Z",
+      "stage": "registered",
+      "trial_id": "trial-6082de450eb66467"
+    },
+    {
+      "operation_id": "op:pair-9ed0a374c80f83e7:actor-a",
+      "released_by": "phase-c-runner",
+      "released_monotonic_ns": 2328268443918,
+      "released_utc": "2026-11-01T13:30:05.674953Z",
+      "stage": "reserved_before_send",
+      "trial_id": "trial-6082de450eb66467"
+    }
+  ],
+  "scenario": "timeout_before_send",
+  "seed": 7,
+  "timing": {
+    "elapsed_ms": 2420.06,
+    "measurement": "runner monotonic_ns from first arm worker start through terminal/recovery result"
+  },
+  "trial_id": "trial-6082de450eb66467"
+}

@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "source_commit": "04f21de2312a9042a81452b16e74ace2edfe8c36",
+  "source_path": "experiments/phase_c_manifest.json",
+  "run_working_tree_sha256_crlf": "c5b71b025ca4ced53e8b76c9aa137f75829f2cdc7ee959539ad66d7cae1ca448",
+  "git_normalized_snapshot_sha256_lf": "3d8131ae6fdaa726c3fbf84eb37fcc0a831419cccfd1c46467ed9efc510c0da7",
+  "note": "Only line endings differ: the Windows working-tree CRLF bytes were used in the run; the repository snapshot is normalized LF. Converting LF to CRLF reproduces the run hash. JSON content is unchanged."
+}

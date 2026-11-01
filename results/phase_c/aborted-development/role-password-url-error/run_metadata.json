@@ -1,0 +1,407 @@
+{
+  "abort_reason": "OperationalError: (psycopg.OperationalError) connection failed: connection to server at \"172.18.0.2\", port 5432 failed: FATAL:  password authentication failed for user \"pcu_3ee81cf2979f\"\n(Background on this error at: https://sqlalche.me/e/21/e3q8)",
+  "arms": {
+    "continuity": {
+      "database_tables": "Continuity runtime tables plus phasec_authoritative_versions",
+      "implementation": "ContinuityRuntime + isolated PostgreSQL + real DBOS workflow history"
+    },
+    "postgres_dbos": {
+      "application_tables_prefix": "phasec_baseline_",
+      "continuity_imports": false,
+      "implementation": "independent SQLAlchemy PostgreSQL baseline + real DBOS workflow history"
+    }
+  },
+  "barrier_proofs": [],
+  "cleanup": {
+    "barrier_files_removed": true,
+    "host_compose_cleanup": "pending host wrapper",
+    "trial_databases_dropped": 1
+  },
+  "code_sha": "b1e4194dcac2fd26b61ffdeee11ea0d6414b5854",
+  "code_sha_continuity_arm": "b1e4194dcac2fd26b61ffdeee11ea0d6414b5854",
+  "code_sha_postgres_dbos_arm": "b1e4194dcac2fd26b61ffdeee11ea0d6414b5854",
+  "completed_trials": 0,
+  "container_images": {
+    "platform": "linux/amd64",
+    "postgres_repo_digest": "sha256:b8faeff7712663c2773a190181e1246e37e364b887611c04658c28b44e2408fe",
+    "python_base_image": "python:3.12-slim@sha256:aa943ce411423c7582288f18707ff66eddcbaeb510502d747a72aeb34f30d159",
+    "runner_image_id": "sha256:03bd1ead267dd3d2348c0c2147f56631d8ca171994220657682890bccb0527df"
+  },
+  "database_schema_versions": {
+    "continuity_runtime_schema": 1,
+    "dbos_system_schema": "managed by pinned DBOS package; version recorded below",
+    "independent_postgres_dbos_schema": 1,
+    "phasec_authoritative_version_fixture": 1
+  },
+  "dbos_version": "2.31.1",
+  "development_only": true,
+  "evaluator": {
+    "exit_code": null,
+    "ran": false,
+    "verdict": "ABORTED_NOT_SCORED"
+  },
+  "evaluator_sha256": "8fa4613f1589d48a9b6cb2b0b526d5b707110ea47573af94382b291ed50d77d1",
+  "expected_trials": 32,
+  "fault_injector": {
+    "implementation": "separate loopback fault-proxy process with independently hash-chained telemetry",
+    "ledger_schema_version": 1,
+    "schedule_source": "manifest scenario selected by controller; not mounted or keyed into arms"
+  },
+  "finished_at_utc": "2026-11-01T12:59:14.479002Z",
+  "host_class": "Docker Desktop Linux container on Windows x64; no host paths recorded",
+  "isolation": {
+    "arm_uid": 10003,
+    "child_environment_contains_github_credentials": false,
+    "child_uids": {
+      "arm": 10003,
+      "fault_proxy": 10002,
+      "provider": 10001
+    },
+    "cleanup_exit_codes": {
+      "provider": 0,
+      "proxy": 0
+    },
+    "compose_internal_network_required": true,
+    "direct_provider_get_status": 401,
+    "direct_provider_post_status": 401,
+    "network_policy": "isolated_internal_no_egress",
+    "no_gh_token_environment": true,
+    "no_provider_environment_secrets_in_arm": true,
+    "no_published_ports": true,
+    "probe_artifacts_removed": true,
+    "provider_commits_from_probe": 0,
+    "provider_ledger_read_denied": true,
+    "provider_oracle_hash": "mock-provider-ledger:sha256:d37db4206ae0cd0676e3f391b1370fd3275d07deabd845389814e74b0dd34d37",
+    "provider_process_environment_read_denied": true,
+    "provider_ready_port_internal_only": 38383,
+    "provider_uid": 10001,
+    "proxy_ledger_read_denied": true,
+    "proxy_process_environment_read_denied": true,
+    "proxy_ready_port_loopback": 35139,
+    "proxy_uid": 10002
+  },
+  "isolation_preflight": {
+    "arm_uid": 10003,
+    "child_environment_contains_github_credentials": false,
+    "cleanup_exit_codes": {
+      "provider": 0,
+      "proxy": 0
+    },
+    "direct_provider_get_status": 401,
+    "direct_provider_post_status": 401,
+    "probe_artifacts_removed": true,
+    "provider_commits_from_probe": 0,
+    "provider_ledger_read_denied": true,
+    "provider_oracle_hash": "mock-provider-ledger:sha256:d37db4206ae0cd0676e3f391b1370fd3275d07deabd845389814e74b0dd34d37",
+    "provider_process_environment_read_denied": true,
+    "provider_ready_port_internal_only": 38383,
+    "provider_uid": 10001,
+    "proxy_ledger_read_denied": true,
+    "proxy_process_environment_read_denied": true,
+    "proxy_ready_port_loopback": 35139,
+    "proxy_uid": 10002
+  },
+  "machine": "x86_64",
+  "manifest_scenario_order": [
+    "clean",
+    "ack_lost_after_commit",
+    "crash_after_reservation_before_send",
+    "timeout_before_send",
+    "concurrent_duplicate_intent",
+    "revoke_before_dispatch",
+    "stale_version_before_dispatch",
+    "readback_unavailable_after_commit"
+  ],
+  "manifest_sha256": "c5b71b025ca4ced53e8b76c9aa137f75829f2cdc7ee959539ad66d7cae1ca448",
+  "measurement_sources": {
+    "cost_note": "local Docker Desktop electricity/host cost is not monetized; null is intentional and forces evaluator EVIDENCE_INCOMPLETE/inconclusive cost claims",
+    "db_transactions": "pg_stat_database xact_commit + xact_rollback delta in fresh per-trial PostgreSQL DB; includes runner barrier reads/control action; same harness operations per pair",
+    "elapsed_ms": "runner time.perf_counter_ns from first worker start through terminal/recovery result",
+    "infra_cost_usd": null,
+    "manual_interventions": "0: trial controller is scripted; no human control inputs during each timed arm trial",
+    "model_cost_usd": "0.0: neither arm nor trial harness makes model/API calls",
+    "operator_seconds": "0.0 per trial: no human intervention event; implementation/setup effort is separate and not measured",
+    "provider_calls": "fault-proxy count of upstream-forwarded POSTs; must equal separate provider ledger count",
+    "recovery_actions": "arm DBOS step counter (reconcile+verify) plus one for crash recovery worker invocation"
+  },
+  "mode": "development",
+  "os_container": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+  "output_artifact_paths_relative": {
+    "evaluation": "evaluation.json",
+    "fault_proxy_logs": "fault_proxy_logs/",
+    "provider_ledgers": "provider_ledgers/",
+    "provider_oracle": "provider_oracle.jsonl",
+    "trial_evidence": "trial_evidence.jsonl",
+    "trials": "trials.jsonl"
+  },
+  "paired_workload": {
+    "action": "increment",
+    "actors": [
+      "phasec-actor-a",
+      "phasec-actor-b"
+    ],
+    "effect_key": "logical-effect:<opaque pair ID>",
+    "expected_source_version": "v1",
+    "grant_scope": "exact resource + increment action + both actors + required source version",
+    "pair_id_is_same_across_arms": true,
+    "payload": {
+      "delta": 1
+    },
+    "principal": "phasec-principal",
+    "provider": "phasec-mock",
+    "resource_ref": "counter:<opaque pair ID>",
+    "trial_id_is_trace_metadata_only": true
+  },
+  "pip_version": "25.0.1",
+  "postgres_version": "PostgreSQL 17.11 (Debian 17.11-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+  "preflight_tests": {
+    "command": "pytest -q evaluator/provider/baseline implementation tests",
+    "database_scope": "separate disposable postgres maintenance DB; not any per-trial DBOS database",
+    "exit_code": 0,
+    "output": "................                                                         [100%]\n16 passed in 0.58s\n",
+    "trials_counted": false
+  },
+  "process_exit_codes": [
+    {
+      "component": "arm_first",
+      "exit_code": null,
+      "trial_id": "trial-680e2e7526627fbc"
+    },
+    {
+      "component": "arm_recovery",
+      "exit_code": null,
+      "trial_id": "trial-680e2e7526627fbc"
+    },
+    {
+      "component": "fault_proxy",
+      "exit_code": null,
+      "trial_id": "trial-680e2e7526627fbc"
+    },
+    {
+      "component": "mock_provider",
+      "exit_code": null,
+      "trial_id": "trial-680e2e7526627fbc"
+    }
+  ],
+  "protocol_sha256": "0afb7bc54c9062d8b15dde62ba9a35b09f289267db0011355566f069cd5d9ff8",
+  "provider": {
+    "controller_database_secret_passed_to_arm": false,
+    "deduplicates_posts": false,
+    "implementation": "separate loopback HTTP child process; append-only fsync/hash-chained JSONL ledger per arm trial",
+    "ledger_exporter": "provider_service.export_oracle in a separate provider-UID process",
+    "ledger_path_passed_to_arm": false,
+    "ledger_schema_version": 1,
+    "provider_calls_metric": "fault-proxy upstream-forwarded POST telemetry, independently cross-checked against provider_post_count",
+    "provider_key_passed_to_arm": false
+  },
+  "provider_oracle_schema_version": 1,
+  "psycopg_version": "3.3.6",
+  "python_version": "3.12.16 (main, Oct 28 2026, 02:01:20) [GCC 14.2.0]",
+  "requirements_lock_sha256": "3cb6e1da15c4584cee9f864cc5a9cfcd090c5dbcba09b79e361af8e93525e87f",
+  "resource_limits": {
+    "arm_worker_timeout_seconds": 180.0,
+    "postgres_cpus": 2,
+    "postgres_memory": "2 GiB",
+    "provider_client_timeout_seconds": 0.7,
+    "runner_cpus": 2,
+    "runner_memory": "4 GiB"
+  },
+  "run_id": "development-20261101T125911Z-54cd11",
+  "run_order": [
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "clean",
+      "seed": 0
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "clean",
+      "seed": 1
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "ack_lost_after_commit",
+      "seed": 0
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "ack_lost_after_commit",
+      "seed": 1
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 0
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "crash_after_reservation_before_send",
+      "seed": 1
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "timeout_before_send",
+      "seed": 0
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "timeout_before_send",
+      "seed": 1
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 0
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "concurrent_duplicate_intent",
+      "seed": 1
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "revoke_before_dispatch",
+      "seed": 0
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "revoke_before_dispatch",
+      "seed": 1
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "stale_version_before_dispatch",
+      "seed": 0
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "stale_version_before_dispatch",
+      "seed": 1
+    },
+    {
+      "arm_order": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 0
+    },
+    {
+      "arm_order": [
+        "postgres_dbos",
+        "continuity"
+      ],
+      "scenario": "readback_unavailable_after_commit",
+      "seed": 1
+    }
+  ],
+  "schema_version": 1,
+  "seed_shuffle": {
+    "algorithm": "Python random.Random(seed).shuffle([continuity, postgres_dbos])",
+    "orders": {
+      "0": [
+        "continuity",
+        "postgres_dbos"
+      ],
+      "1": [
+        "postgres_dbos",
+        "continuity"
+      ]
+    }
+  },
+  "seeds": [
+    0,
+    1
+  ],
+  "source_file_sha256": {
+    "Dockerfile.phase-c": "239c03f6bd00aa4bf556cf3436d79d366e968c59435df83186eac84c2d114c7e",
+    "compose.phase-c.yaml": "f7a4832a23a6f1195b80fc57567ed42e31265600fd3d06acbd9aa55a44d3bc4e",
+    "experiments/phase_c/baseline_runtime.py": "0ca157b32f4eb9c2efa1347f522fb20e2a674c67b736c8e63cbbe9aa27cfb72a",
+    "experiments/phase_c/baseline_worker.py": "e4b957adabe6124719beca43422c1d4875f3c4fdb13e3349379627972125d66a",
+    "experiments/phase_c/continuity_worker.py": "8fe475db14c575075931400bf40923980fc1884e02752592d302a0aeea7dc949",
+    "experiments/phase_c/fault_proxy.py": "cd59c79a2c3d4103b3184eb12a4b36cba3bf1d5f98d724dec9d7cfac32067622",
+    "experiments/phase_c/provider_service.py": "a8230b73c6fe2593e43b634031ba46bffe05d25f081e078e310151ce432fa529",
+    "experiments/phase_c/runner.py": "b29d895d348f740cfc3282e092e58375dba7ddc315ad3be0ded6baf2bb71b5fb",
+    "experiments/phase_c/shared.py": "208e4321a9b2783f5500650df2acbfa13575ea065c3b9433f9e5a142c6f549f5",
+    "scripts/run_phase_c.py": "3ef071fbd6475dfe7f69aa30457e4ba0f81bf894369f36a0e1e5bf7a1d1390ac",
+    "scripts/run_phase_c_docker.ps1": "0c027fe19ae1f9c7f57091b21b0f8db9396c5594f514958660a3dee0e1e007b6"
+  },
+  "sqlalchemy_version": "2.1.6",
+  "started_at_utc": "2026-11-01T12:59:11.746058Z",
+  "status": "aborted",
+  "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/engine/base.py\", line 149, in __init__\n    self._dbapi_connection = engine.raw_connection()\n                             ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/engine/base.py\", line 3299, in raw_connection\n    return self.pool.connect()\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/pool/base.py\", line 445, in connect\n    return _ConnectionFairy._checkout(self)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/pool/base.py\", line 1324, in _checkout\n    fairy = _ConnectionRecord.checkout(pool)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/pool/base.py\", line 709, in checkout\n    rec = pool._do_get()\n          ^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/pool/impl.py\", line 176, in _do_get\n    with util.safe_reraise():\n         ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py\", line 166, in __exit__\n    raise exc_value.with_traceback(exc_tb)\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/pool/impl.py\", line 174, in _do_get\n    return self._create_connection()\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/pool/base.py\", line 386, in _create_connection\n    return _ConnectionRecord(self)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/pool/base.py\", line 671, in __init__\n    self.__connect()\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/pool/base.py\", line 916, in __connect\n    with util.safe_reraise():\n         ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py\", line 166, in __exit__\n    raise exc_value.with_traceback(exc_tb)\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/pool/base.py\", line 912, in __connect\n    self.dbapi_connection = connection = pool._invoke_creator(self)\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/engine/create.py\", line 645, in connect\n    return dialect.connect(*cargs_tup, **cparams)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/engine/default.py\", line 869, in connect\n    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/psycopg/connection.py\", line 126, in connect\n    raise last_ex.with_traceback(None)\npsycopg.OperationalError: connection failed: connection to server at \"172.18.0.2\", port 5432 failed: FATAL:  password authentication failed for user \"pcu_3ee81cf2979f\"\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/app/experiments/phase_c/runner.py\", line 1808, in run_phase_c\n    report, oracle, evidence = _run_trial(\n                               ^^^^^^^^^^^\n  File \"/app/experiments/phase_c/runner.py\", line 967, in _run_trial\n    _seed_authoritative_version(db_url, version_ref)\n  File \"/app/experiments/phase_c/runner.py\", line 351, in _seed_authoritative_version\n    source_meta.create_all(engine)\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/sql/schema.py\", line 6700, in create_all\n    bind._run_ddl_visitor(\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/engine/base.py\", line 3249, in _run_ddl_visitor\n    with self.begin() as conn:\n         ^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n           ^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/engine/base.py\", line 3239, in begin\n    with self.connect() as conn:\n         ^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/engine/base.py\", line 3275, in connect\n    return self._connection_cls(self)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/engine/base.py\", line 151, in __init__\n    Connection._handle_dbapi_exception_noconnection(\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/engine/base.py\", line 2432, in _handle_dbapi_exception_noconnection\n    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/engine/base.py\", line 149, in __init__\n    self._dbapi_connection = engine.raw_connection()\n                             ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/engine/base.py\", line 3299, in raw_connection\n    return self.pool.connect()\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/pool/base.py\", line 445, in connect\n    return _ConnectionFairy._checkout(self)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/pool/base.py\", line 1324, in _checkout\n    fairy = _ConnectionRecord.checkout(pool)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/pool/base.py\", line 709, in checkout\n    rec = pool._do_get()\n          ^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/pool/impl.py\", line 176, in _do_get\n    with util.safe_reraise():\n         ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py\", line 166, in __exit__\n    raise exc_value.with_traceback(exc_tb)\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/pool/impl.py\", line 174, in _do_get\n    return self._create_connection()\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/pool/base.py\", line 386, in _create_connection\n    return _ConnectionRecord(self)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/pool/base.py\", line 671, in __init__\n    self.__connect()\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/pool/base.py\", line 916, in __connect\n    with util.safe_reraise():\n         ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py\", line 166, in __exit__\n    raise exc_value.with_traceback(exc_tb)\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/pool/base.py\", line 912, in __connect\n    self.dbapi_connection = connection = pool._invoke_creator(self)\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/engine/create.py\", line 645, in connect\n    return dialect.connect(*cargs_tup, **cparams)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/sqlalchemy/engine/default.py\", line 869, in connect\n    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/psycopg/connection.py\", line 126, in connect\n    raise last_ex.with_traceback(None)\nsqlalchemy.exc.OperationalError: (psycopg.OperationalError) connection failed: connection to server at \"172.18.0.2\", port 5432 failed: FATAL:  password authentication failed for user \"pcu_3ee81cf2979f\"\n(Background on this error at: https://sqlalche.me/e/21/e3q8)\n",
+  "trials_schema_version": 1,
+  "worktree_clean_at_launch": false,
+  "host_wrapper": {
+    "docker_compose_version": "5.6.0",
+    "wrapper_error_type": null,
+    "postgres_start_exit_code": 0,
+    "host_os_caption": "Microsoft Windows 11 专业版",
+    "started_at_utc": "20261101T125824Z",
+    "mode": "development",
+    "compose_project": "phasec-development-20261101t125824z",
+    "schema_version": 1,
+    "host_os_version": "10.0.26300",
+    "runner_image_id": "sha256:03bd1ead267dd3d2348c0c2147f56631d8ca171994220657682890bccb0527df",
+    "compose_cleanup_exit_code": 0,
+    "run_metadata_written": true,
+    "runner_image_build_exit_code": 0,
+    "postgres_repo_digest": "sha256:b8faeff7712663c2773a190181e1246e37e364b887611c04658c28b44e2408fe",
+    "finished_at_utc": "2026-11-01T12:59:16.4590280Z",
+    "host_architecture": "AMD64",
+    "code_sha": "b1e4194dcac2fd26b61ffdeee11ea0d6414b5854",
+    "github_or_provider_credentials_passed": false,
+    "resources_remaining_after_cleanup": {
+      "containers": 0,
+      "networks": 0,
+      "volumes": 0
+    },
+    "worktree_clean": false,
+    "results_directory_preserved": true,
+    "docker_engine_version": "29.9.2",
+    "python_base_image": "python:3.12-slim@sha256:aa943ce411423c7582288f18707ff66eddcbaeb510502d747a72aeb34f30d159",
+    "runner_exit_code": 2
+  }
+}

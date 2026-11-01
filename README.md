@@ -9,7 +9,7 @@ Status: **engineering alpha / isolated reference integration. Not production-app
 - **Selective state contracts**: purpose-scoped cross-boundary links, authoritative references, optimistic revisions, source observations and version-dependency invalidation events. No mandatory global resource registration.
 - **Effect Coordinator**: immutable operation identity/fingerprint, optional domain-defined logical-effect dedup key, an administrator-issued scoped grant, multiple authorized participants, one durable dispatch reservation, fail-closed handling of uncertain external effects, provider readback, and domain-owned outcome verification.
 - **Protocol-level non-substitution**: model/Agent proposal is not authority; an API acknowledgement is not independently verified effect; verified effect is not domain outcome.
-- **Replaceable admission**: a baseline structural policy, plus an interface for optional BAA-like admission. The full BAA protocol is **not** implemented or claimed here.
+- **Bounded enforced admission**: baseline path and authority-owned named admission profiles. A protected canary promotion policy evaluates independently sourced telemetry, allowed stages, freshness, rollback readiness and performance guardrails. Missing required checker fails closed. This does **not** implement or certify the full BAA protocol.
 - **Execution-engine independence**: a DBOS workflow example and an executable two-process handoff using independent Agent identities. Runtime owns neither Agent session state nor DBOS workflow history.
 - **Operational tests**: crashes/unknown replies, duplicate dispatch, revocation, stale versions, concurrent PostgreSQL dispatch, API scope and independent process/database handoff.
 

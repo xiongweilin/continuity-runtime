@@ -54,10 +54,14 @@ class ContinuityRuntime:
         policy: AdmissionPolicy | None = None,
         verifiers: dict[str, DomainVerifier] | None = None,
         version_authorities: dict[str, VersionAuthority] | None = None,
+        admission_profiles: dict[str, AdmissionPolicy] | None = None,
     ) -> None:
         self.db = db
         self.adapters = dict(adapters or {})
         self.policy = policy or BaselinePolicy()
+        # Explicit grant-owned nonbaseline profiles never fall back to baseline.
+        # The policy implementations are host-provided, not chosen by Agent payload.
+        self.admission_profiles = dict(admission_profiles or {})
         self.verifiers = dict(verifiers or {})
         # Caller-controlled observations can never alone authorize reality-facing writes.
         # An independent trusted source reader must cover every guarded version ref.
@@ -67,12 +71,15 @@ class ContinuityRuntime:
         self, *, grant_id: str, principal: str, actors: list[str], provider: str,
         resource_prefix: str, action: str, expires_at: datetime | None = None,
         required_version_refs: list[str] | None = None,
+        admission_profile: str = "baseline",
     ) -> dict:
         if not all([grant_id, principal, actors, provider, resource_prefix, action]):
             raise ValueError("grant fields and actors are required")
         if len(set(actors)) != len(actors) or any(not a for a in actors):
             raise ValueError("grant actors must be distinct and nonempty")
         required_version_refs = required_version_refs or []
+        if not admission_profile or admission_profile.strip() != admission_profile:
+            raise ValueError("admission profile must be a stable nonempty name")
         if len(set(required_version_refs)) != len(required_version_refs) or any(
             not isinstance(ref, str) or not ref for ref in required_version_refs
         ):
@@ -82,7 +89,8 @@ class ContinuityRuntime:
                 raise Conflict("grant id already exists")
             cx.execute(grants.insert().values(
                 id=grant_id, principal=principal, actors=actors,
-                required_version_refs=required_version_refs, provider=provider,
+                required_version_refs=required_version_refs,
+                admission_profile=admission_profile, provider=provider,
                 resource_prefix=resource_prefix, action=action,
                 expires_at=expires_at, revoked=False, revision=1, created_at=utcnow(),
             ))
@@ -90,6 +98,7 @@ class ContinuityRuntime:
                 "principal": principal, "provider": provider,
                 "resource_prefix": resource_prefix, "action": action,
                 "required_version_refs": required_version_refs,
+                "admission_profile": admission_profile,
             })
         return self.get_grant(grant_id)
 
@@ -374,7 +383,19 @@ class ContinuityRuntime:
         adapter = self.adapters.get(intent.provider)
         if adapter is None:
             raise Denied("no trusted executor registered for provider")
-        decision = self.policy.evaluate(intent, dict(row["expected_versions"]))
+        with self.db.engine.connect() as cx:
+            selected_profile = cx.execute(select(grants.c.admission_profile).where(
+                grants.c.id == row["authority_id"],
+            )).scalar_one()
+        if selected_profile == "baseline":
+            checker = self.policy
+        else:
+            checker = self.admission_profiles.get(selected_profile)
+            if checker is None:
+                raise Held("required admission profile not installed: " + selected_profile)
+        decision = checker.evaluate(intent, dict(row["expected_versions"]))
+        if selected_profile != "baseline" and decision.policy_version != selected_profile:
+            raise Denied("admission checker returned mismatched profile identity")
         if decision.decision not in ("admit", "hold", "deny"):
             raise Denied("invalid admission decision")
         if decision.decision != "admit":

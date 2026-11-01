@@ -9,7 +9,7 @@ import pytest
 from continuity.canary_admission import (
     CanaryAdmissionPolicy, CanaryGuardrails, CanaryScope, CanarySnapshot, CanaryStage,
 )
-from continuity.contracts import Denied, Intent
+from continuity.contracts import Denied, Held, Intent
 
 
 def setup_policy():
@@ -84,7 +84,7 @@ def test_canary_blocks_skipped_stage_and_mismatched_target():
 def test_canary_integrates_with_separate_authority_and_effect_boundary(setup):
     runtime, provider = setup
     policy, intent, box = setup_policy()
-    runtime.policy = policy
+    runtime.admission_profiles["canary-stage-v1"] = policy
     # Use the existing isolated test adapter, but enforce the exact canary
     # provider scope in policy; no real deployment traffic is modified.
     runtime.adapters["traffic"] = provider
@@ -93,6 +93,7 @@ def test_canary_integrates_with_separate_authority_and_effect_boundary(setup):
         actors=["agent-a", "agent-b"], provider="traffic",
         resource_prefix="deployment:one", action="promote",
         required_version_refs=["deployment:one:revision"],
+        admission_profile="canary-stage-v1",
     )
     runtime.observe(actor="agent-a", ref="deployment:one:revision",
                     source_revision="r7", evidence_ref="agent:observation")
@@ -111,7 +112,7 @@ def test_canary_integrates_with_separate_authority_and_effect_boundary(setup):
 def test_canary_missing_required_version_stops_at_authority(setup):
     runtime, provider = setup
     policy, intent, box = setup_policy()
-    runtime.policy = policy
+    runtime.admission_profiles["canary-stage-v1"] = policy
     runtime.adapters["traffic"] = provider
     runtime.issue_grant(
         grant_id="traffic-grant", principal="mission",
@@ -122,4 +123,53 @@ def test_canary_missing_required_version_stops_at_authority(setup):
     with pytest.raises(Denied, match="authority-required"):
         runtime.submit(replace(intent, expected_versions={}),
                        actor="agent-a", participants=["agent-a"])
+    assert provider.calls == 0
+
+
+
+def test_missing_covered_checker_never_falls_back_to_baseline(setup):
+    runtime, provider = setup
+    policy, intent, box = setup_policy()
+    runtime.adapters["traffic"] = provider
+    runtime.issue_grant(
+        grant_id="traffic-grant", principal="mission",
+        actors=["agent-a", "agent-b"], provider="traffic",
+        resource_prefix="deployment:one", action="promote",
+        required_version_refs=["deployment:one:revision"],
+        admission_profile="canary-stage-v1",
+    )
+    runtime.observe(actor="agent-a", ref="deployment:one:revision",
+                    source_revision="r7", evidence_ref="agent:reported")
+    runtime.version_authorities["deployment:one:revision"] = lambda: box["value"].revision
+    runtime.submit(intent, actor="agent-a", participants=["agent-a", "agent-b"])
+    with pytest.raises(Held, match="profile not installed"):
+        runtime.dispatch("op-traffic", actor="agent-b")
+    assert provider.calls == 0
+    runtime.admission_profiles["canary-stage-v1"] = policy
+    assert runtime.dispatch("op-traffic", actor="agent-b")["status"] == "pending_verification"
+
+
+def test_wrong_checker_identity_does_not_satisfy_covered_grant(setup):
+    from continuity.contracts import Admission
+
+    runtime, provider = setup
+    _, intent, box = setup_policy()
+    runtime.adapters["traffic"] = provider
+    runtime.issue_grant(grant_id="traffic-grant", principal="mission",
+        actors=["agent-a", "agent-b"], provider="traffic",
+        resource_prefix="deployment:one", action="promote",
+        required_version_refs=["deployment:one:revision"],
+        admission_profile="canary-stage-v1")
+    runtime.observe(actor="agent-a", ref="deployment:one:revision",
+                    source_revision="r7", evidence_ref="agent:reported")
+    runtime.version_authorities["deployment:one:revision"] = lambda: box["value"].revision
+
+    class WrongChecker:
+        def evaluate(self, intent, observations):
+            return Admission("admit", policy_version="baseline-v1")
+
+    runtime.admission_profiles["canary-stage-v1"] = WrongChecker()
+    runtime.submit(intent, actor="agent-a", participants=["agent-a", "agent-b"])
+    with pytest.raises(Denied, match="mismatched profile"):
+        runtime.dispatch("op-traffic", actor="agent-b")
     assert provider.calls == 0

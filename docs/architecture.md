@@ -23,7 +23,9 @@ The administrator may configure `required_version_refs` on each grant. Agents ca
 
 The HTTP bearer token only authenticates a caller identity. For effects, a separately granted authorization must cover principal, actors, provider, action and target; the grant can be revoked. Production requires upstream TLS, enterprise auth, secrets rotation, proper tenancy and an independent access-control review. Grants are a minimal example, not a replacement for sophisticated IAM.
 
-The current `AdmissionPolicy` may be replaced by a domain-specific BAA policy, but the baseline has no safety guarantee beyond the stated engineering constraints. **Never market it as BAA enforcement without an actual, verified BAA implementation and full mediation.**
+Each grant may name an `admission_profile`, which is persisted by the authority issuer and selected on the trusted Runtime side. A missing nonbaseline checker fails closed; admission never silently falls back to the baseline. Profile names are not cryptographic attestation of checker implementation and do not replace code review or deployment control.
+
+A **bounded BAA-inspired canary stage policy** is implemented in `canary_admission.py`: trusted telemetry source, stage sequence, freshness, rollback checks, request coverage and error/latency guardrails. This is **not the complete BAA-Protocol**, a global risk budget or a formal proof. The baseline has no safety guarantee beyond the stated engineering constraints. **Never market it as BAA enforcement without an actual, verified BAA implementation and full mediation.**
 
 The external readback adapter must be trusted and correctly implement evidence and historical effect semantics. An empty current snapshot does not establish historical non-effect. SQL row locks protect Runtime coordination only, not arbitrary remote requests, network packets or old workers.
 

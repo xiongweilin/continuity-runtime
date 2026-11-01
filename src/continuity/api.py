@@ -158,6 +158,10 @@ def create_app(runtime: ContinuityRuntime, *, tokens: dict[str, Caller] | None =
     def verify(operation_id: str, actor: Caller = Depends(principal)):
         return runtime.verify_outcome(operation_id, actor=actor.actor)
 
+    @app.get("/v1/admin/recovery-queue")
+    def recovery_queue(limit: int = 100, _: Caller = Depends(admin)):
+        return runtime.recovery_queue(limit=limit)
+
     @app.get("/v1/events")
     def stream(after: int = 0, limit: int = 100, _: Caller = Depends(admin)):
         return runtime.events(after=after, limit=limit)

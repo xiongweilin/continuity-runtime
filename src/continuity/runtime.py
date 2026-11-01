@@ -512,6 +512,27 @@ class ContinuityRuntime:
             })
         return self.get_operation(operation_id, actor=actor)
 
+    def recovery_queue(self, *, limit: int = 100) -> list[dict]:
+        """Read-only operational worklist; it never authorizes redispatch."""
+        bounded = max(1, min(limit, 500))
+        with self.db.engine.connect() as cx:
+            pending = cx.execute(
+                select(
+                    operations.c.id, operations.c.provider, operations.c.resource_ref,
+                    operations.c.status, operations.c.dispatch_generation,
+                    operations.c.effect_disposition, operations.c.outcome_disposition,
+                    operations.c.updated_at,
+                ).where(
+                    (operations.c.status.in_((
+                        "may_have_been_sent", "unknown", "pending_verification",
+                    ))) | (
+                        (operations.c.status == "effect_confirmed") &
+                        (operations.c.outcome_disposition == "unverified")
+                    )
+                ).order_by(operations.c.updated_at, operations.c.id).limit(bounded)
+            ).mappings().all()
+            return [dict(x) for x in pending]
+
     def events(self, after: int = 0, limit: int = 100) -> list[dict]:
         return self.db.event_stream(after=after, limit=limit)
 

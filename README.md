@@ -70,6 +70,8 @@ The `compose.yaml` profile runs PostgreSQL and the API; set `POSTGRES_PASSWORD` 
 
 ## Integration surface
 
+**Recovery worklist:** `GET /v1/admin/recovery-queue` is a read-only, admin-only view of uncertain effects and verified effects without domain outcome. It cannot cancel, forcibly complete or redispatch operations. There is intentionally no admin "mark success" shortcut.
+
 **HTTP:** `/v1/grants` (admin issue), `/v1/grants/{id}/revoke` (admin), `/v1/observations`, `/v1/links`, `/v1/operations`, `/v1/operations/{id}/dispatch`, `/v1/operations/{id}/reconcile`, `/v1/operations/{id}/verify-outcome`, `/v1/events` (admin).
 
 **Durable handoff checkpoints:** `POST /v1/subscriptions` creates an actor-owned consumer, `GET /v1/subscriptions/{id}` polls from its last acknowledgement and `POST /v1/subscriptions/{id}/ack` advances the revision-checked cursor only up to a previously offered sequence. Delivery is **at least once**, not exactly once; the downstream worker must process events idempotently and acknowledge only after durable work. Two workers using the same consumer can see the same batch.

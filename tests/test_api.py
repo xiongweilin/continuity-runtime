@@ -40,3 +40,27 @@ def test_disabled_default_tokens(setup):
     client = TestClient(create_app(runtime, tokens={}))
     assert client.get("/health").status_code == 200
     assert client.get("/v1/events", headers={"Authorization": "Bearer anything"}).status_code == 401
+
+
+
+def test_admin_recovery_queue_exposes_no_payload_or_public_access(setup):
+    runtime, _ = setup
+    from continuity.contracts import Intent
+
+    runtime.submit(Intent("queue-op", "mission", "counter", "items/one",
+        "increment", {"secret": "sensitive"}, "grant"),
+        actor="agent-a", participants=["agent-a", "agent-b"])
+    runtime.dispatch("queue-op", actor="agent-a")
+    client = TestClient(create_app(runtime, tokens={
+        "root-token": Caller("root", admin=True), "user-token": Caller("agent-a"),
+    }))
+    url = "/v1/admin/recovery-queue"
+    assert client.get(url).status_code == 401
+    assert client.get(url, headers={"Authorization": "Bearer user-token"}).status_code == 403
+    resp = client.get(url, headers={"Authorization": "Bearer root-token"})
+    assert resp.status_code == 200
+    matches = [x for x in resp.json() if x["id"] == "queue-op"]
+    assert len(matches) == 1
+    assert matches[0]["status"] == "pending_verification"
+    assert "payload" not in matches[0]
+    assert "secret" not in resp.text

@@ -1,0 +1,6 @@
+{"seq":1,"scope":"purchase-7","event":"scope.cut","data":{"source_id":"domain-ledger-procurement","cut_id":"purchase-7-cut-44","query_id":"open-obligations-effects-v1","revision":"v2","current_revision":"v2"}}
+{"seq":2,"scope":"purchase-7","event":"goal.superseded","data":{"old_goal":"purchase-v1","new_goal":"investigate-v2","decision_ref":"goal-owner:decision-92"}}
+{"seq":3,"scope":"purchase-7","event":"responsibility.opened","data":{"id":"verify-po-07","owner":"agent-a","action":"investigate"}}
+{"seq":4,"scope":"purchase-7","event":"responsibility.opened","data":{"id":"notify-supplier","owner":"agent-a","action":"notify"}}
+{"seq":5,"scope":"purchase-7","event":"provider.effect","data":{"effect_key":"erp-draft-po-07","status":"confirmed","readback_ref":"erp:readback-217"}}
+{"seq":6,"scope":"purchase-7","event":"authorization.snapshot","data":{"grants":[{"id":"grant-a-v1","scope":"purchase-7","actor":"agent-a","action":"investigate","revision":"v1","status":"revoked","issuer_id":"authority-owner"},{"id":"grant-b-v2","scope":"purchase-7","actor":"agent-b","action":"investigate","revision":"v2","status":"pending","issuer_id":"authority-owner"},{"id":"grant-c-v1","scope":"purchase-7","actor":"agent-c","action":"notify","revision":"v1","status":"active","issuer_id":"authority-owner"}]}}

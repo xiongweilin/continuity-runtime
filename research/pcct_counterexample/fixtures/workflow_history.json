@@ -1,0 +1,18 @@
+{
+  "snapshot": {
+    "case": "purchase-7",
+    "owner_system": "dbos-procurement-history",
+    "history_cut": "purchase-7-history-901",
+    "projection_query": "task-effect-authorization-projection-v3",
+    "evidence_revision": "v2",
+    "current_revision": "v2"
+  },
+  "workflow_history": [
+    {"event_index": 1, "event_type": "SnapshotPinned", "result": {"cursor": "history:1-6"}},
+    {"event_index": 2, "event_type": "DecisionApplied", "result": {"superseded_definition": "purchase-v1", "active_definition": "investigate-v2", "owner_decision": "goal-owner:decision-92"}},
+    {"event_index": 3, "event_type": "TaskRegistered", "result": {"task_key": "verify-po-07", "assignee": "agent-a", "required_action": "investigate"}},
+    {"event_index": 4, "event_type": "TaskRegistered", "result": {"task_key": "notify-supplier", "assignee": "agent-a", "required_action": "notify"}},
+    {"event_index": 5, "event_type": "ExternalOperationReadBack", "result": {"idempotency_key": "erp-draft-po-07", "result": "confirmed", "readback": "erp:readback-217"}},
+    {"event_index": 6, "event_type": "AuthorizationProjection", "result": {"authorizations": [{"authorization_id": "grant-a-v1", "case": "purchase-7", "principal": "agent-a", "capability": "investigate", "evidence_revision": "v1", "state": "revoked", "issuer": "authority-owner"}, {"authorization_id": "grant-b-v2", "case": "purchase-7", "principal": "agent-b", "capability": "investigate", "evidence_revision": "v2", "state": "pending", "issuer": "authority-owner"}, {"authorization_id": "grant-c-v1", "case": "purchase-7", "principal": "agent-c", "capability": "notify", "evidence_revision": "v1", "state": "active", "issuer": "authority-owner"}]}}
+  ]
+}

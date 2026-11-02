@@ -7,7 +7,7 @@
 
 | Evidence | Confirmed in that bounded setting | Not established |
 |---|---|---|
-| [Phase B live GitHub effect](../validation/phase-b-real-effect-acceptance-2026-11-01.md) (open PR #4) | One authorized sandbox label operation was independently read back and confirmed | General production security, exactly-once delivery, usefulness or ROI |
+| [Phase B live GitHub effect acceptance (PR #4)](https://github.com/xiongweilin/continuity-runtime/pull/4) (open PR #4) | One authorized sandbox label operation was independently read back and confirmed | General production security, exactly-once delivery, usefulness or ROI |
 | [Phase C](https://github.com/xiongweilin/continuity-runtime/issues/6) (open PRs #5 and #10) | 160 simulated arm-trials; both arms had equal goal/recovery counts, zero recorded safety violations, no measured human-intervention advantage | Infrastructure cost, setup/maintenance burden, incremental business benefit |
 | [Phase D](https://github.com/xiongweilin/continuity-runtime/issues/12) (open PRs #11, #13 and #14) | 24 simulated arm-trials; both arms had 9/12 satisfied and 3/12 correctly unresolved, 0 recorded safety/functionality violations; historic partial effects, goal changes and handoffs tracked | Advantage in operator reconstruction (60 steps per arm), measured operator time or ROI, database-level isolation of Agent identities |
 

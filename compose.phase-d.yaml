@@ -1,0 +1,74 @@
+name: continuity-phase-d
+services:
+  postgres:
+    image: postgres:17@sha256:b8faeff7712663c2773a190181e1246e37e364b887611c04658c28b44e2408fe
+    environment:
+      POSTGRES_USER: phased_admin
+      POSTGRES_PASSWORD: ${PHASED_PG_PASSWORD:?set a fresh test-only password}
+      POSTGRES_DB: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U phased_admin -d postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    volumes:
+      - phased_postgres_data:/var/lib/postgresql/data
+    networks:
+      - phased_internal
+    cpus: 2.0
+    mem_limit: 2g
+    restart: "no"
+
+  runner:
+    build:
+      context: .
+      dockerfile: Dockerfile.phase-d
+    environment:
+      PHASED_ADMIN_DATABASE_URL: postgresql+psycopg://phased_admin:${PHASED_PG_PASSWORD}@postgres:5432/postgres
+      PHASED_OUTPUT_DIR: /results
+      PHASED_PROVIDER_DATA_DIR: /provider-data
+      PHASED_PROXY_LOG_DIR: /proxy-log
+      PHASED_SOURCE_DATA_DIR: /source-data
+      PHASED_DOMAIN_DATA_DIR: /domain-data
+      PHASED_BARRIER_ROOT: /barriers
+      PHASED_NETWORK_POLICY: isolated_internal_no_egress
+      PHASED_CODE_SHA: ${PHASED_CODE_SHA:-unknown}
+      PHASED_WORKTREE_CLEAN: ${PHASED_WORKTREE_CLEAN:-false}
+      PHASED_RUNNER_IMAGE_ID: ${PHASED_RUNNER_IMAGE_ID:-unknown}
+      PHASED_POSTGRES_IMAGE_ID: ${PHASED_POSTGRES_IMAGE_ID:-unknown}
+      PHASED_POSTGRES_IMAGE: postgres:17@sha256:b8faeff7712663c2773a190181e1246e37e364b887611c04658c28b44e2408fe
+      PYTHONPATH: /app
+    volumes:
+      - type: bind
+        source: ${PHASED_RESULTS_HOST_DIR:?set a host output directory}
+        target: /results
+        bind:
+          create_host_path: true
+      - phased_provider_data:/provider-data
+      - phased_proxy_logs:/proxy-log
+      - phased_source_data:/source-data
+      - phased_domain_data:/domain-data
+      - phased_barriers:/barriers
+    networks:
+      - phased_internal
+    depends_on:
+      postgres:
+        condition: service_healthy
+    cpus: 2.0
+    mem_limit: 4g
+    init: true
+    security_opt:
+      - no-new-privileges:true
+    restart: "no"
+
+networks:
+  phased_internal:
+    internal: true
+
+volumes:
+  phased_postgres_data:
+  phased_provider_data:
+  phased_proxy_logs:
+  phased_source_data:
+  phased_domain_data:
+  phased_barriers:

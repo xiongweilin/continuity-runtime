@@ -20,6 +20,7 @@ A credible alternative must have a precise property not supplied merely by anoth
 | Versioned policy decisions and audit | [OPA decision logs](https://www.openpolicyagent.org/docs/management-decision-logs) | Authorization history is not unique. |
 | Provenance and portable signed claims | [in-toto attestations](https://github.com/in-toto/attestation), [OpenLineage](https://openlineage.io/docs/spec/facets/job-facets/) | A signed handoff JSON blob or dependency graph alone is not novel. |
 | Bilateral agent action attestation | [Internet-Draft: bilateral cross-organization agent action](https://datatracker.ietf.org/doc/html/draft-mih-agent-bilateral-attestation-02), September 2026 **draft, not a final standard** | Requiring two signatures is not sufficient differentiation either. |
+| Independent assurance profiles composed by action digest | [Internet-Draft: Agent Accountability Composition](https://datatracker.ietf.org/doc/draft-mih-sato-agent-accountability-composition/), August 2026 **individual draft, not a formal standard** | Combining CAN/WHO/WHAT/AUDIT proofs for an agent action is already proposed. PCCT must address **bounded open-obligation accounting across changing goals**, not merely combine signatures or provenance. |
 
 **Finding:** there is no demonstrated new *primitive* in the existing Runtime. The research candidate below is a proposed **compositional verification property**, not an assertion of being the first ever to combine these concepts. A more exhaustive literature/patent search would still be needed before any originality claim.
 

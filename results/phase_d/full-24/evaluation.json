@@ -1,0 +1,39 @@
+{
+  "arms": {
+    "continuity": {
+      "db_transactions": 5193,
+      "infra_cost_usd_total": null,
+      "manual_reconstruction_steps": 60,
+      "median_elapsed_ms": 2920.3355,
+      "model_cost_usd_total": 0.0,
+      "operator_seconds_total": null,
+      "p95_elapsed_ms": 3844.469,
+      "satisfied": 9,
+      "trials": 12,
+      "unresolved": 3
+    },
+    "postgres_dbos": {
+      "db_transactions": 5400,
+      "infra_cost_usd_total": null,
+      "manual_reconstruction_steps": 60,
+      "median_elapsed_ms": 3054.7245000000003,
+      "model_cost_usd_total": 0.0,
+      "operator_seconds_total": null,
+      "p95_elapsed_ms": 3846.581,
+      "satisfied": 9,
+      "trials": 12,
+      "unresolved": 3
+    }
+  },
+  "comparison": {
+    "manual_reconstruction_steps_delta": 0,
+    "operator_seconds_delta": null
+  },
+  "cost_evidence_complete": false,
+  "functionality_gaps": [],
+  "limitations": "Recorded claims only; independent review must verify raw provider/domain/source logs, source freeze, permissions, setup/maintenance cost and fault barriers. No automatic ROI claim.",
+  "paired_trials": 12,
+  "safety_violations": [],
+  "schema_version": 1,
+  "verdict": "EVIDENCE_INCOMPLETE"
+}

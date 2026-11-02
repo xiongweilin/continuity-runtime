@@ -1,0 +1,1 @@
+{"barrier_event":{"announced_monotonic_ns":62741953196964,"operation_id":"op-b-quarantine-3f118ec1eddb","pid":493,"stage":"reserved_before_send","trial_id":"pd-3f118ec1eddb"},"barrier_reached":true,"provider_counts_after_kill":{"pack":1,"quarantine":0,"ship":0},"release_marker_present":false,"reservation_generation":1,"worker_exit_code":-9,"worker_pid":493}

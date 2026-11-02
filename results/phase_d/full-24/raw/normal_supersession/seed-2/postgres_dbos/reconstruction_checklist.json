@@ -1,0 +1,1 @@
+{"note":"scripted evidence lookup count; human operator time was not observed","operator_seconds":null,"steps":["trusted-source revision history","domain goal and authority history","mock-provider effects and readbacks","fault-proxy and reservation-barrier evidence","Runtime/DBOS operation, grant and event state"],"steps_completed":5}

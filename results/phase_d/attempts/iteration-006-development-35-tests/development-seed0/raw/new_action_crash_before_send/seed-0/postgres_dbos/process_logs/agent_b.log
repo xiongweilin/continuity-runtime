@@ -1,0 +1,10 @@
+06:16:55 [    INFO] (dbos:_dbos.py:500) Initializing DBOS (v2.31.1)
+06:16:55 [    INFO] (dbos:_dbos.py:569) Executor ID: local
+06:16:55 [    INFO] (dbos:_dbos.py:570) Application version: 04f21de2312a9042a81452b16e74ace2edfe8c36
+06:16:55 [    INFO] (dbos:_dbos.py:571) Application name: phase-d-baseline
+06:16:55 [    INFO] (dbos:_sys_db.py:664) Initializing DBOS system database with URL: [trial database URL redacted] (schema: dbos)
+06:16:55 [    INFO] (dbos:_sys_db.py:672) DBOS system database engine parameters: {'connect_args': {'application_name': 'dbos_transact', 'connect_timeout': 10}, 'pool_timeout': 30, 'max_overflow': 0, 'pool_size': 20, 'pool_pre_ping': True}
+06:16:55 [    INFO] (dbos:_dbos.py:674) No workflows to recover from application version 04f21de2312a9042a81452b16e74ace2edfe8c36
+06:16:55 [    INFO] (dbos:_dbos.py:775) DBOS launched!
+06:16:55 [    INFO] (dbos:_dbos.py:783) To view and manage workflows, connect to DBOS Conductor at: https://console.dbos.dev/self-host?appname=phase-d-baseline
+06:16:55 [    INFO] (dbos:_queue.py:1144) Listening to 0 queues:

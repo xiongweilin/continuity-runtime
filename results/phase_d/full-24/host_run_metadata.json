@@ -1,0 +1,32 @@
+﻿{
+    "compose_postgres_start_exit_code":  0,
+    "docker_compose_version":  "5.6.0",
+    "host_os_version":  "10.0.26300",
+    "source_worktree_dirty_entry_count":  0,
+    "runner_image_id":  "sha256:84b8822db171a39e726cdc072fe3b2c5d5f8650c44c5aed1ca8039f0e39eef4e",
+    "resources_remaining_after_cleanup":  {
+                                              "networks":  0,
+                                              "containers":  0,
+                                              "volumes":  0
+                                          },
+    "schema_version":  1,
+    "design_branch_protected":  true,
+    "runner_exit_code":  0,
+    "postgres_image_id":  "sha256:b8faeff7712663c2773a190181e1246e37e364b887611c04658c28b44e2408fe",
+    "build_exit_code":  0,
+    "compose_cleanup_exit_code":  0,
+    "github_or_provider_credentials_removed_by_name":  [
+
+                                                       ],
+    "finished_at_utc":  "2026-11-02T06:26:11.6329017Z",
+    "host_architecture":  "AMD64",
+    "no_external_provider_used":  true,
+    "worktree_clean_at_launch":  true,
+    "docker_engine_version":  "29.9.2",
+    "run_error_type":  null,
+    "mode":  "full",
+    "code_sha":  "f8eb9393eeabd12c893ea0f0845cc9e7fabc2bcd",
+    "output_name":  "full-24",
+    "host_os_caption":  "Microsoft Windows 11 专业版",
+    "no_github_pat_used":  true
+}

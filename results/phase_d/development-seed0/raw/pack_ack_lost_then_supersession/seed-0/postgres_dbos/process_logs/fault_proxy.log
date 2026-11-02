@@ -1,0 +1,1 @@
+{"arm": "postgres_dbos", "port": 35395, "ready": true, "role": "phase_d_fault_proxy", "seed": 0, "trial_id": "pd-b87b02cda6dd"}

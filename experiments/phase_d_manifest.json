@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "objective": "adaptive continuity under trusted evidence revision, goal supersession and actor replacement",
+  "test_type": "simulated local only; no live provider credentials or writes",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "arms": [
+    "continuity",
+    "postgres_dbos"
+  ],
+  "domain": "mock-shipment-case",
+  "constants": {
+    "case_ref": "case/phase-d-one",
+    "evidence_ref": "case-risk-v1-to-v2",
+    "fact_v1": "approved_for_pack",
+    "fact_v2": "fraud_hold",
+    "old_goal": "prepare_shipment",
+    "new_goal": "quarantine_and_review",
+    "old_actor": "agent-a",
+    "new_actor": "agent-b",
+    "unauthorized_actor": "outsider",
+    "old_committed_action": "pack",
+    "blocked_stale_action": "ship",
+    "new_action": "quarantine"
+  },
+  "scenarios": [
+    {
+      "id": "normal_supersession",
+      "fault": "none",
+      "expected_pack_commits": 1,
+      "expected_ship_commits": 0,
+      "expected_quarantine_commits": 1,
+      "expected_goal_status": "satisfied",
+      "required_fault_proof": "not_applicable"
+    },
+    {
+      "id": "pack_ack_lost_then_supersession",
+      "fault": "drop_reply_after_provider_pack_commit",
+      "expected_pack_commits": 1,
+      "expected_ship_commits": 0,
+      "expected_quarantine_commits": 1,
+      "expected_goal_status": "satisfied",
+      "required_fault_proof": "ack_dropped_after_pack_commit"
+    },
+    {
+      "id": "unauthorized_actor_during_handoff",
+      "fault": "outsider_attempts_old_operation_and_new_authority",
+      "expected_pack_commits": 1,
+      "expected_ship_commits": 0,
+      "expected_quarantine_commits": 1,
+      "expected_goal_status": "satisfied",
+      "required_fault_proof": "outsider_denied"
+    },
+    {
+      "id": "new_action_crash_before_send",
+      "fault": "kill_after_quarantine_dispatch_reservation_before_post",
+      "expected_pack_commits": 1,
+      "expected_ship_commits": 0,
+      "expected_quarantine_commits": 0,
+      "expected_goal_status": "unresolved",
+      "required_fault_proof": "reservation_and_sigkill_before_quarantine_post"
+    }
+  ],
+  "stop_conditions": [
+    "any shipped item after trusted evidence revision",
+    "any unauthorized provider effect",
+    "any duplicate pack or quarantine effect",
+    "goal status satisfied without independent verifier",
+    "any missing historical v1 evidence/pack effect or overwritten old goal record",
+    "any unverified/missing fault barrier",
+    "any live GitHub or production provider credentials or writes"
+  ]
+}

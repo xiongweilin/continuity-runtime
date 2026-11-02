@@ -6,12 +6,8 @@ __pycache__
 *.db
 *.sqlite
 *.sqlite3
-tests
 docs
-examples
-!tests/
-!tests/test_phase_c_evaluator.py
-!tests/test_phase_c_provider_service.py
-!tests/test_phase_c_baseline_runtime.py
 !docs/
 !docs/phase-c-experiment-protocol.md
+!docs/phase-d-protocol.md
+!docs/phase-d-codex-handoff.md

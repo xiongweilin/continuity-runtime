@@ -25,6 +25,8 @@ With Docker and a cached `postgres:17` image available, run from the repository 
 
 The harness creates a temporary Docker bridge network, a named volume, and a PostgreSQL 17 container published only on loopback. The bridge can route outward, but the test program makes no provider or other external calls. It records test and cleanup exit codes in a new `%LOCALAPPDATA%\ContinuityRuntime\PcctResearch\...` directory, then removes the container, volume, and network. It does not pull images or use GitHub credentials, provider accounts, or external writes.
 
+The PostgreSQL tests also accept the repository CI variable `CONTINUITY_TEST_POSTGRES_URL`; they create a unique per-test schema and drop only that schema. The standalone harness sets `CONTINUITY_PCCT_TEST_DSN` instead.
+
 ## Interpretation
 
 The application policy is intentionally direct: one record per obligation, one authorized disposition for every open obligation, preservation of every prior effect, fresh owner-signed goal decision, a role-authorized replacement grant, old-owner release, recipient acceptance, and isolation of unrelated actions. No code is imported from `research/pcct/semantic_oracle.py`; that file is an expected-output oracle only.

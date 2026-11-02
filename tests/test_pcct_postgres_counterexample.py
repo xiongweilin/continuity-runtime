@@ -25,9 +25,12 @@ SCHEMA = Path(__file__).parents[1] / "research/pcct_counterexample/schema.sql"
 
 @pytest.fixture
 def database():
-    dsn = os.environ.get("CONTINUITY_PCCT_TEST_DSN")
+    dsn = os.environ.get("CONTINUITY_PCCT_TEST_DSN") or os.environ.get(
+        "CONTINUITY_TEST_POSTGRES_URL"
+    )
     if not dsn:
-        pytest.skip("CONTINUITY_PCCT_TEST_DSN is not configured")
+        pytest.skip("No PostgreSQL test DSN is configured")
+    dsn = dsn.replace("postgresql+psycopg://", "postgresql://", 1)
     conn = psycopg.connect(dsn, autocommit=True)
     schema_name = f"pcct_{uuid.uuid4().hex[:16]}"
     conn.execute(sql.SQL("CREATE SCHEMA {}").format(sql.Identifier(schema_name)))

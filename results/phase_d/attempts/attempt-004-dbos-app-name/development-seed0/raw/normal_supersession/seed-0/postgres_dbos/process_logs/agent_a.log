@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/experiments/phase_d/baseline_worker.py", line 401, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/app/experiments/phase_d/baseline_worker.py", line 361, in main
+    DBOS(config=DBOSConfig(
+  File "/usr/local/lib/python3.12/site-packages/dbos/_dbos.py", line 384, in __new__
+    _dbos_global_instance.__init__(fastapi=fastapi, config=config, flask=flask, conductor_url=conductor_url, conductor_key=conductor_key)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/dbos/_dbos.py", line 489, in __init__
+    self._config: ConfigFile = process_config(data=unvalidated_config)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/dbos/_dbos_config.py", line 395, in process_config
+    raise DBOSInitializationError(
+dbos._error.DBOSInitializationError: DBOS Error 3: Error initializing DBOS Transact: Invalid app name phase-d-postgres-dbos-postgres_dbos.  App names must be between 3 and 30 characters long and contain only lowercase letters, numbers, dashes, and underscores.

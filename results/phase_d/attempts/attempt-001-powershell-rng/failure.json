@@ -1,0 +1,8 @@
+{
+  "attempt": 1,
+  "phase": "host wrapper bootstrap before Docker build",
+  "observed_error": "Method invocation failed because System.Convert does not contain a method named ToHexString.",
+  "outcome": "aborted before run-folder creation; no container, database, service, trial, or evaluator data was created",
+  "fix": "Generate the test-only PostgreSQL password with BitConverter.ToString(...).Replace('-', '').ToLowerInvariant().",
+  "acceptance_data": false
+}

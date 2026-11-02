@@ -21,8 +21,8 @@ def state():
         "cuts": {"obligations": True, "effects": True, "source": True, "authority": True},
         "source_revision": "v2", "source_current_revision": "v2",
         "open_obligations": [
-            {"id": "verify-po", "owner": "agent-a"},
-            {"id": "notify-supplier", "owner": "agent-a"},
+            {"id": "verify-po", "owner": "agent-a", "action": "investigate"},
+            {"id": "notify-supplier", "owner": "agent-a", "action": "notify"},
         ],
         "effect_records": [
             {"effect_key": "odoo-draft-07", "disposition": "confirmed",

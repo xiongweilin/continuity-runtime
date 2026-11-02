@@ -1,0 +1,6 @@
+implementation_commit=a3394ca5b8385e1a0692af695340ee65b4c4b1e9
+parent_commit=47fa3d8516f38dd242273f74923a6095541c5762
+implementation_branch=research/pcct-postgres-policy-counterimplementation-20261102
+implementation_base=research/pcct-discriminating-traces-20261102
+results_base_commit=24332318334c932c2bd7d6133419d806f28801e0
+results_branch=research/pcct-counterimplementation-results-20261102

@@ -1,0 +1,10 @@
+workflow_run_id=41418707254
+workflow=https://github.com/xiongweilin/continuity-runtime/actions/runs/41418707254
+result=success
+job=tests
+postgres_service=postgres:17
+pytest_command=python -m pytest -q
+pytest_result=151 passed, 1 warning, 0 skipped, 4.48 seconds
+new_comparator_cases=51
+new_comparator_postgres_dsn=CONTINUITY_TEST_POSTGRES_URL
+source_commit=a3394ca5b8385e1a0692af695340ee65b4c4b1e9

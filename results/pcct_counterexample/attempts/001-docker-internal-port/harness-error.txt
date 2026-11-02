@@ -1,0 +1,7 @@
+InvalidOperation: %USERPROFILE%\Documents\Codex\2026-11-01\https-github-com-xiongweilin-continuity-runtime-2\work\pcct-counterimplementation\scripts\run_pcct_counterexample.ps1:63
+Line |
+  63 |      $portOutput = (& docker port $containerName '5432/tcp').Trim()
+     |      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | You cannot call a method on a null-valued expression.
+
+

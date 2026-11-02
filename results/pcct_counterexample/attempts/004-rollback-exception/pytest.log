@@ -1,0 +1,3202 @@
+..FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF                                   [100%]
+================================== FAILURES ===================================
+________ test_second_open_obligation_cannot_be_orphaned[domain-events] ________
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF7632A80>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('open_obligation_omitted_or_invented',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF76284C0>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf76217c0>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...94\x7f\xdc\x02:_\x1a*S\xd2\xc3\xb7\xf8\xde\x8d\xdaE$g\xf0\xa1kEm\xdcX\x1f9E\xbcC$\xf5d3#\x0b{\x15\x891N\xf6\x90\x07')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'domain-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed255...ject at 0x0000021BF7668170>, roles=frozenset({'agent'}))}, source_owners={'domain-ledger-procurement': 'domain-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('open_obligation_omitted_or_invented',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf76217c0>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_second_open_obligation_cannot_be_orphaned(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = clean_proposal(evidence.cut)
+        proposal = replace(proposal, dispositions=(proposal.dispositions[0],))
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('open_obligation_omitted_or_invented',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF76284C0>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+______ test_second_open_obligation_cannot_be_orphaned[workflow-history] _______
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF7644560>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('open_obligation_omitted_or_invented',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8B80540>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf7647da0>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...g\xe8,\x914\xccz\x0cL\x8d^\x92^\nu9\xde\xef\xe5\xdeo\x80\xac\xd3\xe1\xe2\x88\x197\x8eut\xd0\xc8+2\x1c\x9a2\xe2;\x01')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'workflow-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed2...ect at 0x0000021BF8B62B50>, roles=frozenset({'agent'}))}, source_owners={'dbos-procurement-history': 'workflow-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('open_obligation_omitted_or_invented',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf7647da0>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_second_open_obligation_cannot_be_orphaned(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = clean_proposal(evidence.cut)
+        proposal = replace(proposal, dispositions=(proposal.dispositions[0],))
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('open_obligation_omitted_or_invented',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8B80540>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+________ test_confirmed_prior_effect_cannot_be_omitted[domain-events] _________
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF7644C20>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('historical_effect_omission_or_invention',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8B7FF40>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf76462d0>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...e@\xd5\x8d\x07%sR\xee/\xd5\xbd\xda/\x12\xba\xba\xa51\xef^\xea\xa6o\xb9%\x81v\xd9\xdd\xd4d`\xad\xfe\xa0M\x0b\x95\x0e')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'domain-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed255...ject at 0x0000021BF7669D70>, roles=frozenset({'agent'}))}, source_owners={'domain-ledger-procurement': 'domain-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('historical_effect_omission_or_invention',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf76462d0>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_confirmed_prior_effect_cannot_be_omitted(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = replace(clean_proposal(evidence.cut), historical_effect_keys=())
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:98: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('historical_effect_omission_or_invention',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8B7FF40>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+_______ test_confirmed_prior_effect_cannot_be_omitted[workflow-history] _______
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF7647BF0>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('historical_effect_omission_or_invention',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8B8DF00>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf7646cf0>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...4\xb3\xd1\xc9p\xc3\x11\xbdw\t\xf4\x93\x0c\x81w\xf4\xbb\xc2n=\xe3O\x82\x15\x18\x08\x9a\xd0\x0bG\xedK\x9fS\t\x9eG\x06')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'workflow-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed2...ect at 0x0000021BF8C99150>, roles=frozenset({'agent'}))}, source_owners={'dbos-procurement-history': 'workflow-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('historical_effect_omission_or_invention',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf7646cf0>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_confirmed_prior_effect_cannot_be_omitted(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = replace(clean_proposal(evidence.cut), historical_effect_keys=())
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:98: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('historical_effect_omission_or_invention',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8B8DF00>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+_______ test_duplicate_successor_disposition_is_rejected[domain-events] _______
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF7645550>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('duplicate_successor_disposition',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8AD5500>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf7645e50>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...\xa1\xc5\x87\x8b0\xa6\xa26J\x16\xcad#\x06*r\\*\xb4/\xd2(\xe3\x90\xdbb\\\xbaTJ)\xbe\xe9\xe868\xe6\xdc>)\xb4\xd0c\x0f')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'domain-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed255...ject at 0x0000021BF8B639F0>, roles=frozenset({'agent'}))}, source_owners={'domain-ledger-procurement': 'domain-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('duplicate_successor_disposition',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf7645e50>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_duplicate_successor_disposition_is_rejected(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = clean_proposal(evidence.cut)
+        proposal = replace(
+            proposal, dispositions=proposal.dispositions + (proposal.dispositions[0],)
+        )
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:112: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('duplicate_successor_disposition',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8AD5500>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+_____ test_duplicate_successor_disposition_is_rejected[workflow-history] ______
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF766F590>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('duplicate_successor_disposition',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8B0E840>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf76457c0>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...7\x0f:\x00\xf2\xd5\x17\x0c\xffN\xa2\x00\x97\xa3\xc9\x0f.\x9b\xa4\x12\x86p\xa3\xe4\xe7\xb3\x1c\x16\xdd\x88|5j\xcaL\r')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'workflow-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed2...ect at 0x0000021BF8D0C930>, roles=frozenset({'agent'}))}, source_owners={'dbos-procurement-history': 'workflow-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('duplicate_successor_disposition',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf76457c0>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_duplicate_successor_disposition_is_rejected(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = clean_proposal(evidence.cut)
+        proposal = replace(
+            proposal, dispositions=proposal.dispositions + (proposal.dispositions[0],)
+        )
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:112: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('duplicate_successor_disposition',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8B0E840>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+___ test_transfer_without_recipient_acceptance_stays_on_hold[domain-events] ___
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF766CA70>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='HOLD', reasons=('grant_not_active:new-check', 'transfer_acceptance_missing:verify-po-07'), eligible_actions=('unaffected-notice',)))
+traceback = <traceback object at 0x0000021BF8AD5B80>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf766e030>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...\x16\xe5\'q\x02}\\w$\xc6\xf5L\xee\x1b\xee\xb6\x7fR\x94\xff\x9e\xa9\xcf\x03\xbe\x1fA\xa2h\xc9wEK\x8f\x1e\x01f\xccb\r')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-...n='notify', grant_id='grant-c-v1', dependency_revision=None, provider_conditional_write=False)), release_acceptance={})
+trust = TrustStore(issuers={'domain-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed255...ject at 0x0000021BF8C77450>, roles=frozenset({'agent'}))}, source_owners={'domain-ledger-procurement': 'domain-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='HOLD', reasons=('grant_not_active:new-check', 'transfer_acceptance_missing:verify-po-07'), eligible_actions=('unaffected-notice',))
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf766e030>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_transfer_without_recipient_acceptance_stays_on_hold(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = replace(clean_proposal(evidence.cut), release_acceptance={})
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:123: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='HOLD', reasons=('grant_not_active:new-check', 'transfer_acceptance_missing:verify-po-07'), eligible_actions=('unaffected-notice',)))
+name = '__traceback__', value = <traceback object at 0x0000021BF8AD5B80>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+_ test_transfer_without_recipient_acceptance_stays_on_hold[workflow-history] __
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF7644EF0>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='HOLD', reasons=('grant_not_active:new-check', 'transfer_acceptance_missing:verify-po-07'), eligible_actions=('unaffected-notice',)))
+traceback = <traceback object at 0x0000021BF89FD580>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf7644a70>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...\xef[\x11R0\xd2\xdb\xce\x83;\xf8\x19\x84\xd28\xc1\x10P\xdd\xe2y@\x94S\x86\x17\xff\xd5\xbc\xf5f\x16\x01\x95{\xe7\x00')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-...n='notify', grant_id='grant-c-v1', dependency_revision=None, provider_conditional_write=False)), release_acceptance={})
+trust = TrustStore(issuers={'workflow-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed2...ect at 0x0000021BF8D0C450>, roles=frozenset({'agent'}))}, source_owners={'dbos-procurement-history': 'workflow-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='HOLD', reasons=('grant_not_active:new-check', 'transfer_acceptance_missing:verify-po-07'), eligible_actions=('unaffected-notice',))
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf7644a70>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_transfer_without_recipient_acceptance_stays_on_hold(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = replace(clean_proposal(evidence.cut), release_acceptance={})
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:123: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='HOLD', reasons=('grant_not_active:new-check', 'transfer_acceptance_missing:verify-po-07'), eligible_actions=('unaffected-notice',)))
+name = '__traceback__', value = <traceback object at 0x0000021BF89FD580>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+_____ test_altered_transfer_signature_is_rejected[release-domain-events] ______
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF766C320>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('bad_signature:obligation-release:agent-a',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8A05140>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf766c200>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...x98;^,\xfe\t\xd9\x99|\x00\xbd\xe9OP\xbb\x10\xcc\xf4\xe86]\xec\x12Tc6\x05\xe6`\xbe\xb9\xf2\xc3\xeebh\xe33\xc6ixJ\x0c')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'domain-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed255...ject at 0x0000021BF8CFF130>, roles=frozenset({'agent'}))}, source_owners={'domain-ledger-procurement': 'domain-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('bad_signature:obligation-release:agent-a',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf766c200>
+source_format = 'domain-events', tamper_kind = 'release'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    @pytest.mark.parametrize("tamper_kind", ["release", "acceptance"])
+    def test_altered_transfer_signature_is_rejected(database, source_format, tamper_kind):
+>       decision, _, _ = evaluate(database, source_format, tamper_kind=tamper_kind)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:133: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('bad_signature:obligation-release:agent-a',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8A05140>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+____ test_altered_transfer_signature_is_rejected[release-workflow-history] ____
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A98C80>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('bad_signature:obligation-release:agent-a',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8B0F180>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a98980>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...x02}\xa5\x8f\x19\x87W\xc1\xf1\x97~\xbaF\xd5\xea\xc9QC|\xee\xb7\x07\x98\xe4fT\x00\x0b\x15\x1a\xae\xabD\xe2p{\x91\x05')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'workflow-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed2...ect at 0x0000021BF8C26370>, roles=frozenset({'agent'}))}, source_owners={'dbos-procurement-history': 'workflow-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('bad_signature:obligation-release:agent-a',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a98980>
+source_format = 'workflow-history', tamper_kind = 'release'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    @pytest.mark.parametrize("tamper_kind", ["release", "acceptance"])
+    def test_altered_transfer_signature_is_rejected(database, source_format, tamper_kind):
+>       decision, _, _ = evaluate(database, source_format, tamper_kind=tamper_kind)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:133: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('bad_signature:obligation-release:agent-a',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8B0F180>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+____ test_altered_transfer_signature_is_rejected[acceptance-domain-events] ____
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF766FE30>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('bad_signature:obligation-acceptance:agent-b',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8B1A280>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf766f950>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'domain-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed255...ject at 0x0000021BF8AFC390>, roles=frozenset({'agent'}))}, source_owners={'domain-ledger-procurement': 'domain-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('bad_signature:obligation-acceptance:agent-b',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf766f950>
+source_format = 'domain-events', tamper_kind = 'acceptance'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    @pytest.mark.parametrize("tamper_kind", ["release", "acceptance"])
+    def test_altered_transfer_signature_is_rejected(database, source_format, tamper_kind):
+>       decision, _, _ = evaluate(database, source_format, tamper_kind=tamper_kind)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:133: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('bad_signature:obligation-acceptance:agent-b',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8B1A280>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+__ test_altered_transfer_signature_is_rejected[acceptance-workflow-history] ___
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A99130>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('bad_signature:obligation-acceptance:agent-b',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8BA3880>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf7645b80>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'workflow-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed2...ect at 0x0000021BF8BF0CB0>, roles=frozenset({'agent'}))}, source_owners={'dbos-procurement-history': 'workflow-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('bad_signature:obligation-acceptance:agent-b',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf7645b80>
+source_format = 'workflow-history', tamper_kind = 'acceptance'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    @pytest.mark.parametrize("tamper_kind", ["release", "acceptance"])
+    def test_altered_transfer_signature_is_rejected(database, source_format, tamper_kind):
+>       decision, _, _ = evaluate(database, source_format, tamper_kind=tamper_kind)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:133: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('bad_signature:obligation-acceptance:agent-b',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8BA3880>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+____________ test_stale_source_cut_holds_transition[domain-events] ____________
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A9B3B0>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='HOLD', reasons=('source_changed_after_attested_cut',), eligible_actions=('new-check', 'unaffected-notice')))
+traceback = <traceback object at 0x0000021BF8C00880>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a9a690>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...x01\x94\xdb\x10\xf9}\x9d\xcd\x03zS>D\x8b\xb3t\xa1A\xd1N\xa9\x0fU\x97\xa5Pr-Zn1\xc1Y\xeeS,\x9eE\x92\xe0]\xa9\xe3\x0c")])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'domain-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed255...ject at 0x0000021BF8D11B50>, roles=frozenset({'agent'}))}, source_owners={'domain-ledger-procurement': 'domain-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='HOLD', reasons=('source_changed_after_attested_cut',), eligible_actions=('new-check', 'unaffected-notice'))
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a9a690>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_stale_source_cut_holds_transition(database, source_format):
+        def advance_source(document):
+            if source_format == "domain-events":
+                document[0]["data"]["current_revision"] = "v3"
+            else:
+                document["snapshot"]["current_revision"] = "v3"
+    
+>       decision, _, _ = evaluate(database, source_format, mutate=advance_source)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='HOLD', reasons=('source_changed_after_attested_cut',), eligible_actions=('new-check', 'unaffected-notice')))
+name = '__traceback__', value = <traceback object at 0x0000021BF8C00880>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+__________ test_stale_source_cut_holds_transition[workflow-history] ___________
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF7646060>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='HOLD', reasons=('source_changed_after_attested_cut',), eligible_actions=('new-check', 'unaffected-notice')))
+traceback = <traceback object at 0x0000021BF8A04940>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a98200>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...\x8e\xf9QZ\xb4{\xd8\xd6VS\x99>\x93\xba:\x02"\x07I\xdc\x17\xc9m\x98\xd0B\xff\xc4\xce"n1B\x80?\x93\x1emE\x08\xaaS\x0c')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'workflow-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed2...ect at 0x0000021BF8C756F0>, roles=frozenset({'agent'}))}, source_owners={'dbos-procurement-history': 'workflow-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='HOLD', reasons=('source_changed_after_attested_cut',), eligible_actions=('new-check', 'unaffected-notice'))
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a98200>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_stale_source_cut_holds_transition(database, source_format):
+        def advance_source(document):
+            if source_format == "domain-events":
+                document[0]["data"]["current_revision"] = "v3"
+            else:
+                document["snapshot"]["current_revision"] = "v3"
+    
+>       decision, _, _ = evaluate(database, source_format, mutate=advance_source)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='HOLD', reasons=('source_changed_after_attested_cut',), eligible_actions=('new-check', 'unaffected-notice')))
+name = '__traceback__', value = <traceback object at 0x0000021BF8A04940>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+_________ test_unknown_prior_effect_is_held_not_erased[domain-events] _________
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A455E0>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='HOLD', reasons=('unknown_prior_effect:erp-draft-po-07',), eligible_actions=('new-check', 'unaffected-notice')))
+traceback = <traceback object at 0x0000021BF8BE8AC0>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf766c080>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...ddd\xa4\xf5\xcf\xf4H\xbe)\xb6\x8a^\x97`\x8a\xa2\x8e5k\x13\xfb\x04\x9d\xc2\xf4\xec\x8c\xdaY\xc6\x1e2\xf7\xd9\xc9\x00")])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'domain-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed255...ject at 0x0000021BF8CFCC90>, roles=frozenset({'agent'}))}, source_owners={'domain-ledger-procurement': 'domain-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='HOLD', reasons=('unknown_prior_effect:erp-draft-po-07',), eligible_actions=('new-check', 'unaffected-notice'))
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf766c080>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_unknown_prior_effect_is_held_not_erased(database, source_format):
+        def make_effect_unknown(document):
+            if source_format == "domain-events":
+                effect = next(row for row in document if row["event"] == "provider.effect")
+                effect["data"]["status"] = "unknown"
+                effect["data"].pop("readback_ref", None)
+            else:
+                effect = next(
+                    row for row in document["workflow_history"]
+                    if row["event_type"] == "ExternalOperationReadBack"
+                )
+                effect["result"]["result"] = "unknown"
+                effect["result"].pop("readback", None)
+    
+>       decision, _, _ = evaluate(database, source_format, mutate=make_effect_unknown)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:166: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='HOLD', reasons=('unknown_prior_effect:erp-draft-po-07',), eligible_actions=('new-check', 'unaffected-notice')))
+name = '__traceback__', value = <traceback object at 0x0000021BF8BE8AC0>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+_______ test_unknown_prior_effect_is_held_not_erased[workflow-history] ________
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A454F0>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='HOLD', reasons=('unknown_prior_effect:erp-draft-po-07',), eligible_actions=('new-check', 'unaffected-notice')))
+traceback = <traceback object at 0x0000021BF8B8D840>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a47d10>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...x88>\xb9\x9d\x99\x8c(r\xff\x90\xfb\x93\xbb\x84cmd\x84\x8a\xc4Z\x1ern\x03\xdf\x8ce\xfc\xab\x1d\x96\x92\xb2\x9eL5\x01')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'workflow-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed2...ect at 0x0000021BF766A910>, roles=frozenset({'agent'}))}, source_owners={'dbos-procurement-history': 'workflow-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='HOLD', reasons=('unknown_prior_effect:erp-draft-po-07',), eligible_actions=('new-check', 'unaffected-notice'))
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a47d10>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_unknown_prior_effect_is_held_not_erased(database, source_format):
+        def make_effect_unknown(document):
+            if source_format == "domain-events":
+                effect = next(row for row in document if row["event"] == "provider.effect")
+                effect["data"]["status"] = "unknown"
+                effect["data"].pop("readback_ref", None)
+            else:
+                effect = next(
+                    row for row in document["workflow_history"]
+                    if row["event_type"] == "ExternalOperationReadBack"
+                )
+                effect["result"]["result"] = "unknown"
+                effect["result"].pop("readback", None)
+    
+>       decision, _, _ = evaluate(database, source_format, mutate=make_effect_unknown)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:166: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='HOLD', reasons=('unknown_prior_effect:erp-draft-po-07',), eligible_actions=('new-check', 'unaffected-notice')))
+name = '__traceback__', value = <traceback object at 0x0000021BF8B8D840>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+_____ test_missing_source_completeness_is_incomplete_scope[domain-events] _____
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A99CA0>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INCOMPLETE_SCOPE', reasons=('source_owner_did_not_attest_complete_cut',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8C1A680>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf7645100>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...\xe2\n\xabA^\xb2\x16\x9a\x1d\xea\xbbM\xed`\xf2NjW\x15\xff\x13\x99\x9f\xab\x99\x9aO\xfar\x84\x95\x06\xfd\xde\xc0\x02')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'domain-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed255...ject at 0x0000021BF8AFE790>, roles=frozenset({'agent'}))}, source_owners={'domain-ledger-procurement': 'domain-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INCOMPLETE_SCOPE', reasons=('source_owner_did_not_attest_complete_cut',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf7645100>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_missing_source_completeness_is_incomplete_scope(database, source_format):
+>       decision, _, _ = evaluate(
+            database,
+            source_format,
+            completeness={"source": True, "obligations": True, "effects": False, "authority": True},
+        )
+
+tests\test_pcct_postgres_counterexample.py:173: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INCOMPLETE_SCOPE', reasons=('source_owner_did_not_attest_complete_cut',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8C1A680>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+___ test_missing_source_completeness_is_incomplete_scope[workflow-history] ____
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A468D0>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INCOMPLETE_SCOPE', reasons=('source_owner_did_not_attest_complete_cut',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8BBEC00>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a478f0>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...xf0\xe0xQS%\xc6\xde"2\x8f\xd5_I]-\x01e2p\x88\x97r\xae\x93\xe8H\x84It\xd8\x84;i\x99\xe2"{\xae\x9bp85\xe8\x13\xc3\x03')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'workflow-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed2...ect at 0x0000021BF8CCE0B0>, roles=frozenset({'agent'}))}, source_owners={'dbos-procurement-history': 'workflow-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INCOMPLETE_SCOPE', reasons=('source_owner_did_not_attest_complete_cut',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a478f0>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_missing_source_completeness_is_incomplete_scope(database, source_format):
+>       decision, _, _ = evaluate(
+            database,
+            source_format,
+            completeness={"source": True, "obligations": True, "effects": False, "authority": True},
+        )
+
+tests\test_pcct_postgres_counterexample.py:173: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INCOMPLETE_SCOPE', reasons=('source_owner_did_not_attest_complete_cut',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8BBEC00>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+________ test_unknown_source_issuer_is_incomplete_scope[domain-events] ________
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A3E180>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INCOMPLETE_SCOPE', reasons=('unknown_issuer:unknown-source',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8C0D300>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a3c650>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...$9;\x0c\x12\xe4\xc3\x0bii\xac\xeaj\xa5`_\x00\xcf\xaa|/\x1a\xccA\xf9\xc9\x1d\x1f\x8c\x19\xe7\xa0\xb6g\xe1\xdc\x10i\t')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'domain-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed255...ject at 0x0000021BF8D10A30>, roles=frozenset({'agent'}))}, source_owners={'domain-ledger-procurement': 'domain-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INCOMPLETE_SCOPE', reasons=('unknown_issuer:unknown-source',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a3c650>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_unknown_source_issuer_is_incomplete_scope(database, source_format):
+>       decision, _, _ = evaluate(database, source_format, unknown_source_issuer=True)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:184: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INCOMPLETE_SCOPE', reasons=('unknown_issuer:unknown-source',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8C0D300>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+______ test_unknown_source_issuer_is_incomplete_scope[workflow-history] _______
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF75E7E00>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INCOMPLETE_SCOPE', reasons=('unknown_issuer:unknown-source',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8B7FEC0>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a46420>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...b\xca\xb8\x128.\xc3]Vx\xbb\xd27aN\x8f\x92{\xf8N"\xd7\xf1\x89/\xec\x17\xb8\xa1\x19:14AZ\x18\x01\xb0\xdbb\n\xd4\xe5\t')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'workflow-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed2...ect at 0x0000021BF8CCCA90>, roles=frozenset({'agent'}))}, source_owners={'dbos-procurement-history': 'workflow-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INCOMPLETE_SCOPE', reasons=('unknown_issuer:unknown-source',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a46420>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_unknown_source_issuer_is_incomplete_scope(database, source_format):
+>       decision, _, _ = evaluate(database, source_format, unknown_source_issuer=True)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:184: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INCOMPLETE_SCOPE', reasons=('unknown_issuer:unknown-source',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8B7FEC0>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+_________ test_expired_source_cut_is_incomplete_scope[domain-events] __________
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A3F320>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INCOMPLETE_SCOPE', reasons=('expired_grant-register', 'expired_source-cut', 'expired_source-head'), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8C3B380>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf7646de0>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...6\xa0\x96\xbb\xecBC\xd1T\x8cW\x83\t\xbc\xbf\x04\xc4 \x81\xfb>}\xdc\xfa\xc9q77\xa3VL\x0b\x15_\xd9\x99C\x95Z\x15>\x08')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'domain-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed255...ject at 0x0000021BF8CF14B0>, roles=frozenset({'agent'}))}, source_owners={'domain-ledger-procurement': 'domain-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INCOMPLETE_SCOPE', reasons=('expired_grant-register', 'expired_source-cut', 'expired_source-head'), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf7646de0>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_expired_source_cut_is_incomplete_scope(database, source_format):
+>       decision, _, _ = evaluate(
+            database, source_format, expires_at=fixed_clock() - timedelta(seconds=1)
+        )
+
+tests\test_pcct_postgres_counterexample.py:191: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INCOMPLETE_SCOPE', reasons=('expired_grant-register', 'expired_source-cut', 'expired_source-head'), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8C3B380>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+________ test_expired_source_cut_is_incomplete_scope[workflow-history] ________
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A3FC20>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INCOMPLETE_SCOPE', reasons=('expired_grant-register', 'expired_source-cut', 'expired_source-head'), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8BE2340>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a3ec00>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...\xb6d3+\xdeU\xff\xc7\xba\xc3\xf9&\xfb\xee\xbd N=p\x13\x83/\xee4\xc2\xc0\xd0\xebK\x90AN\x89\xf8\x0c\xd3\x0e\xa15\x0b')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'workflow-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed2...ect at 0x0000021BF8B601F0>, roles=frozenset({'agent'}))}, source_owners={'dbos-procurement-history': 'workflow-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INCOMPLETE_SCOPE', reasons=('expired_grant-register', 'expired_source-cut', 'expired_source-head'), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a3ec00>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_expired_source_cut_is_incomplete_scope(database, source_format):
+>       decision, _, _ = evaluate(
+            database, source_format, expires_at=fixed_clock() - timedelta(seconds=1)
+        )
+
+tests\test_pcct_postgres_counterexample.py:191: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INCOMPLETE_SCOPE', reasons=('expired_grant-register', 'expired_source-cut', 'expired_source-head'), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8BE2340>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+____________ test_changed_signed_digest_is_invalid[domain-events] _____________
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A3CB60>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('bad_signature:source-cut:domain-owner',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8BD02C0>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a3f650>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...0bUG\x1f)\xbb\x15qO\x18{\x97\xb0%jp3Q\x9f\x9e\xfb\xfe3\x010\xbfj\xaf|\xd7Np\xa7?\xd1\xe0\xea3\x9aum\xf4\xa8\xd3\x0b')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'domain-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed255...ject at 0x0000021BF8D11B90>, roles=frozenset({'agent'}))}, source_owners={'domain-ledger-procurement': 'domain-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('bad_signature:source-cut:domain-owner',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a3f650>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_changed_signed_digest_is_invalid(database, source_format):
+>       decision, _, _ = evaluate(database, source_format, tamper_kind="source-cut")
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('bad_signature:source-cut:domain-owner',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8BD02C0>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+___________ test_changed_signed_digest_is_invalid[workflow-history] ___________
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A9DA90>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('bad_signature:source-cut:workflow-owner',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF89B98C0>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a47d40>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...8a3`Bm\x06\xa3I\xcb\xaf\xd0\xb41\xd6\xbf\xcb\x95R)s\xa9\xf6I\x9d\x8a\x0b\xe5R\xb1\xdc)iA\xb1}=\x8c\x96\xbf[\xfba(\n')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'workflow-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed2...ect at 0x0000021BF8CFE770>, roles=frozenset({'agent'}))}, source_owners={'dbos-procurement-history': 'workflow-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('bad_signature:source-cut:workflow-owner',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a47d40>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_changed_signed_digest_is_invalid(database, source_format):
+>       decision, _, _ = evaluate(database, source_format, tamper_kind="source-cut")
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('bad_signature:source-cut:workflow-owner',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF89B98C0>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+___________ test_equivocal_signed_cuts_are_rejected[domain-events] ____________
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A9D820>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('database_rows_do_not_match_attested_cut', 'equivocal_source-cut'), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8BE9640>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a9fa40>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...d8#\xcd1\xe8\xa5\x7f\x9a'\xc9f\xbdQ\x08\xaf\x1d\xc0\xa2G\xbf\x03\x9eP\xd3}{7|.\xb77\xb3-\xc9x\x15zS\x9dU\xd1\xc3{\t")])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'domain-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed255...ject at 0x0000021BF8CE3930>, roles=frozenset({'agent'}))}, source_owners={'domain-ledger-procurement': 'domain-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('database_rows_do_not_match_attested_cut', 'equivocal_source-cut'), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a9fa40>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_equivocal_signed_cuts_are_rejected(database, source_format):
+>       decision, _, _ = evaluate(database, source_format, equivocal=True)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('database_rows_do_not_match_attested_cut', 'equivocal_source-cut'), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8BE9640>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+__________ test_equivocal_signed_cuts_are_rejected[workflow-history] __________
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A3C050>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('database_rows_do_not_match_attested_cut', 'equivocal_source-cut'), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8B5A440>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a99bb0>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...b\xf6\xfd\x1ey>\xe6\xe7\xd8\x93\xf7\x02\xce\xb5\xbee\xf0\xaf\x1f\xf2\x0f\xc1\x9d\x9b\n\xb8\xcb\xc1\xa7\x86:\xa8\x0b')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'workflow-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed2...ect at 0x0000021BF8D0FCF0>, roles=frozenset({'agent'}))}, source_owners={'dbos-procurement-history': 'workflow-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('database_rows_do_not_match_attested_cut', 'equivocal_source-cut'), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a99bb0>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_equivocal_signed_cuts_are_rejected(database, source_format):
+>       decision, _, _ = evaluate(database, source_format, equivocal=True)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('database_rows_do_not_match_attested_cut', 'equivocal_source-cut'), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8B5A440>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+__ test_former_agent_cannot_self_issue_replacement_authority[domain-events] ___
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A3C4A0>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('issuer_role_not_authorized:grant-register:agent-a',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF7508800>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a3fe00>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...xfa1\xaam\xe5\xa4\xb6O<u\xb3j-\xa9\x18\x12\xed\x0b8\xf8#\x98 k8\xe5\x19h\x02\xf0X\xbd\xf1\xe4\xc4\xb7\x08ir\xd2\x00')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'domain-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed255...ject at 0x0000021BF8CCE0F0>, roles=frozenset({'agent'}))}, source_owners={'domain-ledger-procurement': 'domain-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('issuer_role_not_authorized:grant-register:agent-a',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a3fe00>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_former_agent_cannot_self_issue_replacement_authority(database, source_format):
+>       decision, _, _ = evaluate(database, source_format, self_issued_grant=True)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:214: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('issuer_role_not_authorized:grant-register:agent-a',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF7508800>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+_ test_former_agent_cannot_self_issue_replacement_authority[workflow-history] _
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A45520>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('issuer_role_not_authorized:grant-register:agent-a',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF72083C0>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a44da0>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...d7S\xe4\xf5\xcf\x15\x16\xe9\xf1\x97Q\xe3DW\x15r<\xc1\xe8\xd7\xee\x00Fu\xe2\x88\x01\xb8\x0b\xcf\x11]k\xdee\xc0an\x05')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'workflow-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed2...ect at 0x0000021BF766A2F0>, roles=frozenset({'agent'}))}, source_owners={'dbos-procurement-history': 'workflow-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('issuer_role_not_authorized:grant-register:agent-a',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a44da0>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_former_agent_cannot_self_issue_replacement_authority(database, source_format):
+>       decision, _, _ = evaluate(database, source_format, self_issued_grant=True)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:214: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('issuer_role_not_authorized:grant-register:agent-a',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF72083C0>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+___________ test_revoked_old_grant_cannot_be_reused[domain-events] ____________
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A98C20>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('revoked_grant_used:stale-old-agent',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8AD46C0>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a9bd10>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...U\xcew\x92fw\x84w\xc4\xf2\xe6\xa1\xf3\xa6\xe9\xb1"n\x7f\xea\xbc\xe3<\xad\x95&\xb9\x95N\xe6\x93\x9a\xa9Qi\xda}\xe2\t')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'domain-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed255...ject at 0x0000021BF8C98750>, roles=frozenset({'agent'}))}, source_owners={'domain-ledger-procurement': 'domain-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('revoked_grant_used:stale-old-agent',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a9bd10>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_revoked_old_grant_cannot_be_reused(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = clean_proposal(evidence.cut)
+        stale_action = FutureAction(
+            "stale-old-agent", "agent-a", "investigate", "grant-a-v1", None, False
+        )
+        proposal = replace(proposal, future_actions=proposal.future_actions + (stale_action,))
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:227: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('revoked_grant_used:stale-old-agent',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8AD46C0>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+__________ test_revoked_old_grant_cannot_be_reused[workflow-history] __________
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A3D520>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('revoked_grant_used:stale-old-agent',), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF71FFD00>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a45a90>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...C\xb7\xcd\xb2-\x87\xf3D\x0bZ\x9b}T\x08B\x1c\x90\x16\x15\xa5\x10\x9c7\xbdE\xf9\x9f'\xc8\xc0$ian\x86\xdf\x1dn\x89=<\r")])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'workflow-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed2...ect at 0x0000021BF8D13410>, roles=frozenset({'agent'}))}, source_owners={'dbos-procurement-history': 'workflow-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('revoked_grant_used:stale-old-agent',), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf8a45a90>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_revoked_old_grant_cannot_be_reused(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = clean_proposal(evidence.cut)
+        stale_action = FutureAction(
+            "stale-old-agent", "agent-a", "investigate", "grant-a-v1", None, False
+        )
+        proposal = replace(proposal, future_actions=proposal.future_actions + (stale_action,))
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:227: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('revoked_grant_used:stale-old-agent',), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF71FFD00>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+_ test_stale_dependent_action_does_not_block_unrelated_action[domain-events] __
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF766D7C0>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='HOLD', reasons=('dependent_action_stale:new-check',), eligible_actions=('unaffected-notice',)))
+traceback = <traceback object at 0x0000021BF8AF0F40>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf766d5b0>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...\x9d\x99\x9f(\xbeh\xb5\xb2q\x03z\x82\xf6\xb6\xe4\xfa\xc5\x8c\xf1\x14\xabK\x9b\xb1\x97\x06)O\xc7Wr\xbd\x11J@\x1a\x06')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'domain-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed255...ject at 0x0000021BF8AFF570>, roles=frozenset({'agent'}))}, source_owners={'domain-ledger-procurement': 'domain-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='HOLD', reasons=('dependent_action_stale:new-check',), eligible_actions=('unaffected-notice',))
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf766d5b0>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_stale_dependent_action_does_not_block_unrelated_action(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = clean_proposal(evidence.cut)
+        stale_dependent = replace(proposal.future_actions[0], dependency_revision="v1")
+        proposal = replace(
+            proposal,
+            future_actions=(stale_dependent, proposal.future_actions[1]),
+        )
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:243: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='HOLD', reasons=('dependent_action_stale:new-check',), eligible_actions=('unaffected-notice',)))
+name = '__traceback__', value = <traceback object at 0x0000021BF8AF0F40>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+_ test_stale_dependent_action_does_not_block_unrelated_action[workflow-history] _
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF7647530>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='HOLD', reasons=('dependent_action_stale:new-check',), eligible_actions=('unaffected-notice',)))
+traceback = <traceback object at 0x0000021BF8C3DC00>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf7647020>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...\xe0\x85\x18<RY\xdf\x08\xbf_\x99*\x88](\xfc\xf4\xd4`D\xa4_\xd7\x9f\xce\xba\x02{3EG\xcd\xa4\xa7\x05\xea\t<,l\x87\x02')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'workflow-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed2...ect at 0x0000021BF8B60C10>, roles=frozenset({'agent'}))}, source_owners={'dbos-procurement-history': 'workflow-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='HOLD', reasons=('dependent_action_stale:new-check',), eligible_actions=('unaffected-notice',))
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf7647020>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_stale_dependent_action_does_not_block_unrelated_action(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = clean_proposal(evidence.cut)
+        stale_dependent = replace(proposal.future_actions[0], dependency_revision="v1")
+        proposal = replace(
+            proposal,
+            future_actions=(stale_dependent, proposal.future_actions[1]),
+        )
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:243: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='HOLD', reasons=('dependent_action_stale:new-check',), eligible_actions=('unaffected-notice',)))
+name = '__traceback__', value = <traceback object at 0x0000021BF8C3DC00>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+_ test_goal_termination_requires_matching_domain_owner_decision[domain-events] _
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A3D400>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('goal_decision_reference_mismatch', 'goal_termination_not_authorized_for_transition', 'supersession_basis_mismatch:notify-supplier'), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8B9F780>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf766c9e0>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...4I\xa9I\x85[\x9bN\x00\x9a\xc6\xab\xf4\xa0@p\xea\x9c;\x89\xb1\xf1\xce\x88\x04\x0e\xc23\x99\x10\xf9E\xb7\x94\x9ao\x06')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='other..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'domain-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed255...ject at 0x0000021BF8CCD010>, roles=frozenset({'agent'}))}, source_owners={'domain-ledger-procurement': 'domain-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('goal_decision_reference_mismatch', 'goal_termination_not_authorized_for_transition', 'supersession_basis_mismatch:notify-supplier'), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf766c9e0>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_goal_termination_requires_matching_domain_owner_decision(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = replace(clean_proposal(evidence.cut), goal_decision_ref="other-decision")
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:254: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('goal_decision_reference_mismatch', 'goal_termination_not_authorized_for_transition', 'supersession_basis_mismatch:notify-supplier'), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8B9F780>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+_ test_goal_termination_requires_matching_domain_owner_decision[workflow-history] _
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF7633F80>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('goal_decision_reference_mismatch', 'goal_termination_not_authorized_for_transition', 'supersession_basis_mismatch:notify-supplier'), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8C6EE00>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf76226f0>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...\x02<-\xbb\xdc\xac\xf8?\x80J\xfe\x0eS\x93\x0eq\x96?\x11\xf4\xf4\x0f\xf8[\xbc$\x1b\x08\x08f\x1di\xd7h\x8e\xb6n\xa8\t')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='other..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'workflow-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed2...ect at 0x0000021BF766AB70>, roles=frozenset({'agent'}))}, source_owners={'dbos-procurement-history': 'workflow-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('goal_decision_reference_mismatch', 'goal_termination_not_authorized_for_transition', 'supersession_basis_mismatch:notify-supplier'), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf76226f0>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_goal_termination_requires_matching_domain_owner_decision(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = replace(clean_proposal(evidence.cut), goal_decision_ref="other-decision")
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:254: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('goal_decision_reference_mismatch', 'goal_termination_not_authorized_for_transition', 'supersession_basis_mismatch:notify-supplier'), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8C6EE00>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+___ test_successor_must_have_exact_scoped_pending_authority[domain-events] ____
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A9C740>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('action_authority_mismatch:new-check', 'database_rows_do_not_m...ested_cut', 'grant_register_attestation_mismatch', 'replacement_authority_invalid:verify-po-07'), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8B32900>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf69adfa0>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...R\x96\xa3\t/\x81\x9aq\xa5\xcc\x8a\xe8\x06\x98F\x08r\xcb\xfd-\x1e\xfb$"0\xf8O\x9f\x13\xd9\xaf\xde^\xe1\xae\x1e\x89\r')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'domain-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed255...ject at 0x0000021BF8D14730>, roles=frozenset({'agent'}))}, source_owners={'domain-ledger-procurement': 'domain-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('action_authority_mismatch:new-check', 'database_rows_do_not_match_attested_cut', 'grant_register_attestation_mismatch', 'replacement_authority_invalid:verify-po-07'), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf69adfa0>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_successor_must_have_exact_scoped_pending_authority(database, source_format):
+        evidence = build_case_evidence(source_format)
+        evidence.cut.grants = [
+            replace(grant, actor="agent-c") if grant.grant_id == "grant-b-v2" else grant
+            for grant in evidence.cut.grants
+        ]
+        # The authority owner attestation remains bound to the original grant list.
+        proposal = clean_proposal(evidence.cut)
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:270: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('action_authority_mismatch:new-check', 'database_rows_do_not_m...ested_cut', 'grant_register_attestation_mismatch', 'replacement_authority_invalid:verify-po-07'), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8B32900>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+__ test_successor_must_have_exact_scoped_pending_authority[workflow-history] __
+
+self = <contextlib._GeneratorContextManager object at 0x0000021BF8A3FE60>
+typ = <class 'research.pcct_counterexample.policy._Rejected'>
+value = _Rejected(decision=Decision(verdict='INVALID', reasons=('action_authority_mismatch:new-check', 'database_rows_do_not_m...ested_cut', 'grant_register_attestation_mismatch', 'replacement_authority_invalid:verify-po-07'), eligible_actions=()))
+traceback = <traceback object at 0x0000021BF8C6B300>
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                try:
+                    raise RuntimeError("generator didn't stop")
+                finally:
+                    self.gen.close()
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+>               self.gen.throw(value)
+
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+%USERPROFILE%\scoop\persist\uv\cache\archive-v0\eAOFb90AICmB3Ysb\Lib\site-packages\psycopg\connection.py:370: in transaction
+    yield tx
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf7633fb0>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...xc4\x99\xfc\x11\xf8\x11\xb7\x80w\xfb\x8a\xb8*\xb6\x1f\xf1o`\x9c\xed\xfc\x96\xd8Vl\x00\xf0T\xf0\xba\x00\xbcG\x84\x08')])
+proposal = Proposal(transition_id='transition-v1-v2', old_goal='purchase-v1', new_goal='investigate-v2', goal_decision_ref='goal-..., provider_conditional_write=False)), release_acceptance={'verify-po-07': ('release:agent-a:19', 'accept:agent-b:21')})
+trust = TrustStore(issuers={'workflow-owner': TrustedIssuer(public_key=<cryptography.hazmat.bindings._rust.openssl.ed25519.Ed2...ect at 0x0000021BF8CFFE10>, roles=frozenset({'agent'}))}, source_owners={'dbos-procurement-history': 'workflow-owner'})
+now = datetime.datetime(2026, 11, 2, 12, 0, tzinfo=datetime.timezone.utc)
+
+    def evaluate_transition(
+        conn: Connection,
+        cut: SourceCut,
+        proposal: Proposal,
+        trust: TrustStore,
+        now: datetime,
+    ) -> Decision:
+        try:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE")
+                persist_cut(conn, cut)
+                decision = _validate(conn, cut, proposal, trust, now)
+                if decision.verdict != "VALID":
+>                   raise _Rejected(decision)
+E                   research.pcct_counterexample.policy._Rejected: Decision(verdict='INVALID', reasons=('action_authority_mismatch:new-check', 'database_rows_do_not_match_attested_cut', 'grant_register_attestation_mismatch', 'replacement_authority_invalid:verify-po-07'), eligible_actions=())
+
+research\pcct_counterexample\policy.py:449: _Rejected
+
+During handling of the above exception, another exception occurred:
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=8182 user=pcct database=pcct_test) at 0x21bf7633fb0>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_successor_must_have_exact_scoped_pending_authority(database, source_format):
+        evidence = build_case_evidence(source_format)
+        evidence.cut.grants = [
+            replace(grant, actor="agent-c") if grant.grant_id == "grant-b-v2" else grant
+            for grant in evidence.cut.grants
+        ]
+        # The authority owner attestation remains bound to the original grant list.
+        proposal = clean_proposal(evidence.cut)
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:270: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:444: in evaluate_transition
+    with conn.transaction():
+         ^^^^^^^^^^^^^^^^^^
+%USERPROFILE%\scoop\persist\uv\python\versions\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:191: in __exit__
+    exc.__traceback__ = traceback
+    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = _Rejected(decision=Decision(verdict='INVALID', reasons=('action_authority_mismatch:new-check', 'database_rows_do_not_m...ested_cut', 'grant_register_attestation_mismatch', 'replacement_authority_invalid:verify-po-07'), eligible_actions=()))
+name = '__traceback__', value = <traceback object at 0x0000021BF8C6B300>
+
+>   ???
+E   dataclasses.FrozenInstanceError: cannot assign to field '__traceback__'
+
+<string>:4: FrozenInstanceError
+=========================== short test summary info ===========================
+FAILED tests/test_pcct_postgres_counterexample.py::test_second_open_obligation_cannot_be_orphaned[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_second_open_obligation_cannot_be_orphaned[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_confirmed_prior_effect_cannot_be_omitted[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_confirmed_prior_effect_cannot_be_omitted[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_duplicate_successor_disposition_is_rejected[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_duplicate_successor_disposition_is_rejected[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_transfer_without_recipient_acceptance_stays_on_hold[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_transfer_without_recipient_acceptance_stays_on_hold[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_altered_transfer_signature_is_rejected[release-domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_altered_transfer_signature_is_rejected[release-workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_altered_transfer_signature_is_rejected[acceptance-domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_altered_transfer_signature_is_rejected[acceptance-workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_stale_source_cut_holds_transition[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_stale_source_cut_holds_transition[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_unknown_prior_effect_is_held_not_erased[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_unknown_prior_effect_is_held_not_erased[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_missing_source_completeness_is_incomplete_scope[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_missing_source_completeness_is_incomplete_scope[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_unknown_source_issuer_is_incomplete_scope[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_unknown_source_issuer_is_incomplete_scope[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_expired_source_cut_is_incomplete_scope[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_expired_source_cut_is_incomplete_scope[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_changed_signed_digest_is_invalid[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_changed_signed_digest_is_invalid[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_equivocal_signed_cuts_are_rejected[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_equivocal_signed_cuts_are_rejected[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_former_agent_cannot_self_issue_replacement_authority[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_former_agent_cannot_self_issue_replacement_authority[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_revoked_old_grant_cannot_be_reused[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_revoked_old_grant_cannot_be_reused[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_stale_dependent_action_does_not_block_unrelated_action[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_stale_dependent_action_does_not_block_unrelated_action[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_goal_termination_requires_matching_domain_owner_decision[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_goal_termination_requires_matching_domain_owner_decision[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_successor_must_have_exact_scoped_pending_authority[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_successor_must_have_exact_scoped_pending_authority[workflow-history]
+36 failed, 2 passed in 4.99s

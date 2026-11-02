@@ -55,6 +55,14 @@ For every in-scope **open** obligation at the accepted source cut, exactly one *
 
 Splits/merges are allowed **only** with a checked, provenance-linked mapping covering all inputs and all successor obligations; the rule does not mean an obligation can never legitimately disappear. No owner can silently erase an obligation by declaring a process completed. A lost/disconnected agent does not automatically give its successor write authority. This rule is meaningful only where the domain owner has a sufficiently complete register; otherwise the verifier must state `INCOMPLETE_SCOPE`.
 
+### 2.2a Concrete gap in Phase D (not a vulnerability finding)
+
+Source review of Phase D [implementation PR #13](https://github.com/xiongweilin/continuity-runtime/pull/13) shows explicit domain-owned `handoff_authorized` goal events and a B-only new action grant. It does **not** expose an explicit, independently enumerated *open-obligation register with exhaustive transition dispositions* in the reviewed domain-owner and worker modules. Phase D therefore demonstrated safe handoff of the **scripted scenario**, not the stronger proposition that no unmentioned responsibilities could be orphaned.
+
+**Distinguishing negative trace:** At v1 A has both `verify-PO07` and `notify-supplier` outstanding. The v2 handoff transfers `verify-PO07` to B, validly revokes A's action grants, and records goal supersession, but **omits `notify-supplier` entirely**. A normal signed handoff and workflow audit can be internally consistent. A scoped PCCT obligation cut containing both entries would reject/hold the transition until the second responsibility is explicitly accounted for.
+
+**Strongest rebuttal:** a PostgreSQL `open_obligations` table with a transactionally enforced full mapping, versioned owner approvals, plus existing signing/OPA tools can reject exactly this trace. PCCT's only possible *incremental* claim is **portable verification across independent authority-owned ledgers without a shared transaction or bespoke in-process state model**; that claim still requires proof. This is not a claim of a security defect in Phase D's declared acceptance criteria.
+
 **Proof obligation C1:** no unaccounted prior open obligation within the explicitly declared scope.  
 **Proof obligation C2:** no conflicting active owner/authorization for the same protected action/effect key without domain-sanctioned concurrency rules.  
 **Proof obligation C3:** prior effect and prior evidentiary claims are carried forward *as history*, even if their justification for future actions has expired.  

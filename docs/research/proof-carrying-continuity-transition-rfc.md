@@ -13,7 +13,7 @@ A credible alternative must have a precise property not supplied merely by anoth
 
 | Mechanism people might call “continuity” | Established prior art | Implication |
 |---|---|---|
-| Durable execution, restart and step/transaction replay | [DBOS Workflow guarantees](https://docs.dbos.dev/typescript/tutorials/workflow-tutorial) and [Temporal workflow versioning](https://docs.temporal.io/develop/go/workflows#versioning) | Do **not** build a rival workflow engine. |
+| Durable execution, restart and step/transaction replay | [DBOS Workflow guarantees](https://docs.dbos.dev/typescript/tutorials/workflow-tutorial) and [Temporal workflow versioning](https://docs.temporal.io/develop/go/workflows/versioning) | Do **not** build a rival workflow engine. |
 | Pausing, changing and migrating a running process definition | [Camunda 8 process-instance migration](https://docs.camunda.io/docs/components/concepts/process-instance-migration/), [Temporal Signals/Updates](https://docs.temporal.io/encyclopedia/workflow-message-passing) | “Old goals can change” is not a unique product capability. |
 | Revision-dependent beliefs, explanations and retraction | Jon Doyle's [Truth Maintenance System (1979)](https://dspace.mit.edu/entities/publication/5377b306-4ecc-4687-b1f5-78cbb4a0543a) | Evidence invalidation and dependency-directed recomputation are prior art. |
 | Causal provenance, agents and responsibility/delegation | [W3C PROV-O](https://www.w3.org/TR/prov-o/) | Agent–activity–entity attribution is an existing vocabulary. |
@@ -40,7 +40,7 @@ Let a domain-owned transition request refer to four independently sourced, selec
 
 `O` is the candidate's extra semantic commitment. It cannot be inferred safely from a generic event stream: a business/domain owner must declare which responsibilities exist and which are discharged or superseded. Each source owner signs or otherwise securely authenticates its own attestations; the verifier does **not** become the source of truth.
 
-A transition proposal `T` carries references/digests to a snapshot or freshness token for each selected source, affected-obligation mapping, transition decision, and replacement owner(s) with explicit acceptance. Missing or stale evidence produces `HOLD`, **not** a fabricated conclusion.
+A transition proposal `T` carries references/digests to a snapshot or freshness token for each selected source, **an independently owned index/cut of all in-scope previously committed effects**, affected-obligation mapping, transition decision, and replacement owner(s) with explicit acceptance. **The source owners must attest that their indexes are complete for the declared bounded scope**; otherwise omission cannot be distinguished from absence and the correct result is `INCOMPLETE_SCOPE`. Missing or stale evidence produces `HOLD`, **not** a fabricated conclusion.
 
 ### 2.2 Core conservation rule (accountability conservation, not obligation immortality)
 
@@ -73,6 +73,7 @@ Splits/merges are allowed **only** with a checked, provenance-linked mapping cov
                        "decision_ref": "goal-owner:decision-92"},
   "basis": [{"source": "supplier-authority", "old_revision": "v1",
              "new_revision": "v2", "evidence_ref": "supplier-event-18"}],
+  "effect_index_cut": "odoo:owner-scoped-cut-17",
   "historical_effects": [{"effect_key": "odoo-draft-07",
                           "disposition": "confirmed",
                           "independent_readback_ref": "odoo:readback-217"}],

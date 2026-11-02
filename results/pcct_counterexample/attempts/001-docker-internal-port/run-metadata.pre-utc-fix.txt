@@ -1,0 +1,15 @@
+run_id=pcct-20261102T162158Z-07ffd905
+container_name=pcct-20261102T162158Z-07ffd905-pg
+volume_name=pcct-20261102T162158Z-07ffd905-data
+network_name=pcct-20261102T162158Z-07ffd905-internal
+docker_engine=29.9.2
+image_id=sha256:b8faeff7712663c2773a190181e1246e37e364b887611c04658c28b44e2408fe
+loopback_port=
+python_test_exit=125
+container_remove_exit=0
+volume_remove_exit=0
+network_remove_exit=0
+cleanup_verify_exit=0
+remaining_containers=0
+remaining_volumes=0
+remaining_networks=0

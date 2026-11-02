@@ -1,0 +1,9 @@
+Downloading psycopg-binary (3.5MiB)
+Downloading cryptography (3.3MiB)
+ Downloaded cryptography
+ Downloaded psycopg-binary
+Installed 13 packages in 295ms
+ImportError while loading conftest '%USERPROFILE%\Documents\Codex\2026-11-01\https-github-com-xiongweilin-continuity-runtime-2\work\pcct-counterimplementation\tests\conftest.py'.
+tests\conftest.py:5: in <module>
+    from continuity.db import RuntimeDB
+E   ModuleNotFoundError: No module named 'continuity'

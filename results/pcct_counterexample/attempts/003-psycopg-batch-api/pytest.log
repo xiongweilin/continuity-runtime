@@ -1,0 +1,2547 @@
+Downloading pydantic-core (2.1MiB)
+Downloading sqlalchemy (2.3MiB)
+ Downloaded pydantic-core
+ Downloaded sqlalchemy
+Installed 33 packages in 338ms
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF                                   [100%]
+================================== FAILURES ===================================
+_ test_complete_cut_terminates_old_goal_and_atomically_transfers_authority[domain-events] _
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b60fcf1a0>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_complete_cut_terminates_old_goal_and_atomically_transfers_authority(
+        database, source_format
+    ):
+>       decision, evidence, proposal = evaluate(database, source_format)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b60fcf1a0>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...:\x8c?\xb4\xf5\xcam-)\x86;\xd5\xa0\x10\xdf\x15\xb9\x0b\xf0\xac\x003\x0e\xb0N\xb0\xd8\xaa\xb1\x86\xb4;\x13\xd4~;\x05')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+_ test_complete_cut_terminates_old_goal_and_atomically_transfers_authority[workflow-history] _
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bb230>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_complete_cut_terminates_old_goal_and_atomically_transfers_authority(
+        database, source_format
+    ):
+>       decision, evidence, proposal = evaluate(database, source_format)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bb230>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...xb2\x17e\xfe\xe7:*\xb4n'dC\xaa\xe7Oz7i\x10\xca\xc6\xc2\xecp\xc2\xd6\x9d(\xe6s\xf0\x9d\x91\x0c\xa5\x001\xb7\xc5Y\x06")])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+________ test_second_open_obligation_cannot_be_orphaned[domain-events] ________
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b60ffd8e0>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_second_open_obligation_cannot_be_orphaned(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = clean_proposal(evidence.cut)
+        proposal = replace(proposal, dispositions=(proposal.dispositions[0],))
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b60ffd8e0>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...x9dmV\xb5\xda]\xf2)v\xc2G\x96^\x9f\xda\xce&\x99\x87dI$\xb2{\x16\xfa\xce\xc0\xdct\xeaX\x0b\x18\xd3\x93\xe23Q\x98\x0f')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+______ test_second_open_obligation_cannot_be_orphaned[workflow-history] _______
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bbe00>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_second_open_obligation_cannot_be_orphaned(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = clean_proposal(evidence.cut)
+        proposal = replace(proposal, dispositions=(proposal.dispositions[0],))
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bbe00>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...\x8bm\xbd\x0cu\xb4*a\xe9\x9fj\x8c\xbde6\xf4Y\xe3}\xd8\x1f\\\x83W\xd9\x08A\xf8\xab\xdcI\xefE\x18l\xc0Z\xe0\x8dox\x02")])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+________ test_confirmed_prior_effect_cannot_be_omitted[domain-events] _________
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bd4f0>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_confirmed_prior_effect_cannot_be_omitted(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = replace(clean_proposal(evidence.cut), historical_effect_keys=())
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:98: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bd4f0>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...f9\x94@N\xa5\x87\xcb\x85_\x916\xadp\xaf\xe6p5TO\x80Q\xbd?\n=[\xeaN\xc0\xc5\x8ci\xb0\xaf\xba\x06\x8c2`b\x0c0\xfe\x04')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+_______ test_confirmed_prior_effect_cannot_be_omitted[workflow-history] _______
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bd460>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_confirmed_prior_effect_cannot_be_omitted(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = replace(clean_proposal(evidence.cut), historical_effect_keys=())
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:98: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bd460>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...e7xh\xf44\x00\xa5w?\x12M7\xc7\x047\rV\x19\x07\x81\x0cn\xd4\xf3\x89\x13\xa9\r\x9f\x9c\x8b\xefa\xaa\xf7\xcc\xccO{\x01')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+_______ test_duplicate_successor_disposition_is_rejected[domain-events] _______
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bd8b0>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_duplicate_successor_disposition_is_rejected(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = clean_proposal(evidence.cut)
+        proposal = replace(
+            proposal, dispositions=proposal.dispositions + (proposal.dispositions[0],)
+        )
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:112: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bd8b0>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...a5(I\xea\xe2&\xd1g\xe2\n/\xe2\x97koN%\xea\x86\xe6\xa1\xddg.\xcf\x8a\x94\x1a\xea\xa7\xe0\xa2:!\x8f"%\xc1\x9f\xbe\x04')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+_____ test_duplicate_successor_disposition_is_rejected[workflow-history] ______
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b611052b0>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_duplicate_successor_disposition_is_rejected(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = clean_proposal(evidence.cut)
+        proposal = replace(
+            proposal, dispositions=proposal.dispositions + (proposal.dispositions[0],)
+        )
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:112: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b611052b0>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...\x90\x80e\xab\xb1\xad\x98E\xa7\x0b3?\xad\xb2\xf2\x12\x01Q\xc1\xf7&Y\xec2\xeb\xf5\x90qS\x90\xcb=\xbf\xff~\xfc)*C\x01')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+___ test_transfer_without_recipient_acceptance_stays_on_hold[domain-events] ___
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bf050>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_transfer_without_recipient_acceptance_stays_on_hold(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = replace(clean_proposal(evidence.cut), release_acceptance={})
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:123: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bf050>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...cf\xd1\n\x83Tu\xa2\x89G\x1c\x1e\xda\x17z\x0b\xdb\x9cz\xa0z|\xce\x01\xcf\xbeB\x91\xd1\x83s\x81CM\xed\xa7t\x0cU%8\x04')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+_ test_transfer_without_recipient_acceptance_stays_on_hold[workflow-history] __
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bca70>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_transfer_without_recipient_acceptance_stays_on_hold(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = replace(clean_proposal(evidence.cut), release_acceptance={})
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:123: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bca70>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...8\x14\x8b\xa76\xef\x02\xf6YNj_\x17\x03*\x920\x81\x0b\x96\xcae\xf5:\x91\xe1b\xf3\xa99\xed\xc5co\xd50H}~I\x03\x01\x0f')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+_____ test_altered_transfer_signature_is_rejected[release-domain-events] ______
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bc470>
+source_format = 'domain-events', tamper_kind = 'release'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    @pytest.mark.parametrize("tamper_kind", ["release", "acceptance"])
+    def test_altered_transfer_signature_is_rejected(database, source_format, tamper_kind):
+>       decision, _, _ = evaluate(database, source_format, tamper_kind=tamper_kind)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:133: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bc470>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...xa5w/\x16\x89\\\x9f\xba\x17_{\xfb\x96\xf9\x07\xc0\xfe\xaa\x921\x0e\x02\xe9l\xa4\xd1\x10]\xc1Gjv\xf6\xbf\x13\xb0\x05")])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+____ test_altered_transfer_signature_is_rejected[release-workflow-history] ____
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610ba2d0>
+source_format = 'workflow-history', tamper_kind = 'release'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    @pytest.mark.parametrize("tamper_kind", ["release", "acceptance"])
+    def test_altered_transfer_signature_is_rejected(database, source_format, tamper_kind):
+>       decision, _, _ = evaluate(database, source_format, tamper_kind=tamper_kind)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:133: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610ba2d0>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...dC\x10\xdbE\xf2\xd4\xf9\xa4\xc9\xbd\x9a\x03\xecwT\x15\xee@\xe1;X;\x04\x0e\xf1\xb7\xf5\xdd#&\x99M\x03%\xc8\x84\xff\n')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+____ test_altered_transfer_signature_is_rejected[acceptance-domain-events] ____
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b61104ce0>
+source_format = 'domain-events', tamper_kind = 'acceptance'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    @pytest.mark.parametrize("tamper_kind", ["release", "acceptance"])
+    def test_altered_transfer_signature_is_rejected(database, source_format, tamper_kind):
+>       decision, _, _ = evaluate(database, source_format, tamper_kind=tamper_kind)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:133: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b61104ce0>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+__ test_altered_transfer_signature_is_rejected[acceptance-workflow-history] ___
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b611067e0>
+source_format = 'workflow-history', tamper_kind = 'acceptance'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    @pytest.mark.parametrize("tamper_kind", ["release", "acceptance"])
+    def test_altered_transfer_signature_is_rejected(database, source_format, tamper_kind):
+>       decision, _, _ = evaluate(database, source_format, tamper_kind=tamper_kind)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:133: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b611067e0>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+____________ test_stale_source_cut_holds_transition[domain-events] ____________
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b61104ef0>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_stale_source_cut_holds_transition(database, source_format):
+        def advance_source(document):
+            if source_format == "domain-events":
+                document[0]["data"]["current_revision"] = "v3"
+            else:
+                document["snapshot"]["current_revision"] = "v3"
+    
+>       decision, _, _ = evaluate(database, source_format, mutate=advance_source)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b61104ef0>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...\x9b\xcf\xa9\x08\xc8F\x04\x8el\xd1\xcaR\xa1\xab\xdd\x1awE\xe2\x9eD\xd8\xeb\xff\xee\xeaG}\xfa\xff=T'\xc3\xae\x0c\x02")])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+__________ test_stale_source_cut_holds_transition[workflow-history] ___________
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610ba2d0>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_stale_source_cut_holds_transition(database, source_format):
+        def advance_source(document):
+            if source_format == "domain-events":
+                document[0]["data"]["current_revision"] = "v3"
+            else:
+                document["snapshot"]["current_revision"] = "v3"
+    
+>       decision, _, _ = evaluate(database, source_format, mutate=advance_source)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610ba2d0>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...94E\xf3\xfe&9[\xa1\xd2S2\xf3oD\x88\x94\xce\xf6\x17\xbe\x83\xa8\xc7\xe7\x19\xfd\xd1\x04\xab\xaa\xa1*\xda\x14\xac\x01')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+_________ test_unknown_prior_effect_is_held_not_erased[domain-events] _________
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610be480>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_unknown_prior_effect_is_held_not_erased(database, source_format):
+        def make_effect_unknown(document):
+            if source_format == "domain-events":
+                effect = next(row for row in document if row["event"] == "provider.effect")
+                effect["data"]["status"] = "unknown"
+                effect["data"].pop("readback_ref", None)
+            else:
+                effect = next(
+                    row for row in document["workflow_history"]
+                    if row["event_type"] == "ExternalOperationReadBack"
+                )
+                effect["result"]["result"] = "unknown"
+                effect["result"].pop("readback", None)
+    
+>       decision, _, _ = evaluate(database, source_format, mutate=make_effect_unknown)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:166: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610be480>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...7\x92!\xa4^$\x10w~y\x87K\x8b\xc8KR\xa6y\x04\xf7Z\xba8\x80\xf1\xe6\xee\xa7\xf9;\x98\xa0\xa9\x7f\x88\xd9\x83B\xc7^M\t')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+_______ test_unknown_prior_effect_is_held_not_erased[workflow-history] ________
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bc7d0>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_unknown_prior_effect_is_held_not_erased(database, source_format):
+        def make_effect_unknown(document):
+            if source_format == "domain-events":
+                effect = next(row for row in document if row["event"] == "provider.effect")
+                effect["data"]["status"] = "unknown"
+                effect["data"].pop("readback_ref", None)
+            else:
+                effect = next(
+                    row for row in document["workflow_history"]
+                    if row["event_type"] == "ExternalOperationReadBack"
+                )
+                effect["result"]["result"] = "unknown"
+                effect["result"].pop("readback", None)
+    
+>       decision, _, _ = evaluate(database, source_format, mutate=make_effect_unknown)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:166: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bc7d0>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...a9\xfefI@\x01&\x19v\x00\xce\x08\xf8d\xad`\x91\xeb\xf2\xa4\x8aG[\x16\x1c\x15\xa3e\x12\xa1\x84\xb1\x84\x18\xec\xa3s\n')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+_____ test_missing_source_completeness_is_incomplete_scope[domain-events] _____
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110a720>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_missing_source_completeness_is_incomplete_scope(database, source_format):
+>       decision, _, _ = evaluate(
+            database,
+            source_format,
+            completeness={"source": True, "obligations": True, "effects": False, "authority": True},
+        )
+
+tests\test_pcct_postgres_counterexample.py:173: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110a720>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...ee\xd6\x03\xf0M\x88\xc4\xc7uh\xefB\xd7P=]\n\x90BRS:z\x98\x1a\xed\xc1-\x90\x8d\xc1<v.\xc8.\xbe\xce\x17\xa9^\x05I\x03')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+___ test_missing_source_completeness_is_incomplete_scope[workflow-history] ____
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110b350>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_missing_source_completeness_is_incomplete_scope(database, source_format):
+>       decision, _, _ = evaluate(
+            database,
+            source_format,
+            completeness={"source": True, "obligations": True, "effects": False, "authority": True},
+        )
+
+tests\test_pcct_postgres_counterexample.py:173: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110b350>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...7A\xa7oUw\xebB\x13\xf9\x12\xa2\xef\xc7\xf9\xef[\xb7\x9b[\xb8\xcf\x14\xca6\x96<\xd4?\xaao\xb8m\xfc\x16\xc46J\x80\x00')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+________ test_unknown_source_issuer_is_incomplete_scope[domain-events] ________
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b611093a0>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_unknown_source_issuer_is_incomplete_scope(database, source_format):
+>       decision, _, _ = evaluate(database, source_format, unknown_source_issuer=True)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:184: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b611093a0>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...5\xd8\xd5\x0eG\xf3\xab\xc8\x07\x94\r~\xeb3\xa7\x15\xd6-g\xeb\xd4\xb3~\xf4\xdc\xc0\xb7,30\x17\x8b\xc5(w\xf5q\xd0\x05')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+______ test_unknown_source_issuer_is_incomplete_scope[workflow-history] _______
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bc470>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_unknown_source_issuer_is_incomplete_scope(database, source_format):
+>       decision, _, _ = evaluate(database, source_format, unknown_source_issuer=True)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:184: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bc470>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...82\xad3\xa5;94\x8d\xaa$\xc0T\x85\x00\xf3F$\x13\xc6\x98\xc9\xba\x07\x8c\xec\xfcrp\xec\xac^\xd7sL\xdfu\x10,\x0c\x03\t')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+_________ test_expired_source_cut_is_incomplete_scope[domain-events] __________
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bc860>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_expired_source_cut_is_incomplete_scope(database, source_format):
+>       decision, _, _ = evaluate(
+            database, source_format, expires_at=fixed_clock() - timedelta(seconds=1)
+        )
+
+tests\test_pcct_postgres_counterexample.py:191: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bc860>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...4'\x00\xd7\x86u\x1d\x0b\xf8u\xd9G\xfd\xe2)\xe8u\x06\x97\xfa\x13d\x92d\xd6\xec\xa1\xd7\xe6\xb9N\x00\xe1<\x89\x82\x01")])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+________ test_expired_source_cut_is_incomplete_scope[workflow-history] ________
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b61104a70>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_expired_source_cut_is_incomplete_scope(database, source_format):
+>       decision, _, _ = evaluate(
+            database, source_format, expires_at=fixed_clock() - timedelta(seconds=1)
+        )
+
+tests\test_pcct_postgres_counterexample.py:191: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b61104a70>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...b9\x1a\xb1>\x07N!b\x00\x8d\x1e\xfc\xb8\xe2\x81X\x03\xea\x97\xe6Z,\xdc\xed;G\x82\xeb\xb1,&\xe7B\xabWr\xcbe\x0f\xb1\n')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+____________ test_changed_signed_digest_is_invalid[domain-events] _____________
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110e390>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_changed_signed_digest_is_invalid(database, source_format):
+>       decision, _, _ = evaluate(database, source_format, tamper_kind="source-cut")
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110e390>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...\xc9\xd2e8\xd1\\\x94\x83\x07(\xcb\x83L\x1bE\xb0\xaf\xc6)\xd1q\x8d\xf51\xfbd\xeb\xf2Zo\xdd\x0b"\xfb\xa0\xba^\x04\x0c')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+___________ test_changed_signed_digest_is_invalid[workflow-history] ___________
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110c0b0>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_changed_signed_digest_is_invalid(database, source_format):
+>       decision, _, _ = evaluate(database, source_format, tamper_kind="source-cut")
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110c0b0>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...06p\x95\xba\xd4\xa4]\x03V[B\xca\xc8\xc5\x1e\xe9\x9b\xd3\xae\x88?\xfe\x0bu\x1b\xf4\x91v+\x90Hp\xe1\xebv\x0e\xddC\x0b')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+___________ test_equivocal_signed_cuts_are_rejected[domain-events] ____________
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b61104ad0>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_equivocal_signed_cuts_are_rejected(database, source_format):
+>       decision, _, _ = evaluate(database, source_format, equivocal=True)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b61104ad0>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...0b\xbc\x95C\xca<&\xa0\x86\x8dY~\x9aQ\xb3\x12%j\x1c\xe8_2\x0b\x80e\xd5K\xaa\x92\x8f8\x0c\xb1QN\x07\x8a\xa6\x87mA\x04')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+__________ test_equivocal_signed_cuts_are_rejected[workflow-history] __________
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bc860>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_equivocal_signed_cuts_are_rejected(database, source_format):
+>       decision, _, _ = evaluate(database, source_format, equivocal=True)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610bc860>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...\r\xf2i\xcc\x19\xa2\xbe\x916\xa4\xbe\x87\xa3\xb41\x95\x187\xe8\x1an\xca\xdb\xa9\xddf\xe4\x85\xa6\x9a\x0e\xd4Rja\x03')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+__ test_former_agent_cannot_self_issue_replacement_authority[domain-events] ___
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b611097f0>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_former_agent_cannot_self_issue_replacement_authority(database, source_format):
+>       decision, _, _ = evaluate(database, source_format, self_issued_grant=True)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:214: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b611097f0>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...\x8c\x1d\xf5\x08\xd5h\xe6\xe2\x82\xe8M20\x0e\x1f\x14@\x87\xeb;\xed\x7f\x0e\xc5M\xdd\xabD\x08x+\x0c\xa7\x0b;\xa2\x03')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+_ test_former_agent_cannot_self_issue_replacement_authority[workflow-history] _
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110ed20>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_former_agent_cannot_self_issue_replacement_authority(database, source_format):
+>       decision, _, _ = evaluate(database, source_format, self_issued_grant=True)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pcct_postgres_counterexample.py:214: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pcct_postgres_counterexample.py:48: in evaluate
+    decision = evaluate_transition(
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110ed20>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...xb7\xd4\x99\xb7\xc7\x0e\xbcQV\xbd\x87/O\xa6u5\xd8\x8b\xd1\x94~!R\x86*\xca\x05\x18\xad%\x90\x0b\xafh\x07\x18\x0c\x07")])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+___________ test_revoked_old_grant_cannot_be_reused[domain-events] ____________
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110fa10>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_revoked_old_grant_cannot_be_reused(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = clean_proposal(evidence.cut)
+        stale_action = FutureAction(
+            "stale-old-agent", "agent-a", "investigate", "grant-a-v1", None, False
+        )
+        proposal = replace(proposal, future_actions=proposal.future_actions + (stale_action,))
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:227: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110fa10>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...\xbaK\xb5+\x9bz\x0c\x86\xab\x97q\xdf@$o\xa9\x87bf`Y\xbd\x15\xdb\xe8\xf1\xb3\x06\x07\xc31k\x1d\xe7\xedB\x05\xfd5\x00')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+__________ test_revoked_old_grant_cannot_be_reused[workflow-history] __________
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b61115b80>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_revoked_old_grant_cannot_be_reused(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = clean_proposal(evidence.cut)
+        stale_action = FutureAction(
+            "stale-old-agent", "agent-a", "investigate", "grant-a-v1", None, False
+        )
+        proposal = replace(proposal, future_actions=proposal.future_actions + (stale_action,))
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:227: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b61115b80>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...90oo\x1d\xeb` \xd1H\xe4\x0c\xce\xef\xb7+\xc3\xa2\xe2J\xebU\xed\xcfLa\xe7\x8fU\x02VHbZ\xf2\x8c#\x82b\x0e\xb3\xe0\x07')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+_ test_stale_dependent_action_does_not_block_unrelated_action[domain-events] __
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110e570>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_stale_dependent_action_does_not_block_unrelated_action(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = clean_proposal(evidence.cut)
+        stale_dependent = replace(proposal.future_actions[0], dependency_revision="v1")
+        proposal = replace(
+            proposal,
+            future_actions=(stale_dependent, proposal.future_actions[1]),
+        )
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:243: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110e570>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...:\xaf\xab\x90\x9c\xf6\xb7<\x84Q\xe28~\x8e\xda\xec\x1be=\xbc\xbd_\x1aG\xb4\xd2\xc4:\xe4U>\x7fw<A\xac\xe0\xdf\xcb\x0c')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+_ test_stale_dependent_action_does_not_block_unrelated_action[workflow-history] _
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110ce00>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_stale_dependent_action_does_not_block_unrelated_action(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = clean_proposal(evidence.cut)
+        stale_dependent = replace(proposal.future_actions[0], dependency_revision="v1")
+        proposal = replace(
+            proposal,
+            future_actions=(stale_dependent, proposal.future_actions[1]),
+        )
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:243: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110ce00>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...xfb"&\x9e\x86\x9b?e2\x98\x88\xcd\xd3\x8bPz\x1f\\\xe7\xe5\xe0\x18\x8e\x0eR\xfc\x0e\t\xce~\x88\xdf\x01di\x1c\xe4}\x03')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+_ test_goal_termination_requires_matching_domain_owner_decision[domain-events] _
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110c800>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_goal_termination_requires_matching_domain_owner_decision(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = replace(clean_proposal(evidence.cut), goal_decision_ref="other-decision")
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:254: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110c800>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...xe63\x92\xe2\xf8j?l\xddd\xd1\x8b\x17\x9b;u\xad\xd8\x89\xf6\xb6Sux\xe7\xf1\x0e"\x11\xb4#;\xbe\xb5a\xbc\x91\xc4\x17\n')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+_ test_goal_termination_requires_matching_domain_owner_decision[workflow-history] _
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110b200>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_goal_termination_requires_matching_domain_owner_decision(database, source_format):
+        evidence = build_case_evidence(source_format)
+        proposal = replace(clean_proposal(evidence.cut), goal_decision_ref="other-decision")
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:254: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b6110b200>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...aa]!8\xec\x16\x92\x9bCE1\xf5\xaa\x14_\xfe\x05\rI\xfa3\x0f\x8cu\x05b\xb5\x02\x03a&\x1c[D\xcd@\xb5[\xc0\xb9\xdb\xd7\n')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+___ test_successor_must_have_exact_scoped_pending_authority[domain-events] ____
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b61016b40>
+source_format = 'domain-events'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_successor_must_have_exact_scoped_pending_authority(database, source_format):
+        evidence = build_case_evidence(source_format)
+        evidence.cut.grants = [
+            replace(grant, actor="agent-c") if grant.grant_id == "grant-b-v2" else grant
+            for grant in evidence.cut.grants
+        ]
+        # The authority owner attestation remains bound to the original grant list.
+        proposal = clean_proposal(evidence.cut)
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:270: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b61016b40>
+cut = SourceCut(scope='purchase-7', source_id='domain-ledger-procurement', source_format='append-only-domain-events/v1', cut...\xb5s\x01\xa38\xb1\xe7\rd.zl\x95\x85\xeeC\xa4qL\xe7\x1f\xa6'\xf6\xe3?^\xf6\xc50j\x1a\xbaH.\xae\x1e\x03\x05\xeeP\x0c")])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+__ test_successor_must_have_exact_scoped_pending_authority[workflow-history] __
+
+database = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610be450>
+source_format = 'workflow-history'
+
+    @pytest.mark.parametrize("source_format", FORMATS)
+    def test_successor_must_have_exact_scoped_pending_authority(database, source_format):
+        evidence = build_case_evidence(source_format)
+        evidence.cut.grants = [
+            replace(grant, actor="agent-c") if grant.grant_id == "grant-b-v2" else grant
+            for grant in evidence.cut.grants
+        ]
+        # The authority owner attestation remains bound to the original grant list.
+        proposal = clean_proposal(evidence.cut)
+>       decision = evaluate_transition(
+            database, evidence.cut, proposal, evidence.signers.trust_store, fixed_clock()
+        )
+
+tests\test_pcct_postgres_counterexample.py:270: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+research\pcct_counterexample\policy.py:445: in evaluate_transition
+    persist_cut(conn, cut)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <psycopg.Connection [IDLE] (host=127.0.0.1 port=6424 user=pcct database=pcct_test) at 0x17b610be450>
+cut = SourceCut(scope='purchase-7', source_id='dbos-procurement-history', source_format='workflow-history/v1', cut_id='purch...7f\x01\x0f\x95L9\xaa>#\xca|\xae\xe5l\x94\x04\x9c&n&\xee>+g\x06?\x1f\xaf\xd8\x99\xf8!&\x08\xecLc)m!c:\xc6v\xaf"6\x0b')])
+
+    def persist_cut(conn: Connection, cut: SourceCut) -> None:
+        conn.execute(
+            """INSERT INTO source_revisions
+               (scope, cut_id, source_id, source_format, query_id, cut_revision,
+                current_revision, sequence_start, sequence_end, raw_sha256, policy_sha256)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                cut.scope, cut.cut_id, cut.source_id, cut.source_format, cut.query_id,
+                cut.revision, cut.current_revision, cut.sequence_start, cut.sequence_end,
+                cut.raw_sha256, POLICY_SHA256,
+            ),
+        )
+        for statement in cut.attestations:
+            signed_payload = canonical_bytes(
+                {
+                    "issuer_id": statement.issuer_id,
+                    "kind": statement.kind,
+                    "payload": statement.payload,
+                }
+            )
+            conn.execute(
+                """INSERT INTO attestations
+                   (scope, cut_id, kind, issuer_id, payload_bytes, payload_sha256, signature)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    cut.scope, cut.cut_id, statement.kind, statement.issuer_id,
+                    signed_payload, sha256(signed_payload).hexdigest(), statement.signature,
+                ),
+            )
+>       conn.executemany(
+        ^^^^^^^^^^^^^^^^
+            """INSERT INTO open_obligations
+               (scope, cut_id, obligation_id, owner_id, required_action)
+               VALUES (%s, %s, %s, %s, %s)""",
+            [
+                (cut.scope, cut.cut_id, item.obligation_id, item.owner, item.action)
+                for item in cut.obligations
+            ],
+        )
+E       AttributeError: 'Connection' object has no attribute 'executemany'
+
+research\pcct_counterexample\repository.py:41: AttributeError
+=========================== short test summary info ===========================
+FAILED tests/test_pcct_postgres_counterexample.py::test_complete_cut_terminates_old_goal_and_atomically_transfers_authority[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_complete_cut_terminates_old_goal_and_atomically_transfers_authority[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_second_open_obligation_cannot_be_orphaned[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_second_open_obligation_cannot_be_orphaned[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_confirmed_prior_effect_cannot_be_omitted[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_confirmed_prior_effect_cannot_be_omitted[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_duplicate_successor_disposition_is_rejected[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_duplicate_successor_disposition_is_rejected[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_transfer_without_recipient_acceptance_stays_on_hold[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_transfer_without_recipient_acceptance_stays_on_hold[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_altered_transfer_signature_is_rejected[release-domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_altered_transfer_signature_is_rejected[release-workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_altered_transfer_signature_is_rejected[acceptance-domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_altered_transfer_signature_is_rejected[acceptance-workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_stale_source_cut_holds_transition[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_stale_source_cut_holds_transition[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_unknown_prior_effect_is_held_not_erased[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_unknown_prior_effect_is_held_not_erased[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_missing_source_completeness_is_incomplete_scope[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_missing_source_completeness_is_incomplete_scope[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_unknown_source_issuer_is_incomplete_scope[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_unknown_source_issuer_is_incomplete_scope[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_expired_source_cut_is_incomplete_scope[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_expired_source_cut_is_incomplete_scope[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_changed_signed_digest_is_invalid[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_changed_signed_digest_is_invalid[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_equivocal_signed_cuts_are_rejected[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_equivocal_signed_cuts_are_rejected[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_former_agent_cannot_self_issue_replacement_authority[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_former_agent_cannot_self_issue_replacement_authority[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_revoked_old_grant_cannot_be_reused[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_revoked_old_grant_cannot_be_reused[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_stale_dependent_action_does_not_block_unrelated_action[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_stale_dependent_action_does_not_block_unrelated_action[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_goal_termination_requires_matching_domain_owner_decision[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_goal_termination_requires_matching_domain_owner_decision[workflow-history]
+FAILED tests/test_pcct_postgres_counterexample.py::test_successor_must_have_exact_scoped_pending_authority[domain-events]
+FAILED tests/test_pcct_postgres_counterexample.py::test_successor_must_have_exact_scoped_pending_authority[workflow-history]
+38 failed in 4.64s

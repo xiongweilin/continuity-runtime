@@ -112,6 +112,12 @@ def test_transfer_with_unscoped_authority_rejected():
     assert verdict(r, p)["verdict"] == "INVALID"
 
 
+def test_transfer_grant_action_must_match_original_obligation():
+    r, p = state()
+    r["authority_grants"][0]["action"] = "ship"
+    assert "unauthorized_transfer:verify-po" in verdict(r, p)["reasons"]
+
+
 def test_improper_old_owner_revision_rejected():
     r, p = state()
     p["dispositions"][0]["from_owner"] = "attacker"

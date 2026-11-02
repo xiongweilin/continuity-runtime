@@ -1,7 +1,7 @@
 # Research RFC — Proof-Carrying Continuity Transition (PCCT)
 
 **Date:** 2026-11-02  
-**Status:** **unproven mechanism hypothesis, not an implemented feature, product claim, or proposal to restart the generic Runtime**. No real provider, account or customer operations are authorized. The engineering freeze in [the Phase C/D decision record](../decisions/2026-11-02-research-freeze-and-pilot-gate.md) remains applicable; that decision record is currently a separate *draft* PR and need not be merged to conduct paper-level research.
+**Status:** **unproven mechanism hypothesis, not an implemented feature, product claim, or proposal to restart the generic Runtime**. No real provider, account or customer operations are authorized. The engineering freeze in [the Phase C/D decision record (draft PR #16)](https://github.com/xiongweilin/continuity-runtime/pull/16) remains applicable; that decision record is currently a separate *draft* PR and need not be merged to conduct paper-level research.
 
 ## 0. Why restart *mechanism research*, not Runtime development?
 

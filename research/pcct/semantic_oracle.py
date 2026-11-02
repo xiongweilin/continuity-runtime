@@ -99,6 +99,7 @@ def check_transition(resolved: dict[str, Any], proposed: dict[str, Any]) -> dict
             grant = grants.get(d.get("authority_ref"))
             if (not grant or grant.get("actor") != d.get("to_owner")
                     or grant.get("scope") != proposed.get("scope")
+                    or grant.get("action") != existing.get("action")
                     or grant.get("revision") != resolved.get("source_revision")
                     or not grant.get("active")):
                 invalid.append(f"unauthorized_transfer:{oid}")
